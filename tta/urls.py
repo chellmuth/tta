@@ -8,6 +8,9 @@ urlpatterns = patterns('',
     # Example:
     # (r'^tta/', include('tta.foo.urls')),
 
+    (r'^card_row/$', 'tta.game.views.index'),
+    (r'^site_media/(?P<path>.*$)', 'django.views.static.serve',
+             {'document_root': '/home/cjh/projects/tta/media'}),
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
