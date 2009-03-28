@@ -1,44 +1,10 @@
 <table>
     <tr>
+{% for card in card_row %}
         <td>
-            <img src="/site_media/Swords.png" width="80" height="*">
+            <img src="/site_media/{{ card }}" width="80" height="*">
         </td>
-        <td>
-            <img src="/site_media/Iron.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Swords.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Homer.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Iron.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Swords.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Swords.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Swords.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Homer.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Homer.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Swords.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Iron.png" width="80" height="*">
-        </td>
-        <td>
-            <img src="/site_media/Swords.png" width="80" height="*">
-        </td>
+{% endfor %}
     </tr>
     <tr>
         <td align="center">
