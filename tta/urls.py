@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # (r'^tta/', include('tta.foo.urls')),
 
     (r'^card_row/$', 'tta.game.views.index'),
+    (r'^remove_card/(\d+)$', 'tta.game.views.remove_card'),
     (r'^site_media/(?P<path>.*$)', 'django.views.static.serve',
              {'document_root': '/home/cjh/projects/tta/media'}),
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 

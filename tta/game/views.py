@@ -12,6 +12,13 @@ def index(request):
 
     return render_to_response('game/index.html', {'card_row': card_row})
 
+def remove_card(request, index_no):
+    index_no = int(index_no) - 1
+    layout = get_layout()
+    if layout[index_no]:
+        layout[index_no].delete()
+        layout[index_no] = None
+    return index(request)
 
 def get_layout():
     board = Board.objects.all()

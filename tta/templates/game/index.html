@@ -25,13 +25,18 @@ $(document).ready(function(){
 #zoom {
  position:absolute;
 }
+
+a:link img{border:0}
+a:visited img{border:0}
 </style>
 <table>
     <tr>
 {% for card in card_row %}
         <td>
             <div class="card">
-                <img src="/site_media/{{ card }}" width="*" height="120">
+                <a href="/remove_card/{{ forloop.counter }}">
+                    <img src="/site_media/{{ card }}" width="*" height="120">
+                </a>
             </div>
         </td>
 {% endfor %}
