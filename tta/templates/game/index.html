@@ -1,8 +1,38 @@
+<script type="text/javascript" src="/site_media/js/jquery.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+  $("#zoom").hide();
+
+  $(".card").bind("mouseenter", function() {
+    var img = $("img:first",this)
+    var url = img.attr("src");
+    var position = img.position();
+    $("#zoom")
+      .show()
+      .css("left", position.left)
+      .css("top", position.top + 120)
+      .css("background-image", "url('" + url +"')")
+      .css("width", "240")
+      .css("height", "360");
+  });
+
+  $("td").bind("mouseleave", function() {
+    $("#zoom").hide();
+  });
+});
+</script>
+<style>
+#zoom {
+ position:absolute;
+}
+</style>
 <table>
     <tr>
 {% for card in card_row %}
         <td>
-            <img src="/site_media/{{ card }}" width="80" height="*">
+            <div class="card">
+                <img src="/site_media/{{ card }}" width="*" height="120">
+            </div>
         </td>
 {% endfor %}
     </tr>
@@ -47,3 +77,7 @@
             3
         </td>
     </tr>
+</table>
+
+<div id="zoom">
+</div>
