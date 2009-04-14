@@ -53,6 +53,46 @@ a:visited img{border:0}
  height:120;
 }
 
+#philosphy {
+ position:absolute;
+ left:700;
+ top: 600;
+ width: 80;
+ height:120;
+}
+
+#religion {
+ position:absolute;
+ left:780;
+ top: 600;
+ width: 80;
+ height:120;
+}
+
+#bronze {
+ position:absolute;
+ left:860;
+ top: 600;
+ width: 80;
+ height:120;
+}
+
+#agriculture {
+ position:absolute;
+ left:940;
+ top: 600;
+ width: 80;
+ height:120;
+}
+
+#warriors {
+ position:absolute;
+ left:380;
+ top: 600;
+ width: 80;
+ height:120;
+}
+
 </style>
 <table>
     <tr>
@@ -124,6 +164,36 @@ a:visited img{border:0}
 {% if civ.wonder %}
 <div id="wonder">
     <img src="/site_media/{{civ.wonder}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.philosophy %}
+<div id="philosphy">
+    <img src="/site_media/{{civ.philosophy}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.religion %}
+<div id="religion">
+    <img src="/site_media/{{civ.religion}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.bronze %}
+<div id="bronze">
+    <img src="/site_media/{{civ.bronze}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.agriculture %}
+<div id="agriculture">
+    <img src="/site_media/{{civ.agriculture}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.warriors %}
+<div id="warriors">
+    <img src="/site_media/{{civ.warriors}}" width="*" height="120">
 </div>
 {% endif %}
 

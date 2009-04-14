@@ -36,7 +36,12 @@ def make_shuffled_deck():
     return shuffled
 
 def make_initial_civ():
-    civ = { 'government': 'Despotism.png' }
+    civ = { 'government': 'Despotism.png',
+            'philosphy': 'Agriculture.png',
+            'religion': 'Religion.png',
+            'bronze': 'Bronze.png',
+            'agriculture': 'Agriculture.png',
+            'warriors': 'Warriors.png' }
     return civ
 
 def undo(branch):
