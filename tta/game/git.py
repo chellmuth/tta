@@ -10,24 +10,59 @@ from subprocess import Popen, PIPE
 git_dir = '/home/cjh/tta_game/'
 
 def make_shuffled_deck():
-    cards = [{ 'file': 'Alexander_the_Great.png',   'cell': 'leader' },
-             { 'file': 'Aristotle.png',             'cell': 'leader' },
-             { 'file': 'Colossus.png',              'cell': 'wonder' },
-             { 'file': 'Engineering_Genius.png',    'cell': 'yellow-card' },
-             { 'file': 'Frugality.png',             'cell': 'yellow-card' },
-             { 'file': 'Hammurabi.png',             'cell': 'leader' },
-             { 'file': 'Hanging_Gardens.png',       'cell': 'wonder' },
-             { 'file': 'Homer.png',                 'cell': 'leader' },
-             { 'file': 'Ideal_Building_Site.png',   'cell': 'yellow-card' },
-             { 'file': 'Julius_Caesar.png',         'cell': 'leader' },
-             { 'file': 'Library_of_Alexandria.png', 'cell': 'wonder' },
-             { 'file': 'Moses.png',                 'cell': 'leader' },
-             { 'file': 'Patriotism.png',            'cell': 'yellow-card' },
-             { 'file': 'Pyramids.png',              'cell': 'wonder' },
-             { 'file': 'Revolutionary_Idea.png',    'cell': 'yellow-card' },
-             { 'file': 'Rich_Land.png',             'cell': 'yellow-card' },
-             { 'file': 'Work_of_Art.png',           'cell': 'yellow-card' }]
+    ageI = shuffle([{ 'file': 'Alexander_the_Great.png',   'cell': 'leader' },
+                    { 'file': 'Aristotle.png',             'cell': 'leader' },
+                    { 'file': 'Colossus.png',              'cell': 'wonder' },
+                    { 'file': 'Engineering_Genius.png',    'cell': 'yellow-card' },
+                    { 'file': 'Frugality.png',             'cell': 'yellow-card' },
+                    { 'file': 'Hammurabi.png',             'cell': 'leader' },
+                    { 'file': 'Hanging_Gardens.png',       'cell': 'wonder' },
+                    { 'file': 'Homer.png',                 'cell': 'leader' },
+                    { 'file': 'Ideal_Building_Site.png',   'cell': 'yellow-card' },
+                    { 'file': 'Julius_Caesar.png',         'cell': 'leader' },
+                    { 'file': 'Library_of_Alexandria.png', 'cell': 'wonder' },
+                    { 'file': 'Moses.png',                 'cell': 'leader' },
+                    { 'file': 'Patriotism.png',            'cell': 'yellow-card' },
+                    { 'file': 'Pyramids.png',              'cell': 'wonder' },
+                    { 'file': 'Revolutionary_Idea.png',    'cell': 'yellow-card' },
+                    { 'file': 'Rich_Land.png',             'cell': 'yellow-card' },
+                    { 'file': 'Work_of_Art.png',           'cell': 'yellow-card' }])
+
+    ageII = shuffle([{ 'file': 'age_1/Alchemy.png', 'cell': 'alchemy' },
+                     { 'file': 'age_1/Bountiful_Harvest.png', 'cell': 'yellow-card' },
+                     { 'file': 'age_1/Bread_and_Circuses.png', 'cell': 'bread_and_circuses' },
+                     { 'file': 'age_1/Christopher_Columbus.png', 'cell': 'leader' },
+                     { 'file': 'age_1/Drama.png', 'cell': 'drama' },
+                     { 'file': 'age_1/Efficient_Upgrade.png', 'cell': 'yellow-card' },
+                     { 'file': 'age_1/Engineering_Genius.png', 'cell': 'yellow-card' },
+
+                     { 'file': 'age_1/Frederick_Barbarrossa.png', 'cell': 'leader' },
+                     { 'file': 'age_1/Frugality.png', 'cell': 'yellow-card' },
+                     { 'file': 'age_1/Genghis_Khan.png', 'cell': 'leader' },
+                     { 'file': 'age_1/Great_Wall_dsn.png', 'cell': 'wonder' },
+                     { 'file': 'age_1/Ideal_Building_Site_dsn.png', 'cell': 'yellow-card' },
+                     { 'file': 'age_1/Iron_4_player.png', 'cell': 'iron' },
+                     { 'file': 'age_1/Iron_dsn.png', 'cell': 'iron' },
+                     { 'file': 'age_1/Irrigation_4_player.png', 'cell': 'irrigation' },
+                     { 'file': 'age_1/Irrigation_dsn.png', 'cell': 'irrigation' },
+                     { 'file': 'age_1/Joan_of_Arc_dsn.png', 'cell': 'leader' },
+                     { 'file': 'age_1/knights_4_player.png', 'cell': 'knights' },
+                     { 'file': 'age_1/knights_dsn.png', 'cell': 'knights' },
+                     { 'file': 'age_1/Leonardo_da_Vinci_dsn.png', 'cell': 'leader' },
+#                      { 'file': 'age_1/Masonry_dsn.png', 'cell': 'leader' },
+                     { 'file': 'age_1/Michelangelo_dsn.png', 'cell': 'leader' },
+                     { 'file': 'age_1/Mineral_Deposits_dsn.png', 'cell': 'yellow-card' },
+                     { 'file': 'age_1/Monarchy_3_player.png', 'cell': 'government' },
+                     { 'file': 'age_1/Monarchy_dsn.png', 'cell': 'government' },
+                     { 'file': 'age_1/Patiotism_Age_1_dsn.png', 'cell': 'yellow-card' },
+                     { 'file': 'age_1/Printing_Press_1_dsn.png', 'cell': 'printing_press' },
+                     ])
+
+
+    return ageI + ageII
+
      
+def shuffle(cards):
     shuffled = []
     for i in range(len(cards)):
         index = random.randint(0,len(cards) - 1)
@@ -37,7 +72,7 @@ def make_shuffled_deck():
 
 def make_initial_civ():
     civ = { 'government': 'Despotism.png',
-            'philosphy': 'Agriculture.png',
+            'philosophy': 'Philosophy.png',
             'religion': 'Religion.png',
             'bronze': 'Bronze.png',
             'agriculture': 'Agriculture.png',

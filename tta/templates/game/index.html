@@ -53,10 +53,42 @@ a:visited img{border:0}
  height:120;
 }
 
-#philosphy {
+#drama {
+ position:absolute;
+ left:460;
+ top:480;
+ width:80;
+ height:120;
+}
+
+#printing_press {
+ position:absolute;
+ left:540;
+ top:480;
+ width:80;
+ height:120;
+}
+
+#bread_and_circuses {
+ position:absolute;
+ left:620;
+ top:480;
+ width:80;
+ height:120;
+}
+
+#philosophy {
  position:absolute;
  left:700;
  top: 600;
+ width: 80;
+ height:120;
+}
+
+#alchemy {
+ position:absolute;
+ left:700;
+ top: 480;
  width: 80;
  height:120;
 }
@@ -77,6 +109,14 @@ a:visited img{border:0}
  height:120;
 }
 
+#iron {
+ position:absolute;
+ left:860;
+ top: 480;
+ width: 80;
+ height:120;
+}
+
 #agriculture {
  position:absolute;
  left:940;
@@ -85,10 +125,26 @@ a:visited img{border:0}
  height:120;
 }
 
+#irrigation {
+ position:absolute;
+ left:940;
+ top: 480;
+ width: 80;
+ height:120;
+}
+
 #warriors {
  position:absolute;
  left:380;
  top: 600;
+ width: 80;
+ height:120;
+}
+
+#knights {
+ position:absolute;
+ left:300;
+ top: 480;
  width: 80;
  height:120;
 }
@@ -173,9 +229,33 @@ a:visited img{border:0}
 </div>
 {% endif %}
 
+{% if civ.drama %}
+<div id="drama">
+    <img src="/site_media/{{civ.drama}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.printing_press %}
+<div id="printing_press">
+    <img src="/site_media/{{civ.printing_press}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.bread_and_circuses %}
+<div id="bread_and_circuses">
+    <img src="/site_media/age_1/Bread_and_Circuses.png" width="*" height="120">
+</div>
+{% endif %}
+
 {% if civ.philosophy %}
-<div id="philosphy">
+<div id="philosophy">
     <img src="/site_media/{{civ.philosophy}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.alchemy %}
+<div id="alchemy">
+    <img src="/site_media/{{civ.alchemy}}" width="*" height="120">
 </div>
 {% endif %}
 
@@ -191,15 +271,33 @@ a:visited img{border:0}
 </div>
 {% endif %}
 
+{% if civ.iron %}
+<div id="iron">
+    <img src="/site_media/{{civ.iron}}" width="*" height="120">
+</div>
+{% endif %}
+
 {% if civ.agriculture %}
 <div id="agriculture">
     <img src="/site_media/{{civ.agriculture}}" width="*" height="120">
 </div>
 {% endif %}
 
+{% if civ.irrigation %}
+<div id="irrigation">
+    <img src="/site_media/{{civ.irrigation}}" width="*" height="120">
+</div>
+{% endif %}
+
 {% if civ.warriors %}
 <div id="warriors">
     <img src="/site_media/{{civ.warriors}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.knights %}
+<div id="knights">
+    <img src="/site_media/{{civ.knights}}" width="*" height="120">
 </div>
 {% endif %}
 
