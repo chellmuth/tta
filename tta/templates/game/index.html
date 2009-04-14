@@ -28,13 +28,38 @@ $(document).ready(function(){
 
 a:link img{border:0}
 a:visited img{border:0}
+
+#government {
+ position:absolute;
+ left: 50;
+ top: 400;
+ width: 80;
+ height:120;
+}
+
+#leader {
+ position:absolute;
+ left: 130;
+ top: 400;
+ width: 80;
+ height:120;
+}
+
+#wonder {
+ position:absolute;
+ left: 210;
+ top: 400;
+ width: 80;
+ height:120;
+}
+
 </style>
 <table>
     <tr>
 {% for card in card_row %}
         <td>
             <div class="card">
-                <a href="/{{ branch }}/remove/{{ forloop.counter }}">
+                <a href="/{{ branch }}/add/{{ forloop.counter }}">
                     <img src="/site_media/{{ card }}" width="*" height="120">
                 </a>
             </div>
@@ -83,6 +108,24 @@ a:visited img{border:0}
         </td>
     </tr>
 </table>
+
+{% if civ.government %}
+<div id="government">
+    <img src="/site_media/{{civ.government}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.leader %}
+<div id="leader">
+    <img src="/site_media/{{civ.leader}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.wonder %}
+<div id="wonder">
+    <img src="/site_media/{{civ.wonder}}" width="*" height="120">
+</div>
+{% endif %}
 
 <div id="zoom">
 </div>

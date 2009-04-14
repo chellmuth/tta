@@ -10,24 +10,23 @@ from subprocess import Popen, PIPE
 git_dir = '/home/cjh/tta_game/'
 
 def make_shuffled_deck():
-    cards = ['Alexander_the_Great.png',
-             'Aristotle.png',
-             'Colossus.png',
-             'Despotism.png',
-             'Engineering_Genius.png',
-             'Frugality.png',
-             'Hammurabi.png',
-             'Hanging_Gardens.png',
-             'Homer.png',
-             'Ideal_Building_Site.png',
-             'Julius_Caesar.png',
-             'Library_of_Alexandria.png',
-             'Moses.png',
-             'Patriotism.png',
-             'Pyramids.png',
-             'Revolutionary_Idea.png',
-             'Rich_Land.png',
-             'Work_of_Art.png']
+    cards = [{ 'file': 'Alexander_the_Great.png',   'cell': 'leader' },
+             { 'file': 'Aristotle.png',             'cell': 'leader' },
+             { 'file': 'Colossus.png',              'cell': 'wonder' },
+             { 'file': 'Engineering_Genius.png',    'cell': 'yellow-card' },
+             { 'file': 'Frugality.png',             'cell': 'yellow-card' },
+             { 'file': 'Hammurabi.png',             'cell': 'leader' },
+             { 'file': 'Hanging_Gardens.png',       'cell': 'wonder' },
+             { 'file': 'Homer.png',                 'cell': 'leader' },
+             { 'file': 'Ideal_Building_Site.png',   'cell': 'yellow-card' },
+             { 'file': 'Julius_Caesar.png',         'cell': 'leader' },
+             { 'file': 'Library_of_Alexandria.png', 'cell': 'wonder' },
+             { 'file': 'Moses.png',                 'cell': 'leader' },
+             { 'file': 'Patriotism.png',            'cell': 'yellow-card' },
+             { 'file': 'Pyramids.png',              'cell': 'wonder' },
+             { 'file': 'Revolutionary_Idea.png',    'cell': 'yellow-card' },
+             { 'file': 'Rich_Land.png',             'cell': 'yellow-card' },
+             { 'file': 'Work_of_Art.png',           'cell': 'yellow-card' }]
      
     shuffled = []
     for i in range(len(cards)):
@@ -35,6 +34,10 @@ def make_shuffled_deck():
         shuffled.append(cards.pop(index))
 
     return shuffled
+
+def make_initial_civ():
+    civ = { 'government': 'Despotism.png' }
+    return civ
 
 def undo(branch):
     proc = Popen(('git', 'update-ref', "refs/heads/" + branch, branch + '~1'),
@@ -45,13 +48,16 @@ def undo(branch):
      
     out, err = proc.communicate()
 
-def serialize_deck(deck):
+def serialize_object(deck):
     serialized = simplejson.dumps(deck, sort_keys=True, indent=3)
     print serialized
     return serialized
 
-def write_deck(branch, deck, commit_msg="DEFAULT COMMIT"):
-    serialized = serialize_deck(deck)
+def write_deck(branch, deck, commit_msg="WRITE DECK"):
+    return write_game(branch, { 'deck': deck, 'civ': get_civ(branch) })
+
+def write_game(branch, game, commit_msg="DEFAULT COMMIT"):
+    serialized = serialize_object(game)
     proc = Popen(('git', 'hash-object', '-w', '--stdin'),
                  env = { "GIT_DIR":git_dir },
                  stdin = PIPE,
@@ -100,7 +106,7 @@ def write_deck(branch, deck, commit_msg="DEFAULT COMMIT"):
                  stdout = PIPE,
                  stderr = PIPE)
 
-def get_deck(branch):
+def get_game(branch):
     proc = Popen(('git', 'ls-tree', '-z', branch),
                  env = { "GIT_DIR":git_dir },
                  stdin = PIPE,
@@ -130,8 +136,14 @@ def get_deck(branch):
                  stderr = PIPE)
     out, err = proc.communicate()
     contents = out
-    deck = simplejson.loads(contents)
-    return deck
+    game = simplejson.loads(contents)
+    return game
+
+def get_deck(branch):
+    return get_game(branch)['deck']
+
+def get_civ(branch):
+    return get_game(branch)['civ']
 
 def create_branch_at_master_head(branch):
     proc = Popen(('git', 'branch', branch, 'master'),
@@ -144,8 +156,8 @@ def create_branch_at_master_head(branch):
 
 
 def replace_master_with_branch(branch):
-    deck = get_deck(branch)
-    write_deck('master', deck, "replacing master with " + branch)
+    game = get_deck(branch)
+    write_game('master', game, "replacing master with " + branch)
 
     delete_branch(branch)
 

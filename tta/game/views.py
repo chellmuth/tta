@@ -5,12 +5,13 @@ from game import git
 
 def index(request, branch):
     card_row = git.get_deck(branch)[:13]
+    civ = git.get_civ(branch)
 
     for index in range(len(card_row), 13):
-        card_row.append("Blank.png")
-    card_row = [ x and x or "Blank.png" for x in card_row ]
+        card_row.append({'file': "Blank.png"})
+    card_row = [ x and x or {'file': "Blank.png"} for x in card_row ]
     print card_row
-    return render_to_response('game/index.html', {'card_row': card_row, 'branch': branch})
+    return render_to_response('game/index.html', {'card_row': [ x['file'] for x in card_row ], 'branch': branch, 'civ': civ})
 
 def slide(request, branch):
     deck = git.get_deck(branch)
@@ -19,16 +20,22 @@ def slide(request, branch):
         deck.pop(0)
     
     deck = [ x for x in deck if x ]
-    git.write_deck(branch, deck)
+    git.write_deck(branch, deck, "slide")
 
     return index(request, branch)
 
-def remove(request, branch, index_no):
+def add_to_hand(request, branch, index_no):
     index_no = int(index_no) - 1
     deck = git.get_deck(branch)
+
     if deck[index_no]:
+        cell = deck[index_no]['cell']
+        civ = git.get_civ(branch)
+        civ[cell] = deck[index_no]['file']
+
         deck[index_no] = None
-    git.write_deck(branch, deck)
+
+    git.write_game(branch, {'deck': deck, 'civ': civ}, "add card to hand")
     return index(request, branch)
 
 def undo(request, branch):
