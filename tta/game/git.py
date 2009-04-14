@@ -41,7 +41,8 @@ def make_initial_civ():
             'religion': 'Religion.png',
             'bronze': 'Bronze.png',
             'agriculture': 'Agriculture.png',
-            'warriors': 'Warriors.png' }
+            'warriors': 'Warriors.png',
+            'hand': [] }
     return civ
 
 def undo(branch):
@@ -60,6 +61,9 @@ def serialize_object(deck):
 
 def write_deck(branch, deck, commit_msg="WRITE DECK"):
     return write_game(branch, { 'deck': deck, 'civ': get_civ(branch) })
+
+def write_civ(branch, civ, commit_msg="WRITE CIV"):
+    return write_game(branch, { 'deck': get_deck(branch), 'civ': civ })
 
 def write_game(branch, game, commit_msg="DEFAULT COMMIT"):
     serialized = serialize_object(game)

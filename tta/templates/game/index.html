@@ -93,6 +93,12 @@ a:visited img{border:0}
  height:120;
 }
 
+#hand {
+ position:absolute;
+ left: 50;
+ top: 750;
+ height:120;
+}
 </style>
 <table>
     <tr>
@@ -196,6 +202,14 @@ a:visited img{border:0}
     <img src="/site_media/{{civ.warriors}}" width="*" height="120">
 </div>
 {% endif %}
+
+<div id="hand">
+{% for card in civ.hand %}
+    <a href="/{{branch}}/play/{{ forloop.counter }}/">
+        <img src="/site_media/{{card.file}}" width="*" height="120">
+    </a>
+{% endfor %}
+</div>
 
 <div id="zoom">
 </div>

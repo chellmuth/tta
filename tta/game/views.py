@@ -31,7 +31,10 @@ def add_to_hand(request, branch, index_no):
     if deck[index_no]:
         cell = deck[index_no]['cell']
         civ = git.get_civ(branch)
-        civ[cell] = deck[index_no]['file']
+        if cell == 'wonder':
+            civ[cell] = deck[index_no]['file']
+        else:
+            civ['hand'].append(deck[index_no])
 
         deck[index_no] = None
 
@@ -53,6 +56,17 @@ def save(request, branch):
 def reset(request, branch):
     git.delete_branch(branch)
     return index(request, 'master')
+
+def play(request, branch, index_no):
+    index_no = int(index_no) - 1
+    civ = git.get_civ(branch)
+
+    card = civ['hand'][index_no]
+    civ[card['cell']] = card['file']
+    civ['hand'].pop(index_no)
+    git.write_civ(branch, civ)
+
+    return index(request, branch)
 
 # def remove_card(request, index_no):
 #     index_no = int(index_no) - 1
