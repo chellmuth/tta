@@ -331,6 +331,13 @@ a:visited img{border:0}
 {% endif %}
     </div>
     <img src="/site_media/{{civ.bronze.file}}" width="*" height="120">
+    <div class="blue_counter">
+        <a href="/{{branch}}/blue_cell_up/bronze/">&uarr;</a>
+        {{civ.bronze.blue}}
+{% if civ.bronze.blue %}
+        <a href="/{{branch}}/blue_cell_down/bronze/">&darr;</a>
+{% endif %}
+    </div>
 </div>
 {% endif %}
 
@@ -344,6 +351,13 @@ a:visited img{border:0}
 {% endif %}
     </div>
     <img src="/site_media/{{civ.iron.file}}" width="*" height="120">
+    <div class="blue_counter">
+        <a href="/{{branch}}/blue_cell_up/iron/">&uarr;</a>
+        {{civ.iron.blue}}
+{% if civ.iron.blue %}
+        <a href="/{{branch}}/blue_cell_down/iron/">&darr;</a>
+{% endif %}
+    </div>
 </div>
 {% endif %}
 
@@ -357,6 +371,13 @@ a:visited img{border:0}
 {% endif %}
     </div>
     <img src="/site_media/{{civ.agriculture.file}}" width="*" height="120">
+    <div class="blue_counter">
+        <a href="/{{branch}}/blue_cell_up/agriculture/">&uarr;</a>
+        {{civ.agriculture.blue}}
+{% if civ.agriculture.blue %}
+        <a href="/{{branch}}/blue_cell_down/agriculture/">&darr;</a>
+{% endif %}
+    </div>
 </div>
 {% endif %}
 
@@ -371,10 +392,10 @@ a:visited img{border:0}
     </div>
     <img src="/site_media/{{civ.irrigation.file}}" width="*" height="120">
     <div class="blue_counter">
-        <a href="/{{branch}}/yellow_up/irrigation/">&uarr;</a>
-        {{civ.irrigation.yellow}}
-{% if civ.irrigation.yellow %}
-        <a href="/{{branch}}/yellow_down/irrigation/">&darr;</a>
+        <a href="/{{branch}}/blue_cell_up/irrigation/">&uarr;</a>
+        {{civ.irrigation.blue}}
+{% if civ.irrigation.blue %}
+        <a href="/{{branch}}/blue_cell_down/irrigation/">&darr;</a>
 {% endif %}
     </div>
 </div>
@@ -436,7 +457,7 @@ a:visited img{border:0}
 <table>
     <tr>
         <td>
-            <a href="/{{branch}}/blue_up/">
+            <a href="/{{branch}}/blue_count_up/">
                 &uarr;
             </a>
         </td>
@@ -494,7 +515,7 @@ a:visited img{border:0}
     <tr>
         <td>
 {% if blue.1 %}
-            <a href="/{{branch}}/blue_down/">
+            <a href="/{{branch}}/blue_count_down/">
                 &darr;
             </a>
 {% endif %}
