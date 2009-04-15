@@ -11,7 +11,19 @@ def index(request, branch):
         card_row.append({'file': "Blank.png"})
     card_row = [ x and x or {'file': "Blank.png"} for x in card_row ]
     print card_row
-    return render_to_response('game/index.html', {'card_row': [ x['file'] for x in card_row ], 'branch': branch, 'civ': civ})
+
+    return render_to_response('game/index.html', {
+            'card_row': [ x['file'] for x in card_row ],
+            'branch': branch,
+            'civ': civ,
+            'culture': 0,
+            'culture_plus': 0,
+            'tech': 0,
+            'tech_plus': 0,
+            'strength': 0,
+            'blue': dict([ (str(x+1),1) for x in range(min(civ['blue_tokens'], 18)) ]),
+            'blue_leftover': max(civ['blue_tokens'] - 18, 0)
+            })
 
 def slide(request, branch):
     deck = git.get_deck(branch)

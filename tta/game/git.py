@@ -77,7 +77,8 @@ def make_initial_civ():
             'bronze': 'Bronze.png',
             'agriculture': 'Agriculture.png',
             'warriors': 'Warriors.png',
-            'hand': [] }
+            'hand': [],
+            'blue_tokens': 20}
     return civ
 
 def undo(branch):
