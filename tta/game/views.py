@@ -80,6 +80,19 @@ def play(request, branch, index_no):
 
     return index(request, branch)
 
+def blue_up(request, branch):
+    civ = git.get_civ(branch)
+    civ['blue_tokens'] += 1
+    git.write_civ(branch, civ, "blue up")
+    return index(request, branch)
+
+def blue_down(request, branch):
+    civ = git.get_civ(branch)
+    civ['blue_tokens'] -= 1
+    civ['blue_tokens'] = max(civ['blue_tokens'], 0)
+    git.write_civ(branch, civ, "blue down")
+    return index(request, branch)
+
 # def remove_card(request, index_no):
 #     index_no = int(index_no) - 1
 #     layout = get_layout()

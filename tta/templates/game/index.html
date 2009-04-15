@@ -331,6 +331,11 @@ a:visited img{border:0}
 <table>
     <tr>
         <td>
+            <a href="/{{branch}}/blue_up/">
+                up
+            </a>
+        </td>
+        <td>
 {% if blue.1 %}
             <img src="/site_media/misc/blue_token.png" />
 {% endif %}
@@ -382,6 +387,13 @@ a:visited img{border:0}
     </tr>
 {% endif %}
     <tr>
+        <td>
+{% if blue.1 %}
+            <a href="/{{branch}}/blue_down/">
+                down
+            </a>
+{% endif %}
+        </td>
         <td>
 {% if blue.2 %}
             <img src="/site_media/misc/blue_token.png" />

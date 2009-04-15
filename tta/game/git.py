@@ -96,10 +96,10 @@ def serialize_object(deck):
     return serialized
 
 def write_deck(branch, deck, commit_msg="WRITE DECK"):
-    return write_game(branch, { 'deck': deck, 'civ': get_civ(branch) })
+    return write_game(branch, { 'deck': deck, 'civ': get_civ(branch) }, commit_msg)
 
 def write_civ(branch, civ, commit_msg="WRITE CIV"):
-    return write_game(branch, { 'deck': get_deck(branch), 'civ': civ })
+    return write_game(branch, { 'deck': get_deck(branch), 'civ': civ }, commit_msg)
 
 def write_game(branch, game, commit_msg="DEFAULT COMMIT"):
     serialized = serialize_object(game)
