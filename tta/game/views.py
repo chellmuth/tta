@@ -80,7 +80,7 @@ def play(request, branch, index_no):
     civ[card['cell']]['yellow'] = 0
 
     civ['hand'].pop(index_no)
-    git.write_civ(branch, civ, "Play " + card['cell'])
+    git.write_civ(branch, civ, "Play card")
 
     return index(request, branch)
 
