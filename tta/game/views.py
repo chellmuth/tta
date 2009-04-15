@@ -80,7 +80,7 @@ def play(request, branch, index_no):
     civ[card['cell']]['yellow'] = 0
 
     civ['hand'].pop(index_no)
-    git.write_civ(branch, civ, "Play card")
+    git.write_civ(branch, civ, str("Play card " + card['cell']))
 
     return index(request, branch)
 
@@ -95,6 +95,19 @@ def blue_down(request, branch):
     civ['blue_tokens'] -= 1
     civ['blue_tokens'] = max(civ['blue_tokens'], 0)
     git.write_civ(branch, civ, "blue down")
+    return index(request, branch)
+
+def yellow_up(request, branch, cell):
+    civ = git.get_civ(branch)
+    civ[cell]['yellow'] += 1
+    git.write_civ(branch, civ, str("yellow up " + cell))
+    return index(request, branch)
+
+def yellow_down(request, branch, cell):
+    civ = git.get_civ(branch)
+    civ[cell]['yellow'] -= 1
+    civ[cell]['yellow'] = max(civ[cell]['yellow'], 0)
+    git.write_civ(branch, civ, str("yellow down " + cell))
     return index(request, branch)
 
 # def remove_card(request, index_no):
