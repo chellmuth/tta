@@ -10,7 +10,7 @@ def index(request, branch):
     for index in range(len(card_row), 13):
         card_row.append({'file': "Blank.png"})
     card_row = [ x and x or {'file': "Blank.png"} for x in card_row ]
-    print card_row
+    print civ
 
     return render_to_response('game/index.html', {
             'card_row': [ x['file'] for x in card_row ],
@@ -74,9 +74,13 @@ def play(request, branch, index_no):
     civ = git.get_civ(branch)
 
     card = civ['hand'][index_no]
-    civ[card['cell']] = card['file']
+    civ[card['cell']] = {}
+    civ[card['cell']]['file'] = card['file']
+    civ[card['cell']]['blue'] = 0
+    civ[card['cell']]['yellow'] = 0
+
     civ['hand'].pop(index_no)
-    git.write_civ(branch, civ)
+    git.write_civ(branch, civ, "Play " + card['cell'])
 
     return index(request, branch)
 

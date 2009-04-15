@@ -71,12 +71,12 @@ def shuffle(cards):
     return shuffled
 
 def make_initial_civ():
-    civ = { 'government': 'Despotism.png',
-            'philosophy': 'Philosophy.png',
-            'religion': 'Religion.png',
-            'bronze': 'Bronze.png',
-            'agriculture': 'Agriculture.png',
-            'warriors': 'Warriors.png',
+    civ = { 'government':  { 'file': 'Despotism.png',   'blue': 0, 'yellow': 0 },
+            'philosophy':  { 'file': 'Philosophy.png',  'blue': 0, 'yellow': 0 },
+            'religion':    { 'file': 'Religion.png',    'blue': 0, 'yellow': 0 },
+            'bronze':      { 'file': 'Bronze.png',      'blue': 0, 'yellow': 0 },
+            'agriculture': { 'file': 'Agriculture.png', 'blue': 0, 'yellow': 0 },
+            'warriors':    { 'file': 'Warriors.png',    'blue': 0, 'yellow': 0 },
             'hand': [],
             'blue_tokens': 20}
     return civ
