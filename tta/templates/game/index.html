@@ -36,6 +36,13 @@ a:visited img{border:0}
  background-color: yellow;
 }
 
+.blue_counter {
+ position:absolute; 
+ right:0;
+ top: 60;
+ background-color: blue;
+}
+
 #government {
  position:absolute;
  left: 50;
@@ -238,61 +245,138 @@ a:visited img{border:0}
 
 {% if civ.drama %}
 <div id="drama">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/drama/">&uarr;</a>
+        {{civ.drama.yellow}}
+{% if civ.drama.yellow %}
+        <a href="/{{branch}}/yellow_down/drama/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.drama.file}}" width="*" height="120">
 </div>
 {% endif %}
 
 {% if civ.printing_press %}
 <div id="printing_press">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/printing_press/">&uarr;</a>
+        {{civ.printing_press.yellow}}
+{% if civ.printing_press.yellow %}
+        <a href="/{{branch}}/yellow_down/printing_press/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.printing_press.file}}" width="*" height="120">
 </div>
 {% endif %}
 
 {% if civ.bread_and_circuses %}
 <div id="bread_and_circuses">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/bread_and_circuses/">&uarr;</a>
+        {{civ.bread_and_circuses.yellow}}
+{% if civ.bread_and_circuses.yellow %}
+        <a href="/{{branch}}/yellow_down/bread_and_circuses/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.bread_and_circuses.file}}" width="*" height="120">
 </div>
 {% endif %}
 
 {% if civ.philosophy %}
 <div id="philosophy">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/philosophy/">&uarr;</a>
+        {{civ.philosophy.yellow}}
+{% if civ.philosophy.yellow %}
+        <a href="/{{branch}}/yellow_down/philosophy/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.philosophy.file}}" width="*" height="120">
 </div>
 {% endif %}
 
 {% if civ.alchemy %}
 <div id="alchemy">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/alchemy/">&uarr;</a>
+        {{civ.alchemy.yellow}}
+{% if civ.alchemy.yellow %}
+        <a href="/{{branch}}/yellow_down/alchemy/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.alchemy.file}}" width="*" height="120">
 </div>
 {% endif %}
 
 {% if civ.religion %}
 <div id="religion">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/religion/">&uarr;</a>
+        {{civ.religion.yellow}}
+{% if civ.religion.yellow %}
+        <a href="/{{branch}}/yellow_down/religion/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.religion.file}}" width="*" height="120">
 </div>
 {% endif %}
 
 {% if civ.bronze %}
 <div id="bronze">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/bronze/">&uarr;</a>
+        {{civ.bronze.yellow}}
+{% if civ.bronze.yellow %}
+        <a href="/{{branch}}/yellow_down/bronze/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.bronze.file}}" width="*" height="120">
 </div>
 {% endif %}
 
 {% if civ.iron %}
 <div id="iron">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/iron/">&uarr;</a>
+        {{civ.iron.yellow}}
+{% if civ.iron.yellow %}
+        <a href="/{{branch}}/yellow_down/iron/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.iron.file}}" width="*" height="120">
 </div>
 {% endif %}
 
 {% if civ.agriculture %}
 <div id="agriculture">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/agriculture/">&uarr;</a>
+        {{civ.agriculture.yellow}}
+{% if civ.agriculture.yellow %}
+        <a href="/{{branch}}/yellow_down/agriculture/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.agriculture.file}}" width="*" height="120">
 </div>
 {% endif %}
 
 {% if civ.irrigation %}
 <div id="irrigation">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/irrigation/">&uarr;</a>
+        {{civ.irrigation.yellow}}
+{% if civ.irrigation.yellow %}
+        <a href="/{{branch}}/yellow_down/irrigation/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.irrigation.file}}" width="*" height="120">
+    <div class="blue_counter">
+        <a href="/{{branch}}/yellow_up/irrigation/">&uarr;</a>
+        {{civ.irrigation.yellow}}
+{% if civ.irrigation.yellow %}
+        <a href="/{{branch}}/yellow_down/irrigation/">&darr;</a>
+{% endif %}
+    </div>
 </div>
 {% endif %}
 
@@ -311,6 +395,13 @@ a:visited img{border:0}
 
 {% if civ.knights %}
 <div id="knights">
+    <div class="yellow_counter">
+        <a href="/{{branch}}/yellow_up/knights/">&uarr;</a>
+        {{civ.knights.yellow}}
+{% if civ.knights.yellow %}
+        <a href="/{{branch}}/yellow_down/knights/">&darr;</a>
+{% endif %}
+    </div>
     <img src="/site_media/{{civ.knights.file}}" width="*" height="120">
 </div>
 {% endif %}
