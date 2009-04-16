@@ -24,6 +24,7 @@ $(document).ready(function(){
 <style>
 #zoom {
  position:absolute;
+ z-index: 100;
 }
 
 a:link img{border:0}
@@ -476,17 +477,23 @@ a:visited img{border:0}
 </div>
 {% endif %}
 
-<div id="hand">
+<table id="hand">
+    <tr>
 {% for card in civ.hand %}
+        <td>
+            <div class="card">
 {%   ifequal card.cell "event" %}
-    <a href="/{{branch}}/play_event/{{ forloop.counter }}/">
+                <a href="/{{branch}}/play_event/{{ forloop.counter }}/">
 {%   else %}
-    <a href="/{{branch}}/play/{{ forloop.counter }}/">
+                <a href="/{{branch}}/play/{{ forloop.counter }}/">
 {%   endifequal %}
-        <img src="/site_media/{{card.file}}" width="*" height="120">
-    </a>
+                    <img src="/site_media/{{card.file}}" width="*" height="120">
+                </a>
+            </div>
+        </td>
 {% endfor %}
-</div>
+    </tr>
+</table>
 
 <div id="zoom">
 </div>
