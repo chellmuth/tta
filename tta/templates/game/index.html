@@ -464,7 +464,11 @@ a:visited img{border:0}
 
 <div id="hand">
 {% for card in civ.hand %}
+{%   ifequal card.cell "event" %}
+    <a href="/{{branch}}/play_event/{{ forloop.counter }}/">
+{%   else %}
     <a href="/{{branch}}/play/{{ forloop.counter }}/">
+{%   endifequal %}
         <img src="/site_media/{{card.file}}" width="*" height="120">
     </a>
 {% endfor %}

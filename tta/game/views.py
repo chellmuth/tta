@@ -81,6 +81,20 @@ def play(request, branch, index_no):
 
     return index(request, branch)
 
+def play_event(request, branch, index_no):
+    index_no = int(index_no) - 1
+    civ = git.get_civ(branch)
+    military = git.get_military(branch)
+
+    card = civ['hand'][index_no]
+    civ['hand'].pop(index_no)
+
+    military['future'][card['deck']].append(card)
+
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play event " + card['deck']))
+
+    return index(request, branch)
+
 def count_up(request, branch, type):
     civ = git.get_civ(branch)
     civ[type + '_tokens'] += 1

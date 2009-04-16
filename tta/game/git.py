@@ -9,9 +9,6 @@ from subprocess import Popen, PIPE
 
 git_dir = '/home/cjh/tta_game/'
 
-# Age_A_Civil_-_Card_Back.png
-# Age_A_Military_-_Card_Back.png
-
 def make_age_a_military():
     age_a = shuffle([{ 'file': 'Development_of_Agriculture.png',  'cell': 'event', 'deck': 'A' },
                      { 'file': 'Development_of_Crafts.png',       'cell': 'event', 'deck': 'A' },
@@ -23,9 +20,13 @@ def make_age_a_military():
                      { 'file': 'Development_of_Trade_Routes.png', 'cell': 'event', 'deck': 'A' },
                      { 'file': 'Development_of_Warfare.png',      'cell': 'event', 'deck': 'A' },
                      { 'file': 'No_Event.png',                    'cell': 'event', 'deck': 'A' }])
-    age_a = age_a[:6]
-    return age_a
 
+    return { 'future': { 'A' : [], 'I': [], 'II': [], 'III': [] },
+             'current': age_a[:6],
+             'A':       [],
+             'I':       [],
+             'II':      [],
+             'III':     [] }
 
 def make_shuffled_deck():
     ageI = shuffle([{ 'file': 'Alexander_the_Great.png',   'cell': 'leader' },
@@ -95,7 +96,7 @@ def make_initial_civ():
             'bronze':      { 'file': 'Bronze.png',      'blue': 0, 'yellow': 2 },
             'agriculture': { 'file': 'Agriculture.png', 'blue': 0, 'yellow': 2 },
             'warriors':    { 'file': 'Warriors.png',    'blue': 0, 'yellow': 1 },
-            'hand': [],
+            'hand': [ { 'file': 'Development_of_Science.png', 'cell': 'event', 'deck': 'A' },],
             'unused_workers': 1,
             'yellow_tokens': 18,
             'culture': 0,
