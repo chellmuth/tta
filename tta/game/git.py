@@ -9,6 +9,24 @@ from subprocess import Popen, PIPE
 
 git_dir = '/home/cjh/tta_game/'
 
+# Age_A_Civil_-_Card_Back.png
+# Age_A_Military_-_Card_Back.png
+
+def make_age_a_military():
+    age_a = shuffle([{ 'file': 'Development_of_Agriculture.png',  'cell': 'event', 'deck': 'A' },
+                     { 'file': 'Development_of_Crafts.png',       'cell': 'event', 'deck': 'A' },
+                     { 'file': 'Development_of_Markets.png',      'cell': 'event', 'deck': 'A' },
+                     { 'file': 'Development_of_Politics.png',     'cell': 'event', 'deck': 'A' },
+                     { 'file': 'Development_of_Religion.png',     'cell': 'event', 'deck': 'A' },
+                     { 'file': 'Development_of_Science.png',      'cell': 'event', 'deck': 'A' },
+                     { 'file': 'Development_of_Settlement.png',   'cell': 'event', 'deck': 'A' },
+                     { 'file': 'Development_of_Trade_Routes.png', 'cell': 'event', 'deck': 'A' },
+                     { 'file': 'Development_of_Warfare.png',      'cell': 'event', 'deck': 'A' },
+                     { 'file': 'No_Event.png',                    'cell': 'event', 'deck': 'A' }])
+    age_a = age_a[:6]
+    return age_a
+
+
 def make_shuffled_deck():
     ageI = shuffle([{ 'file': 'Alexander_the_Great.png',   'cell': 'leader' },
                     { 'file': 'Aristotle.png',             'cell': 'leader' },
@@ -72,20 +90,20 @@ def shuffle(cards):
 
 def make_initial_civ():
     civ = { 'government':  { 'file': 'Despotism.png',   'blue': 0, 'yellow': 0 },
-            'philosophy':  { 'file': 'Philosophy.png',  'blue': 0, 'yellow': 0 },
+            'philosophy':  { 'file': 'Philosophy.png',  'blue': 0, 'yellow': 1 },
             'religion':    { 'file': 'Religion.png',    'blue': 0, 'yellow': 0 },
-            'bronze':      { 'file': 'Bronze.png',      'blue': 0, 'yellow': 0 },
-            'agriculture': { 'file': 'Agriculture.png', 'blue': 0, 'yellow': 0 },
-            'warriors':    { 'file': 'Warriors.png',    'blue': 0, 'yellow': 0 },
+            'bronze':      { 'file': 'Bronze.png',      'blue': 0, 'yellow': 2 },
+            'agriculture': { 'file': 'Agriculture.png', 'blue': 0, 'yellow': 2 },
+            'warriors':    { 'file': 'Warriors.png',    'blue': 0, 'yellow': 1 },
             'hand': [],
-            'unused_workers': 0,
-            'yellow_tokens': 20,
+            'unused_workers': 1,
+            'yellow_tokens': 18,
             'culture': 0,
             'culture_plus': 0,
             'tech': 0,
-            'tech_plus': 0,
-            'strength': 0,
-            'blue_tokens': 20}
+            'tech_plus': 1,
+            'strength': 1,
+            'blue_tokens': 18}
     return civ
 
 def undo(branch):
@@ -97,16 +115,16 @@ def undo(branch):
      
     out, err = proc.communicate()
 
-def serialize_object(deck):
-    serialized = simplejson.dumps(deck, sort_keys=True, indent=3)
+def serialize_object(object):
+    serialized = simplejson.dumps(object, sort_keys=True, indent=3)
     print serialized
     return serialized
 
 def write_deck(branch, deck, commit_msg="WRITE DECK"):
-    return write_game(branch, { 'deck': deck, 'civ': get_civ(branch) }, commit_msg)
+    return write_game(branch, { 'deck': deck, 'civ': get_civ(branch), 'military': get_military(branch) }, commit_msg)
 
 def write_civ(branch, civ, commit_msg="WRITE CIV"):
-    return write_game(branch, { 'deck': get_deck(branch), 'civ': civ }, commit_msg)
+    return write_game(branch, { 'deck': get_deck(branch), 'civ': civ, 'military': get_military(branch) }, commit_msg)
 
 def write_game(branch, game, commit_msg="DEFAULT COMMIT"):
     serialized = serialize_object(game)
@@ -196,6 +214,9 @@ def get_deck(branch):
 
 def get_civ(branch):
     return get_game(branch)['civ']
+
+def get_military(branch):
+    return get_game(branch)['military']
 
 def create_branch_at_master_head(branch):
     proc = Popen(('git', 'branch', branch, 'master'),

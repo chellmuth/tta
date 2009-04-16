@@ -16,6 +16,7 @@ def index(request, branch):
             'card_row': [ x['file'] for x in card_row ],
             'branch': branch,
             'civ': civ,
+            'military': git.get_military(branch),
             'blue': dict([ (str(x+1),1) for x in range(min(civ['blue_tokens'], 18)) ]),
             'blue_leftover': max(civ['blue_tokens'] - 18, 0),
             'yellow': dict([ (str(x+1),1) for x in range(min(civ['yellow_tokens'], 18)) ]),
@@ -46,7 +47,7 @@ def add_to_hand(request, branch, index_no):
 
         deck[index_no] = None
 
-    git.write_game(branch, {'deck': deck, 'civ': civ}, "add card to hand")
+    git.write_game(branch, {'deck': deck, 'civ': civ, 'military': git.get_military(branch)}, "add card to hand")
     return index(request, branch)
 
 def undo(request, branch):
@@ -131,6 +132,17 @@ def blue_cell_down(request, branch, cell):
     civ[cell]['blue'] = max(civ[cell]['blue'], 0)
     git.write_civ(branch, civ, str("blue down " + cell))
     return index(request, branch)
+
+def draw_military(request, branch, deck):
+    military = git.get_military(branch)
+    card = military[deck].pop()
+    
+    civ = git.get_civ(branch)
+    civ['hand'].append(card)
+
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, "Drawing military")
+    return index(request, branch)
+    
 
 # def remove_card(request, index_no):
 #     index_no = int(index_no) - 1
