@@ -138,7 +138,7 @@ def make_initial_civ():
             'tech_plus': 1,
             'strength': 1,
             'blue_tokens': 18}
-    return civ
+    return { 'p1': civ, 'p2': civ, 'p3': civ, 'p4': civ }
 
 def undo(branch):
     proc = Popen(('git', 'update-ref', "refs/heads/" + branch, branch + '~1'),
