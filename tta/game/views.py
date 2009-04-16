@@ -17,7 +17,8 @@ def index(request, branch):
             'branch': branch,
             'civ': civ,
             'blue': dict([ (str(x+1),1) for x in range(min(civ['blue_tokens'], 18)) ]),
-            'blue_leftover': max(civ['blue_tokens'] - 18, 0)
+            'blue_leftover': max(civ['blue_tokens'] - 18, 0),
+            'yellow': dict([ (str(x+1),1) for x in range(min(civ['yellow_tokens'], 18)) ]),
             })
 
 def slide(request, branch):
@@ -79,17 +80,17 @@ def play(request, branch, index_no):
 
     return index(request, branch)
 
-def blue_count_up(request, branch):
+def count_up(request, branch, type):
     civ = git.get_civ(branch)
-    civ['blue_tokens'] += 1
-    git.write_civ(branch, civ, "blue up")
+    civ[type + '_tokens'] += 1
+    git.write_civ(branch, civ, str(type + " up"))
     return index(request, branch)
 
-def blue_count_down(request, branch):
+def count_down(request, branch, type):
     civ = git.get_civ(branch)
-    civ['blue_tokens'] -= 1
-    civ['blue_tokens'] = max(civ['blue_tokens'], 0)
-    git.write_civ(branch, civ, "blue down")
+    civ[type + '_tokens'] -= 1
+    civ[type + '_tokens'] = max(civ[type + '_tokens'], 0)
+    git.write_civ(branch, civ, str(type + " down"))
     return index(request, branch)
 
 def points_up(request, branch, category):

@@ -78,6 +78,8 @@ def make_initial_civ():
             'agriculture': { 'file': 'Agriculture.png', 'blue': 0, 'yellow': 0 },
             'warriors':    { 'file': 'Warriors.png',    'blue': 0, 'yellow': 0 },
             'hand': [],
+            'unused_workers': 0,
+            'yellow_tokens': 20,
             'culture': 0,
             'culture_plus': 0,
             'tech': 0,

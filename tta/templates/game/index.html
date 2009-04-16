@@ -41,6 +41,23 @@ a:visited img{border:0}
  left: 300;
 }
 
+#yellow_tokens {
+ position:absolute;
+ top: 200;
+ left: 700;
+}
+
+.yellow_token_cell_full {
+ width: 25;
+ height: 25;
+ background-image: url(/site_media/misc/yellow_token.png);
+}
+
+.yellow_token_cell_empty {
+ width: 25;
+ height: 25;
+}
+
 .yellow_counter {
  position:absolute; 
  left:0;
@@ -470,7 +487,7 @@ a:visited img{border:0}
     <table>
         <tr>
             <td>
-                <a href="/{{branch}}/blue_count_up/">
+                <a href="/{{branch}}/count_up/blue">
                     &uarr;
                 </a>
             </td>
@@ -528,7 +545,7 @@ a:visited img{border:0}
         <tr>
             <td>
 {% if blue.1 %}
-                <a href="/{{branch}}/blue_count_down/">
+                <a href="/{{branch}}/count_down/blue">
                     &darr;
                 </a>
 {% endif %}
@@ -577,6 +594,154 @@ a:visited img{border:0}
 {% if blue.18 %}
                 <img src="/site_media/misc/blue_token.png" />
 {% endif %}
+            </td>
+        </tr>
+    </table>    
+</div>
+
+<div id="yellow_tokens">
+    <table>
+        <tr>
+            <td>
+{% if not yellow.18 %}
+                <a href="/{{branch}}/count_up/yellow">
+                    &uarr;
+                </a>
+{% endif %}
+            </td>
+{% if yellow.1 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                7
+            </td>
+{% if yellow.3 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                7
+            </td>
+{% if yellow.5 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                5
+            </td>
+{% if yellow.7 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                5
+            </td>
+{% if yellow.9 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                4
+            </td>
+{% if yellow.11 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                4
+            </td>
+{% if yellow.13 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                3
+            </td>
+{% if yellow.15 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                3
+            </td>
+{% if yellow.17 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td>
+{% endif %}
+                2
+            </td>
+        <tr>
+            <td>
+{% if yellow.1 %}
+                <a href="/{{branch}}/count_down/yellow">
+                    &darr;
+                </a>
+{% endif %}
+            </td>
+{% if yellow.2 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                7
+            </td>
+{% if yellow.4 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                7
+            </td>
+{% if yellow.6 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                5
+            </td>
+{% if yellow.8 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                5
+            </td>
+{% if yellow.10 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                4
+            </td>
+{% if yellow.12 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                4
+            </td>
+{% if yellow.14 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                3
+            </td>
+{% if yellow.16 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                3
+            </td>
+{% if yellow.18 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td>
+{% endif %}
+                2
             </td>
         </tr>
     </table>    
