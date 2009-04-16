@@ -3,16 +3,17 @@ from game.models import Board, Deck
 
 from game import git
 
-def index(request, branch):
+def index(request, branch, player):
     card_row = git.get_deck(branch)[:13]
     civ = git.get_civ(branch)
-    my_civ = civ['p1']
+    my_civ = civ[player]
 
     for index in range(len(card_row), 13):
         card_row.append({'file': "Blank.png"})
     card_row = [ x and x or {'file': "Blank.png"} for x in card_row ]
 
     return render_to_response('game/index.html', {
+            'player': player,
             'card_row': [ x['file'] for x in card_row ],
             'branch': branch,
             'civ': my_civ,
@@ -22,7 +23,7 @@ def index(request, branch):
             'yellow': dict([ (str(x+1),1) for x in range(min(my_civ['yellow_tokens'], 18)) ]),
             })
 
-def slide(request, branch):
+def slide(request, branch, player):
     deck = git.get_deck(branch)
     first = deck[0]
     if first:
@@ -31,47 +32,47 @@ def slide(request, branch):
     deck = [ x for x in deck if x ]
     git.write_deck(branch, deck, "slide")
 
-    return index(request, branch)
+    return index(request, branch, player)
 
-def add_to_hand(request, branch, index_no):
+def add_to_hand(request, branch, player, index_no):
     index_no = int(index_no) - 1
     deck = git.get_deck(branch)
 
     if deck[index_no]:
         cell = deck[index_no]['cell']
         civ = git.get_civ(branch)
-        my_civ = civ['p1']
+        my_civ = civ[player]
         if cell == 'wonder':
             my_civ[cell] = deck[index_no]['file']
         else:
             my_civ['hand'].append(deck[index_no])
-        civ['p1'] = my_civ    
+        civ[player] = my_civ    
 
         deck[index_no] = None
 
     git.write_game(branch, {'deck': deck, 'civ': civ, 'military': git.get_military(branch)}, "add card to hand")
-    return index(request, branch)
+    return index(request, branch, player)
 
-def undo(request, branch):
+def undo(request, branch, player):
     git.undo(branch)
-    return index(request, branch)
+    return index(request, branch, player)
 
-def begin(request, branch):
+def begin(request, branch, player):
     git.create_branch_at_master_head(branch)
-    return index(request, branch)
+    return index(request, branch, player)
 
-def save(request, branch):
+def save(request, branch, player):
     git.replace_master_with_branch(branch)
     return index(request, 'master')
 
-def reset(request, branch):
+def reset(request, branch, player):
     git.delete_branch(branch)
     return index(request, 'master')
 
-def play(request, branch, index_no):
+def play(request, branch, player, index_no):
     index_no = int(index_no) - 1
     civ = git.get_civ(branch)
-    my_civ = civ['p1']
+    my_civ = civ[player]
 
     card = my_civ['hand'][index_no]
     my_civ[card['cell']] = {}
@@ -81,15 +82,15 @@ def play(request, branch, index_no):
 
     my_civ['hand'].pop(index_no)
 
-    civ['p1'] = my_civ
+    civ[player] = my_civ
     git.write_civ(branch, civ, str("Play card " + card['cell']))
 
-    return index(request, branch)
+    return index(request, branch, player)
 
-def play_event(request, branch, index_no):
+def play_event(request, branch, player, index_no):
     index_no = int(index_no) - 1
     civ = git.get_civ(branch)
-    my_civ = civ['p1']
+    my_civ = civ[player]
     military = git.get_military(branch)
 
     card = civ['hand'][index_no]
@@ -97,116 +98,70 @@ def play_event(request, branch, index_no):
 
     military['future'][card['deck']].append(card)
 
-    civ['p1'] = my_civ
+    civ[player] = my_civ
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play event " + card['deck']))
 
-    return index(request, branch)
+    return index(request, branch, player)
 
-def count_up(request, branch, type):
+def count_up(request, branch, player, type):
     civ = git.get_civ(branch)
-    civ['p1'][type + '_tokens'] += 1
+    civ[player][type + '_tokens'] += 1
     git.write_civ(branch, civ, str(type + " up"))
-    return index(request, branch)
+    return index(request, branch, player)
 
-def count_down(request, branch, type):
+def count_down(request, branch, player, type):
     civ = git.get_civ(branch)
-    civ['p1'][type + '_tokens'] -= 1
-    civ['p1'][type + '_tokens'] = max(civ['p1'][type + '_tokens'], 0)
+    civ[player][type + '_tokens'] -= 1
+    civ[player][type + '_tokens'] = max(civ[player][type + '_tokens'], 0)
     git.write_civ(branch, civ, str(type + " down"))
-    return index(request, branch)
+    return index(request, branch, player)
 
-def points_up(request, branch, category):
+def points_up(request, branch, player, category):
     civ = git.get_civ(branch)
-    civ['p1'][category] += 1
+    civ[player][category] += 1
     git.write_civ(branch, civ, str(category + " up"))
-    return index(request, branch)
+    return index(request, branch, player)
 
-def points_down(request, branch, category):
+def points_down(request, branch, player, category):
     civ = git.get_civ(branch)
-    civ['p1'][category] -= 1
-    civ['p1'][category] = max(civ[category], 0)
+    civ[player][category] -= 1
+    civ[player][category] = max(civ[category], 0)
     git.write_civ(branch, civ, str(category + " down"))
-    return index(request, branch)
+    return index(request, branch, player)
 
-def yellow_up(request, branch, cell):
+def yellow_up(request, branch, player, cell):
     civ = git.get_civ(branch)
-    civ['p1'][cell]['yellow'] += 1
+    civ[player][cell]['yellow'] += 1
     git.write_civ(branch, civ, str("yellow up " + cell))
-    return index(request, branch)
+    return index(request, branch, player)
 
-def yellow_down(request, branch, cell):
+def yellow_down(request, branch, player, cell):
     civ = git.get_civ(branch)
-    civ['p1'][cell]['yellow'] -= 1
-    civ['p1'][cell]['yellow'] = max(civ['p1'][cell]['yellow'], 0)
+    civ[player][cell]['yellow'] -= 1
+    civ[player][cell]['yellow'] = max(civ[player][cell]['yellow'], 0)
     git.write_civ(branch, civ, str("yellow down " + cell))
-    return index(request, branch)
+    return index(request, branch, player)
 
-def blue_cell_up(request, branch, cell):
+def blue_cell_up(request, branch, player, cell):
     civ = git.get_civ(branch)
-    civ['p1'][cell]['blue'] += 1
+    civ[player][cell]['blue'] += 1
     git.write_civ(branch, civ, str("blue up " + cell))
-    return index(request, branch)
+    return index(request, branch, player)
 
-def blue_cell_down(request, branch, cell):
+def blue_cell_down(request, branch, player, cell):
     civ = git.get_civ(branch)
-    civ['p1'][cell]['blue'] -= 1
-    civ['p1'][cell]['blue'] = max(civ['p1'][cell]['blue'], 0)
+    civ[player][cell]['blue'] -= 1
+    civ[player][cell]['blue'] = max(civ[player][cell]['blue'], 0)
     git.write_civ(branch, civ, str("blue down " + cell))
-    return index(request, branch)
+    return index(request, branch, player)
 
-def draw_military(request, branch, deck):
+def draw_military(request, branch, player, deck):
     military = git.get_military(branch)
     card = military[deck].pop()
     
     civ = git.get_civ(branch)
-    civ['p1']['hand'].append(card)
+    civ[player]['hand'].append(card)
 
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, "Drawing military")
-    return index(request, branch)
-    
+    return index(request, branch, player)
 
-# def remove_card(request, index_no):
-#     index_no = int(index_no) - 1
-#     layout = get_layout()
-#     if layout[index_no]:
-#         layout[index_no].delete()
-#         layout[index_no] = None
-#     return index(request)
-
-# def get_layout():
-#     board = Board.objects.all()
-#     card_hash = {}
-#     for card in board:
-#         card_hash[card.spot] = card
-
-#     layout = [ None for _ in range(13) ]
-#     print card_hash.keys()
-#     for index in card_hash.keys():
-#         layout[index] = card_hash[index]
-
-#     return layout
-
-# def fill_board(layout):
-#     first = layout[0]
-#     if first:
-#         first.delete()
-#     layout[0] = None
-#     layout = [ x for x in layout if x ]
-#     for index in range(len(layout), 13):
-#         layout.append(new_card(index))
-
-#     for index, card in enumerate(layout):
-#         if not card: continue
-#         card.spot = index
-#         card.save()
-
-# def new_card(index):
-#     deck = list(Deck.objects.all().order_by('rank'))
-#     if not deck: return None
-
-#     card = deck[0]
-#     card_obj = card.card
-#     card.delete()
-#     board = Board(card=card_obj, spot=index)
-#     board.save()
-#     return board
