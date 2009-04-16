@@ -94,6 +94,14 @@ a:visited img{border:0}
  height:120;
 }
 
+#tactics {
+ position:absolute;
+ left: 130;
+ top: 520;
+ width: 80;
+ height:120;
+}
+
 #wonder {
  position:absolute;
  left: 210;
@@ -269,6 +277,12 @@ a:visited img{border:0}
 {% if civ.leader %}
 <div id="leader">
     <img src="/site_media/{{civ.leader.file}}" width="*" height="120">
+</div>
+{% endif %}
+
+{% if civ.tactics %}
+<div id="tactics">
+    <img src="/site_media/{{civ.tactics.file}}" width="*" height="120">
 </div>
 {% endif %}
 
