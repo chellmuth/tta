@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
 from game.models import Board, Deck
+from django.http import HttpResponseRedirect
 
 from game import git
 
@@ -32,7 +33,7 @@ def slide(request, branch, player):
     deck = [ x for x in deck if x ]
     git.write_deck(branch, deck, "slide")
 
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def add_to_hand(request, branch, player, index_no):
     index_no = int(index_no) - 1
@@ -51,23 +52,23 @@ def add_to_hand(request, branch, player, index_no):
         deck[index_no] = None
 
     git.write_game(branch, {'deck': deck, 'civ': civ, 'military': git.get_military(branch)}, "add card to hand")
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def undo(request, branch, player):
     git.undo(branch)
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def begin(request, branch, player):
     git.create_branch_at_master_head(branch)
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def save(request, branch, player):
     git.replace_master_with_branch(branch)
-    return index(request, 'master')
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def reset(request, branch, player):
     git.delete_branch(branch)
-    return index(request, 'master')
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def play(request, branch, player, index_no):
     index_no = int(index_no) - 1
@@ -85,7 +86,7 @@ def play(request, branch, player, index_no):
     civ[player] = my_civ
     git.write_civ(branch, civ, str("Play card " + card['cell']))
 
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def play_event(request, branch, player, index_no):
     index_no = int(index_no) - 1
@@ -101,59 +102,59 @@ def play_event(request, branch, player, index_no):
     civ[player] = my_civ
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play event " + card['deck']))
 
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def count_up(request, branch, player, type):
     civ = git.get_civ(branch)
     civ[player][type + '_tokens'] += 1
     git.write_civ(branch, civ, str(type + " up"))
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def count_down(request, branch, player, type):
     civ = git.get_civ(branch)
     civ[player][type + '_tokens'] -= 1
     civ[player][type + '_tokens'] = max(civ[player][type + '_tokens'], 0)
     git.write_civ(branch, civ, str(type + " down"))
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def points_up(request, branch, player, category):
     civ = git.get_civ(branch)
     civ[player][category] += 1
     git.write_civ(branch, civ, str(category + " up"))
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def points_down(request, branch, player, category):
     civ = git.get_civ(branch)
     civ[player][category] -= 1
     civ[player][category] = max(civ[category], 0)
     git.write_civ(branch, civ, str(category + " down"))
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def yellow_up(request, branch, player, cell):
     civ = git.get_civ(branch)
     civ[player][cell]['yellow'] += 1
     git.write_civ(branch, civ, str("yellow up " + cell))
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def yellow_down(request, branch, player, cell):
     civ = git.get_civ(branch)
     civ[player][cell]['yellow'] -= 1
     civ[player][cell]['yellow'] = max(civ[player][cell]['yellow'], 0)
     git.write_civ(branch, civ, str("yellow down " + cell))
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def blue_cell_up(request, branch, player, cell):
     civ = git.get_civ(branch)
     civ[player][cell]['blue'] += 1
     git.write_civ(branch, civ, str("blue up " + cell))
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def blue_cell_down(request, branch, player, cell):
     civ = git.get_civ(branch)
     civ[player][cell]['blue'] -= 1
     civ[player][cell]['blue'] = max(civ[player][cell]['blue'], 0)
     git.write_civ(branch, civ, str("blue down " + cell))
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def draw_military(request, branch, player, deck):
     military = git.get_military(branch)
@@ -163,5 +164,5 @@ def draw_military(request, branch, player, deck):
     civ[player]['hand'].append(card)
 
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, "Drawing military")
-    return index(request, branch, player)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
