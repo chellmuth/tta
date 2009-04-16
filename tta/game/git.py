@@ -78,6 +78,11 @@ def make_initial_civ():
             'agriculture': { 'file': 'Agriculture.png', 'blue': 0, 'yellow': 0 },
             'warriors':    { 'file': 'Warriors.png',    'blue': 0, 'yellow': 0 },
             'hand': [],
+            'culture': 0,
+            'culture_plus': 0,
+            'tech': 0,
+            'tech_plus': 0,
+            'strength': 0,
             'blue_tokens': 20}
     return civ
 

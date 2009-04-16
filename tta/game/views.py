@@ -16,11 +16,6 @@ def index(request, branch):
             'card_row': [ x['file'] for x in card_row ],
             'branch': branch,
             'civ': civ,
-            'culture': 0,
-            'culture_plus': 0,
-            'tech': 0,
-            'tech_plus': 0,
-            'strength': 0,
             'blue': dict([ (str(x+1),1) for x in range(min(civ['blue_tokens'], 18)) ]),
             'blue_leftover': max(civ['blue_tokens'] - 18, 0)
             })
@@ -95,6 +90,19 @@ def blue_count_down(request, branch):
     civ['blue_tokens'] -= 1
     civ['blue_tokens'] = max(civ['blue_tokens'], 0)
     git.write_civ(branch, civ, "blue down")
+    return index(request, branch)
+
+def points_up(request, branch, category):
+    civ = git.get_civ(branch)
+    civ[category] += 1
+    git.write_civ(branch, civ, str(category + " up"))
+    return index(request, branch)
+
+def points_down(request, branch, category):
+    civ = git.get_civ(branch)
+    civ[category] -= 1
+    civ[category] = max(civ[category], 0)
+    git.write_civ(branch, civ, str(category + " down"))
     return index(request, branch)
 
 def yellow_up(request, branch, cell):

@@ -29,6 +29,12 @@ $(document).ready(function(){
 a:link img{border:0}
 a:visited img{border:0}
 
+#scores {
+ position:absolute;
+ top: 200;
+ left: 100;
+}
+
 .yellow_counter {
  position:absolute; 
  left:0;
@@ -569,9 +575,65 @@ a:visited img{border:0}
 </table>    
 
 <div id="scores">
-Tech: {{ tech }}
-Strength: {{ strength }}
-Culture: {{ culture }}
-Culture+: {{ culture_plus }}
-Tech+ {{ tech_plus }}
+<table>
+    <tr>
+        <td>
+            Tech:
+        </td>
+        <td>
+            {{ civ.tech }}
+            <a href="/master/points_up/tech/">&uarr;</a>
+{% if civ.tech %}
+            <a href="/master/points_down/tech/">&darr;</a>
+{%  endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Strength:
+        </td>
+        <td>
+            {{ civ.strength }}
+            <a href="/master/points_up/strength/">&uarr;</a>
+{% if civ.strength %}
+            <a href="/master/points_down/strength/">&darr;</a>
+{%  endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Culture:
+        </td>
+        <td>
+            {{ civ.culture }}
+            <a href="/master/points_up/culture/">&uarr;</a>
+{% if civ.culture %}
+            <a href="/master/points_down/culture/">&darr;</a>
+{%  endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Culture+:
+        </td>
+        <td>
+            {{ civ.culture_plus }}
+            <a href="/master/points_up/culture_plus/">&uarr;</a>
+{% if civ.culture_plus %}
+            <a href="/master/points_down/culture_plus/">&darr;</a>
+{%  endif %}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Tech+:
+        </td>
+        <td>
+            {{ civ.tech_plus }}
+            <a href="/master/points_up/tech_plus/">&uarr;</a>
+{% if civ.tech_plus %}
+            <a href="/master/points_down/tech_plus/">&darr;</a>
+{%  endif %}
+        </td>
+</table>
 </div>
