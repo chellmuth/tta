@@ -35,6 +35,12 @@ a:visited img{border:0}
  left: 100;
 }
 
+#blue_tokens {
+ position:absolute;
+ top: 200;
+ left: 300;
+}
+
 .yellow_counter {
  position:absolute; 
  left:0;
@@ -460,119 +466,121 @@ a:visited img{border:0}
 </form>
 
 
-<table>
-    <tr>
-        <td>
-            <a href="/{{branch}}/blue_count_up/">
-                &uarr;
-            </a>
-        </td>
-        <td>
+<div id="blue_tokens">
+    <table>
+        <tr>
+            <td>
+                <a href="/{{branch}}/blue_count_up/">
+                    &uarr;
+                </a>
+            </td>
+            <td>
 {% if blue.1 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.3 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.5 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.7 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.9 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.11 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.13 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.15 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.17 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
+            </td>
 {% if blue_leftover %}
-        <td rowspan="2">
-            + {{ blue_leftover }}
-        </td>
-    </tr>
+            <td rowspan="2">
+                + {{ blue_leftover }}
+            </td>
+        </tr>
 {% endif %}
-    <tr>
-        <td>
+        <tr>
+            <td>
 {% if blue.1 %}
-            <a href="/{{branch}}/blue_count_down/">
-                &darr;
-            </a>
+                <a href="/{{branch}}/blue_count_down/">
+                    &darr;
+                </a>
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.2 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.4 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.6 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.8 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.10 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.12 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.14 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.16 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-        <td>
+            </td>
+            <td>
 {% if blue.18 %}
-            <img src="/site_media/misc/blue_token.png" />
+                <img src="/site_media/misc/blue_token.png" />
 {% endif %}
-        </td>
-    </tr>
-</table>    
+            </td>
+        </tr>
+    </table>    
+</div>
 
 <div id="scores">
 <table>
