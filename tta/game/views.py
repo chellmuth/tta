@@ -94,7 +94,7 @@ def play_event(request, branch, player, index_no):
     my_civ = civ[player]
     military = git.get_military(branch)
 
-    card = civ['hand'][index_no]
+    card = my_civ['hand'][index_no]
     my_civ['hand'].pop(index_no)
 
     military['future'][card['deck']].append(card)
