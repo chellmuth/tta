@@ -126,7 +126,7 @@ def points_up(request, branch, player, category):
 def points_down(request, branch, player, category):
     civ = git.get_civ(branch)
     civ[player][category] -= 1
-    civ[player][category] = max(civ[category], 0)
+    civ[player][category] = max(civ[player][category], 0)
     git.write_civ(branch, civ, str(category + " down"))
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 

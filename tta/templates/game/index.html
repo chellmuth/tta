@@ -703,6 +703,13 @@ a:visited img{border:0}
 {% endif %}
                 2
             </td>
+            <td rowspan="2">
+                {{ civ.unused_workers }}
+                <a href="/{{branch}}/{{player}}/points_up/unused_workers/">&uarr;</a>
+{% if civ.unused_workers %}
+                <a href="/{{branch}}/{{player}}/points_down/unused_workers/">&darr;</a>
+{%  endif %}
+            </td>
         <tr>
             <td>
 {% if yellow.1 %}
