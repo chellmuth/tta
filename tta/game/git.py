@@ -56,6 +56,7 @@ def make_age_a_military():
 
     return { 'future': { 'A' : [], 'I': [], 'II': [], 'III': [] },
              'current': age_a[:6],
+             'current_event': None,
              'A':       [],
              'I':       age_I,
              'II':      [],

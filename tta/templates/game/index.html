@@ -871,4 +871,8 @@ a:visited img{border:0}
     {{ military.A|length }}
     <a href="/{{branch}}/{{player}}/draw_military/I/"><img src="/site_media/age_1/Age_I_Military_-_Card_Back.png" width="*" height="120" /></a>
     {{ military.I|length }}
+    <span class="card">
+        <img src="/site_media/{{military.current_event}}" width="*" height="120">
+    </span>
+    <a href="/{{branch}}/{{player}}/pop_current_event/">Pop Current Event ({{military.current|length}})</a>
 </div>
