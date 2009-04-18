@@ -13,11 +13,23 @@ def index(request, branch, player):
         card_row.append({'file': "Blank.png"})
     card_row = [ x and x or {'file': "Blank.png"} for x in card_row ]
 
+    scores = []
+    for player in sorted(civ.keys()):
+        score = {}
+        score['name'] = player
+        score['culture'] = civ[player]['culture']
+        score['culture_plus'] = civ[player]['culture_plus']
+        score['tech'] = civ[player]['tech']
+        score['tech_plus'] = civ[player]['tech_plus']
+        score['strength'] = civ[player]['strength']
+        scores.append(score)
+
     return render_to_response('game/index.html', {
             'player': player,
             'card_row': [ x['file'] for x in card_row ],
             'branch': branch,
             'civ': my_civ,
+            'scores': scores,
             'military': git.get_military(branch),
             'blue': dict([ (str(x+1),1) for x in range(min(my_civ['blue_tokens'], 18)) ]),
             'blue_leftover': max(my_civ['blue_tokens'] - 18, 0),

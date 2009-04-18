@@ -4,7 +4,7 @@ $(document).ready(function(){
   $("#zoom").hide();
 
   $(".card").bind("mouseenter", function() {
-    var img = $("img:first",this)
+    var img = $("img:first", this)
     var url = img.attr("src");
     var position = img.position();
     $("#zoom")
@@ -39,19 +39,19 @@ a:visited img{border:0}
 #military_decks {
  position:absolute;
  top: 170;
- left: 300;
+ left: 450;
 }
 
 #blue_tokens {
  position:absolute;
  top: 300;
- left: 300;
+ left: 450;
 }
 
 #yellow_tokens {
  position:absolute;
  top: 300;
- left: 700;
+ left: 750;
 }
 
 .yellow_token_cell_full {
@@ -788,64 +788,80 @@ a:visited img{border:0}
 <div id="scores">
 <table>
     <tr>
+        <th>&nbsp;</th>
+{% for score in scores %}
+        <th>{{score.name}}</th>
+{% endfor %}
+    </tr>
+    <tr>
         <td>
             Tech:
         </td>
+{% for score in scores %}
         <td>
-            {{ civ.tech }}
-            <a href="/{{branch}}/{{player}}/points_up/tech/">&uarr;</a>
-{% if civ.tech %}
-            <a href="/{{branch}}/{{player}}/points_down/tech/">&darr;</a>
+            {{ score.tech }}
+            <a href="/{{branch}}/{{score.name}}/points_up/tech/">&uarr;</a>
+{% if score.tech %}
+            <a href="/{{branch}}/{{score.name}}/points_down/tech/">&darr;</a>
 {%  endif %}
         </td>
+{% endfor %}
     </tr>
     <tr>
         <td>
             Strength:
         </td>
+{% for score in scores %}
         <td>
-            {{ civ.strength }}
-            <a href="/{{branch}}/{{player}}/points_up/strength/">&uarr;</a>
-{% if civ.strength %}
-            <a href="/{{branch}}/{{player}}/points_down/strength/">&darr;</a>
+            {{ score.strength }}
+            <a href="/{{branch}}/{{score.name}}/points_up/strength/">&uarr;</a>
+{% if score.strength %}
+            <a href="/{{branch}}/{{score.name}}/points_down/strength/">&darr;</a>
 {%  endif %}
         </td>
+{% endfor %}
     </tr>
     <tr>
         <td>
             Culture:
         </td>
+{% for score in scores %}
         <td>
-            {{ civ.culture }}
-            <a href="/{{branch}}/{{player}}/points_up/culture/">&uarr;</a>
-{% if civ.culture %}
-            <a href="/{{branch}}/{{player}}/points_down/culture/">&darr;</a>
+            {{ score.culture }}
+            <a href="/{{branch}}/{{score.name}}/points_up/culture/">&uarr;</a>
+{% if score.culture %}
+            <a href="/{{branch}}/{{score.name}}/points_down/culture/">&darr;</a>
 {%  endif %}
         </td>
+{% endfor %}
     </tr>
     <tr>
         <td>
             Culture+:
         </td>
+{% for score in scores %}
         <td>
-            {{ civ.culture_plus }}
-            <a href="/{{branch}}/{{player}}/points_up/culture_plus/">&uarr;</a>
-{% if civ.culture_plus %}
-            <a href="/{{branch}}/{{player}}/points_down/culture_plus/">&darr;</a>
+            {{ score.culture_plus }}
+            <a href="/{{branch}}/{{score.name}}/points_up/culture_plus/">&uarr;</a>
+{% if score.culture_plus %}
+            <a href="/{{branch}}/{{score.name}}/points_down/culture_plus/">&darr;</a>
 {%  endif %}
         </td>
+{% endfor %}
     </tr>
     <tr>
         <td>
             Tech+:
         </td>
+{% for score in scores %}
         <td>
-            {{ civ.tech_plus }}
-            <a href="/{{branch}}/{{player}}/points_up/tech_plus/">&uarr;</a>
-{% if civ.tech_plus %}
-            <a href="/{{branch}}/{{player}}/points_down/tech_plus/">&darr;</a>
+            {{ score.tech_plus }}
+            <a href="/{{branch}}/{{score.name}}/points_up/tech_plus/">&uarr;</a>
+{% if score.tech_plus %}
+            <a href="/{{branch}}/{{score.name}}/points_down/tech_plus/">&darr;</a>
 {%  endif %}
         </td>
+{% endfor %}
 </table>
 </div>
 
