@@ -76,11 +76,11 @@ def begin(request, branch, player):
 
 def save(request, branch, player):
     git.replace_master_with_branch(branch)
-    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+    return HttpResponseRedirect("/master/" + player + "/card_row")
 
 def reset(request, branch, player):
     git.delete_branch(branch)
-    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+    return HttpResponseRedirect("/master/" + player + "/card_row")
 
 def play(request, branch, player, index_no):
     index_no = int(index_no) - 1

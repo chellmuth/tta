@@ -263,8 +263,7 @@ def create_branch_at_master_head(branch):
 
 
 def replace_master_with_branch(branch):
-    game = get_deck(branch)
-    write_game('master', game, "replacing master with " + branch)
+    write_game('master', get_game(branch), str("replacing master with " + branch))
 
     delete_branch(branch)
 
