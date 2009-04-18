@@ -56,7 +56,7 @@ def add_to_hand(request, branch, player, index_no):
         civ = git.get_civ(branch)
         my_civ = civ[player]
         if cell == 'wonder':
-            my_civ[cell] = deck[index_no]['file']
+            my_civ['wonder'] = { 'file': deck[index_no]['file'], 'blue': 0 }
         else:
             my_civ['hand'].append(deck[index_no])
         civ[player] = my_civ    

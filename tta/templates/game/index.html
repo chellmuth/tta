@@ -290,9 +290,17 @@ a:visited img{border:0}
 
 {% if civ.wonder %}
 <div id="wonder">
-    <img src="/site_media/{{civ.wonder}}" width="*" height="120">
+    <img src="/site_media/{{civ.wonder.file}}" width="*" height="120">
+    <div class="blue_counter">
+        <a href="/{{branch}}/{{player}}/blue_cell_up/wonder/">&uarr;</a>
+        {{civ.wonder.blue}}
+{% if civ.wonder.blue %}
+        <a href="/{{branch}}/{{player}}/blue_cell_down/wonder/">&darr;</a>
+{% endif %}
+    </div>
 </div>
 {% endif %}
+
 
 {% if civ.drama %}
 <div id="drama">
@@ -871,8 +879,10 @@ a:visited img{border:0}
     {{ military.A|length }}
     <a href="/{{branch}}/{{player}}/draw_military/I/"><img src="/site_media/age_1/Age_I_Military_-_Card_Back.png" width="*" height="120" /></a>
     {{ military.I|length }}
+{% if military.current_event %}
     <span class="card">
         <img src="/site_media/{{military.current_event}}" width="*" height="120">
     </span>
+{% endif %}
     <a href="/{{branch}}/{{player}}/pop_current_event/">Pop Current Event ({{military.current|length}})</a>
 </div>
