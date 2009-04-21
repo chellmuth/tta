@@ -182,6 +182,9 @@ def draw_military(request, branch, player, deck):
 
 def pop_current_event(request, branch, player):
     military = git.get_military(branch)
+    if len(military['current']) == 0:
+        return shuffle_future_events(request, branch, player)
+
     card = military['current'].pop()
     military['current_event'] = card['file']
 
@@ -196,4 +199,17 @@ def finish_wonder(request, branch, player):
     my_civ['completed_wonders'].append(wonder['file'])
     civ[player] = my_civ
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': git.get_military(branch)}, "finish wonder")
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
+def shuffle_future_events(request, branch, player):
+    military = git.get_military(branch)
+
+    shuffled = git.shuffle(military['future']['III']) + git.shuffle(military['future']['II']) + git.shuffle(military['future']['I']) + git.shuffle(military['future']['A'])
+    military['future']['A'] = []
+    military['future']['I'] = []
+    military['future']['II'] = []
+    military['future']['III'] = []
+    military['current'] = shuffled
+
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Shuffle Future Events")
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
