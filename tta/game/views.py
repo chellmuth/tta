@@ -14,14 +14,14 @@ def index(request, branch, player):
     card_row = [ x and x or {'file': "Blank.png"} for x in card_row ]
 
     scores = []
-    for player in sorted(civ.keys()):
+    for name in sorted(civ.keys()):
         score = {}
-        score['name'] = player
-        score['culture'] = civ[player]['culture']
-        score['culture_plus'] = civ[player]['culture_plus']
-        score['tech'] = civ[player]['tech']
-        score['tech_plus'] = civ[player]['tech_plus']
-        score['strength'] = civ[player]['strength']
+        score['name'] = name
+        score['culture'] = civ[name]['culture']
+        score['culture_plus'] = civ[name]['culture_plus']
+        score['tech'] = civ[name]['tech']
+        score['tech_plus'] = civ[name]['tech_plus']
+        score['strength'] = civ[name]['strength']
         scores.append(score)
 
     return render_to_response('game/index.html', {
