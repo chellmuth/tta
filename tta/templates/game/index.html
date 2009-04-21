@@ -905,7 +905,9 @@ a:visited img{border:0}
         <tr>
 {% for aggression in military.aggressions %}
             <td class="card">
-                <img src="/site_media/{{ aggression.file }}" width="*" height="120" />
+                <a href="/{{branch}}/{{player}}/remove_aggression/{{forloop.counter0}}/">
+                    <img src="/site_media/{{ aggression.file }}" width="*" height="120" />
+                </a>
             </td>
 {% endfor %}
             <td>

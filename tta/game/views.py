@@ -134,6 +134,14 @@ def play_aggression(request, branch, player, index_no):
 
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
+def remove_aggression(request, branch, player, index_no):
+    index_no = int(index_no)
+    military = git.get_military(branch)
+    military['aggressions'].pop(index_no)
+
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Remove aggression")
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
 def count_up(request, branch, player, type):
     civ = git.get_civ(branch)
     civ[player][type + '_tokens'] += 1
