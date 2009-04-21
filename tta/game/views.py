@@ -24,13 +24,15 @@ def index(request, branch, player):
         score['strength'] = civ[name]['strength']
         scores.append(score)
 
+    military = git.get_military(branch)
+    military['future_event_size'] = sum([len(military['future'][x]) for x in military['future'].keys()])
     return render_to_response('game/index.html', {
             'player': player,
             'card_row': [ x['file'] for x in card_row ],
             'branch': branch,
             'civ': my_civ,
             'scores': scores,
-            'military': git.get_military(branch),
+            'military': military,
             'blue': dict([ (str(x+1),1) for x in range(min(my_civ['blue_tokens'], 18)) ]),
             'blue_leftover': max(my_civ['blue_tokens'] - 18, 0),
             'yellow': dict([ (str(x+1),1) for x in range(min(my_civ['yellow_tokens'], 18)) ]),
