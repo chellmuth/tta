@@ -516,7 +516,11 @@ a:visited img{border:0}
 {%   ifequal card.cell "event" %}
                 <a href="/{{branch}}/{{player}}/play_event/{{ forloop.counter }}/">
 {%   else %}
+{%     ifequal card.cell "aggression" %}
+                <a href="/{{branch}}/{{player}}/play_aggression/{{ forloop.counter }}/">
+{%     else %}
                 <a href="/{{branch}}/{{player}}/play/{{ forloop.counter }}/">
+{%     endifequal %}
 {%   endifequal %}
                     <img src="/site_media/{{card.file}}" width="*" height="120">
                 </a>
@@ -899,6 +903,11 @@ a:visited img{border:0}
 <div id="military_decks">
     <table>
         <tr>
+{% for aggression in military.aggressions %}
+            <td class="card">
+                <img src="/site_media/{{ aggression.file }}" width="*" height="120" />
+            </td>
+{% endfor %}
             <td>
                 <a href="/{{branch}}/{{player}}/draw_military/A/"><img src="/site_media/Age_A_Military_-_Card_Back.png" width="*" height="120" /></a>
             </td>

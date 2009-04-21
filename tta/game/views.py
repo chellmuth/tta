@@ -118,6 +118,22 @@ def play_event(request, branch, player, index_no):
 
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
+def play_aggression(request, branch, player, index_no):
+    index_no = int(index_no) - 1
+    civ = git.get_civ(branch)
+    my_civ = civ[player]
+    military = git.get_military(branch)
+
+    card = my_civ['hand'][index_no]
+    my_civ['hand'].pop(index_no)
+
+    military['aggressions'].append(card)
+
+    civ[player] = my_civ
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play event " + card['deck']))
+
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
 def count_up(request, branch, player, type):
     civ = git.get_civ(branch)
     civ[player][type + '_tokens'] += 1
