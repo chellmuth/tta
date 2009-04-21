@@ -104,6 +104,15 @@ a:visited img{border:0}
  height:120;
 }
 
+#completed_wonders {
+ position:absolute;
+ left:50;
+ top: 600;
+ width: 80;
+ height:120;
+}
+
+
 #wonder {
  position:absolute;
  left: 210;
@@ -290,7 +299,9 @@ a:visited img{border:0}
 
 {% if civ.wonder %}
 <div id="wonder">
-    <img src="/site_media/{{civ.wonder.file}}" width="*" height="120">
+    <a href="/{{branch}}/{{player}}/finish_wonder">
+        <img src="/site_media/{{civ.wonder.file}}" width="*" height="120">
+    </a>
     <div class="blue_counter">
         <a href="/{{branch}}/{{player}}/blue_cell_up/wonder/">&uarr;</a>
         {{civ.wonder.blue}}
@@ -301,6 +312,17 @@ a:visited img{border:0}
 </div>
 {% endif %}
 
+<table id="completed_wonders">
+    <tr>
+{% for wonder in civ.completed_wonders %}
+        <td>
+            <div class="card">
+                <img src="/site_media/{{ wonder }}" width="*" height="120">
+            </div>
+        </td>
+{% endfor %}
+    </tr>
+</div>
 
 {% if civ.drama %}
 <div id="drama">

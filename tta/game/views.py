@@ -185,3 +185,13 @@ def pop_current_event(request, branch, player):
 
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Current Event!")
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
+def finish_wonder(request, branch, player):
+    civ = git.get_civ(branch)
+    my_civ = civ[player]
+    wonder = my_civ['wonder']
+    my_civ['wonder'] = None
+    my_civ['completed_wonders'].append(wonder['file'])
+    civ[player] = my_civ
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': git.get_military(branch)}, "finish wonder")
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")

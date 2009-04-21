@@ -131,6 +131,7 @@ def make_initial_civ():
             'agriculture': { 'file': 'Agriculture.png', 'blue': 0, 'yellow': 2 },
             'warriors':    { 'file': 'Warriors.png',    'blue': 0, 'yellow': 1 },
             'hand': [ { 'file': 'Development_of_Science.png', 'cell': 'event', 'deck': 'A' },],
+            'completed_wonders': [],
             'unused_workers': 1,
             'yellow_tokens': 18,
             'culture': 0,
