@@ -897,15 +897,31 @@ a:visited img{border:0}
 </div>
 
 <div id="military_decks">
-    <a href="/{{branch}}/{{player}}/draw_military/A/"><img src="/site_media/Age_A_Military_-_Card_Back.png" width="*" height="120" /></a>
-    {{ military.A|length }}
-    <a href="/{{branch}}/{{player}}/draw_military/I/"><img src="/site_media/age_1/Age_I_Military_-_Card_Back.png" width="*" height="120" /></a>
-    {{ military.I|length }}
+    <table>
+        <tr>
+            <td>
+                <a href="/{{branch}}/{{player}}/draw_military/A/"><img src="/site_media/Age_A_Military_-_Card_Back.png" width="*" height="120" /></a>
+            </td>
+            <td>
+                {{ military.A|length }}
+            </td>
+            <td>
+            <a href="/{{branch}}/{{player}}/draw_military/I/"><img src="/site_media/age_1/Age_I_Military_-_Card_Back.png" width="*" height="120" /></a>
+            </td>
+            <td>
+                {{ military.I|length }}
+            </td>
 {% if military.current_event %}
-    <span class="card">
-        <img src="/site_media/{{military.current_event}}" width="*" height="120">
-    </span>
+            <td class="card">
+                <img src="/site_media/{{military.current_event}}" width="*" height="120">
+            </td>
 {% endif %}
-    Future Events: {{military.future_event_size}}
-    <a href="/{{branch}}/{{player}}/pop_current_event/">Pop Current Event ({{military.current|length}})</a>
+            <td>
+                Future Events: {{military.future_event_size}}
+            </td>
+            <td>
+                <a href="/{{branch}}/{{player}}/pop_current_event/">Pop Current Event ({{military.current|length}})</a>
+            </td>
+        </tr>
+    </table>
 </div>
