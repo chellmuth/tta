@@ -130,7 +130,7 @@ def make_initial_civ():
             'bronze':      { 'file': 'Bronze.png',      'blue': 0, 'yellow': 2 },
             'agriculture': { 'file': 'Agriculture.png', 'blue': 0, 'yellow': 2 },
             'warriors':    { 'file': 'Warriors.png',    'blue': 0, 'yellow': 1 },
-            'hand': [ { 'file': 'Development_of_Science.png', 'cell': 'event', 'deck': 'A' },],
+            'hand': [],
             'completed_wonders': [],
             'unused_workers': 1,
             'yellow_tokens': 18,
