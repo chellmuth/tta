@@ -529,7 +529,11 @@ a:visited img{border:0}
 {%       ifequal card.cell "aggression" %}
                 <a href="/{{branch}}/{{player}}/play_aggression/{{ forloop.counter }}/">
 {%       else %}
+{%         ifequal card.cell "pact" %}
+                <a href="/{{branch}}/{{player}}/play_pact/{{ forloop.counter }}/">
+{%         else %}
                 <a href="/{{branch}}/{{player}}/play/{{ forloop.counter }}/">
+{%         endifequal %}
 {%       endifequal %}
 {%     endifequal %}
 {%   endifequal %}
@@ -942,6 +946,13 @@ a:visited img{border:0}
             <td class="card">
                 <a href="/{{branch}}/{{player}}/remove_aggression/{{forloop.counter0}}/">
                     <img src="/site_media/{{ aggression.file }}" width="*" height="120" />
+                </a>
+            </td>
+{% endfor %}
+{% for pact in military.pacts %}
+            <td class="card">
+                <a href="/{{branch}}/{{player}}/remove_pact/{{forloop.counter0}}/">
+                    <img src="/site_media/{{ pact.file }}" width="*" height="120" />
                 </a>
             </td>
 {% endfor %}

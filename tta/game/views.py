@@ -133,12 +133,36 @@ def play_aggression(request, branch, player, index_no):
 
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
+def play_pact(request, branch, player, index_no):
+    index_no = int(index_no) - 1
+    civ = git.get_civ(branch)
+    my_civ = civ[player]
+    military = git.get_military(branch)
+
+    card = my_civ['hand'][index_no]
+    my_civ['hand'].pop(index_no)
+
+    military['pacts'].append(card)
+
+    civ[player] = my_civ
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play pact " + card['deck']))
+
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
 def remove_aggression(request, branch, player, index_no):
     index_no = int(index_no)
     military = git.get_military(branch)
     military['aggressions'].pop(index_no)
 
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Remove aggression")
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
+def remove_pact(request, branch, player, index_no):
+    index_no = int(index_no)
+    military = git.get_military(branch)
+    military['pacts'].pop(index_no)
+
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Remove pact")
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def take_territory(request, branch, player):

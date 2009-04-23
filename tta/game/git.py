@@ -39,7 +39,7 @@ def make_age_a_military():
                      { 'file': 'age_1/Light_Cavalry.png',           'cell': 'tactics',    'deck': 'I' },
                      { 'file': 'age_1/medieval_army.png',           'cell': 'tactics',    'deck': 'I' },
                      { 'file': 'age_1/new_Deposits.png',            'cell': 'event',      'deck': 'I' },
-                     { 'file': 'age_1/Open_Borders_Agreement.png',  'cell': 'event',      'deck': 'I' },
+                     { 'file': 'age_1/Open_Borders_Agreement.png',  'cell': 'pact',      'deck': 'I' },
                      { 'file': 'age_1/Pestilence.png',              'cell': 'event',      'deck': 'I' },
                      { 'file': 'age_1/Phalanx.png',                 'cell': 'tactics',    'deck': 'I' },
                      { 'file': 'age_1/Plunder.png',                 'cell': 'aggression', 'deck': 'I' },
@@ -50,7 +50,7 @@ def make_age_a_military():
                      { 'file': 'age_1/Reign_of_Terror.png',         'cell': 'event',      'deck': 'I' },
                      { 'file': 'age_1/scientific_breakthrough.png', 'cell': 'event',      'deck': 'I' },
                      { 'file': 'age_1/strategic_territory.png',     'cell': 'territory',  'deck': 'I' },
-                     { 'file': 'age_1/Trade_Route_Agreements.png',  'cell': 'event',      'deck': 'I' },
+                     { 'file': 'age_1/Trade_Route_Agreements.png',  'cell': 'pact',      'deck': 'I' },
                      { 'file': 'age_1/Uncertain_Borders.png',       'cell': 'event',      'deck': 'I' },
                      { 'file': 'age_1/Wealthy_Territory.png',       'cell': 'territory',  'deck': 'I' }])
 
@@ -61,7 +61,8 @@ def make_age_a_military():
              'I':       age_I,
              'II':      [],
              'III':     [],
-             'aggressions': []}
+             'aggressions': [],
+             'pacts': [] }
 
 def make_shuffled_deck():
     ageI = shuffle([{ 'file': 'Alexander_the_Great.png',   'cell': 'leader' },
