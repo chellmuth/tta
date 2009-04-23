@@ -321,6 +321,13 @@ a:visited img{border:0}
             </div>
         </td>
 {% endfor %}
+{% for territory in civ.territories %}
+        <td>
+            <div class="card">
+                <img src="/site_media/{{ territory }}" width="*" height="120">
+            </div>
+        </td>
+{% endfor %}
     </tr>
 </div>
 
@@ -516,10 +523,14 @@ a:visited img{border:0}
 {%   ifequal card.cell "event" %}
                 <a href="/{{branch}}/{{player}}/play_event/{{ forloop.counter }}/">
 {%   else %}
-{%     ifequal card.cell "aggression" %}
-                <a href="/{{branch}}/{{player}}/play_aggression/{{ forloop.counter }}/">
+{%     ifequal card.cell "territory" %}
+                <a href="/{{branch}}/{{player}}/play_event/{{ forloop.counter }}/">
 {%     else %}
+{%       ifequal card.cell "aggression" %}
+                <a href="/{{branch}}/{{player}}/play_aggression/{{ forloop.counter }}/">
+{%       else %}
                 <a href="/{{branch}}/{{player}}/play/{{ forloop.counter }}/">
+{%       endifequal %}
 {%     endifequal %}
 {%   endifequal %}
                     <img src="/site_media/{{card.file}}" width="*" height="120">
@@ -942,7 +953,13 @@ a:visited img{border:0}
             </td>
 {% if military.current_event %}
             <td class="card">
-                <img src="/site_media/{{military.current_event}}" width="*" height="120">
+{%   ifequal military.current_event.cell "territory" %}
+            <a href="/{{branch}}/{{player}}/take_territory">
+                <img src="/site_media/{{military.current_event.file}}" width="*" height="120">
+            </a>
+{%   else %}
+                <img src="/site_media/{{military.current_event.file}}" width="*" height="120">
+{%   endifequal %}
             </td>
 {% endif %}
             <td>

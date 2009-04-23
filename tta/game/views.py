@@ -1,5 +1,4 @@
 from django.shortcuts import render_to_response
-from game.models import Board, Deck
 from django.http import HttpResponseRedirect
 
 from game import git
@@ -130,7 +129,7 @@ def play_aggression(request, branch, player, index_no):
     military['aggressions'].append(card)
 
     civ[player] = my_civ
-    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play event " + card['deck']))
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play aggression " + card['deck']))
 
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
@@ -140,6 +139,17 @@ def remove_aggression(request, branch, player, index_no):
     military['aggressions'].pop(index_no)
 
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Remove aggression")
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
+def take_territory(request, branch, player):
+    military = git.get_military(branch)
+    card = military['current_event']
+    military['current_event'] = None
+
+    civ = git.get_civ(branch)
+    civ[player]['territories'].append(card['file'])
+
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, "Take territory")
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def count_up(request, branch, player, type):
@@ -210,7 +220,7 @@ def pop_current_event(request, branch, player):
         return shuffle_future_events(request, branch, player)
 
     card = military['current'].pop()
-    military['current_event'] = card['file']
+    military['current_event'] = card
 
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Current Event!")
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
