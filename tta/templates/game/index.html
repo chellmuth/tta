@@ -46,13 +46,13 @@ a:visited img{border:0}
 #blue_tokens {
  position:absolute;
  top: 300;
- left: 450;
+ left: 425;
 }
 
 #yellow_tokens {
  position:absolute;
  top: 300;
- left: 750;
+ left: 775;
 }
 
 .yellow_token_cell_full {
@@ -557,6 +557,9 @@ a:visited img{border:0}
                     &uarr;
                 </a>
             </td>
+            <td rowspan="2">
+                -6
+            </td>
             <td>
 {% if blue.1 %}
                 <img src="/site_media/misc/blue_token.png" />
@@ -567,6 +570,9 @@ a:visited img{border:0}
                 <img src="/site_media/misc/blue_token.png" />
 {% endif %}
             </td>
+            <td rowspan="2">
+                -4
+            </td>
             <td>
 {% if blue.5 %}
                 <img src="/site_media/misc/blue_token.png" />
@@ -576,6 +582,9 @@ a:visited img{border:0}
 {% if blue.7 %}
                 <img src="/site_media/misc/blue_token.png" />
 {% endif %}
+            </td>
+            <td rowspan="2">
+                -2
             </td>
             <td>
 {% if blue.9 %}
@@ -675,6 +684,9 @@ a:visited img{border:0}
                 </a>
 {% endif %}
             </td>
+            <td rowspan="2">
+                -6
+            </td>
 {% if yellow.1 %}
             <td class="yellow_token_cell_full">
 {% else %}
@@ -688,6 +700,9 @@ a:visited img{border:0}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 7
+            </td>
+            <td rowspan="2">
+                -4
             </td>
 {% if yellow.5 %}
             <td class="yellow_token_cell_full">
@@ -703,6 +718,9 @@ a:visited img{border:0}
 {% endif %}
                 5
             </td>
+            <td rowspan="2">
+                -3
+            </td>
 {% if yellow.9 %}
             <td class="yellow_token_cell_full">
 {% else %}
@@ -716,6 +734,9 @@ a:visited img{border:0}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 4
+            </td>
+            <td rowspan="2">
+                -2
             </td>
 {% if yellow.13 %}
             <td class="yellow_token_cell_full">
@@ -731,6 +752,9 @@ a:visited img{border:0}
 {% endif %}
                 3
             </td>
+            <td rowspan="2">
+                -1
+            </td>
 {% if yellow.17 %}
             <td class="yellow_token_cell_full">
 {% else %}
@@ -739,7 +763,7 @@ a:visited img{border:0}
                 2
             </td>
             <td rowspan="2">
-                {{ civ.unused_workers }}
+                Unused: {{ civ.unused_workers }}
                 <a href="/{{branch}}/{{player}}/points_up/unused_workers/">&uarr;</a>
 {% if civ.unused_workers %}
                 <a href="/{{branch}}/{{player}}/points_down/unused_workers/">&darr;</a>
