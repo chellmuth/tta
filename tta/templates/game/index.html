@@ -883,14 +883,14 @@ a:visited img{border:0}
     </tr>
     <tr>
         <td>
-            Strength:
+            Tech+:
         </td>
 {% for score in scores %}
         <td>
-            {{ score.strength }}
-            <a href="/{{branch}}/{{score.name}}/points_up/strength/">&uarr;</a>
-{% if score.strength %}
-            <a href="/{{branch}}/{{score.name}}/points_down/strength/">&darr;</a>
+            {{ score.tech_plus }}
+            <a href="/{{branch}}/{{score.name}}/points_up/tech_plus/">&uarr;</a>
+{% if score.tech_plus %}
+            <a href="/{{branch}}/{{score.name}}/points_down/tech_plus/">&darr;</a>
 {%  endif %}
         </td>
 {% endfor %}
@@ -925,17 +925,18 @@ a:visited img{border:0}
     </tr>
     <tr>
         <td>
-            Tech+:
+            Strength:
         </td>
 {% for score in scores %}
         <td>
-            {{ score.tech_plus }}
-            <a href="/{{branch}}/{{score.name}}/points_up/tech_plus/">&uarr;</a>
-{% if score.tech_plus %}
-            <a href="/{{branch}}/{{score.name}}/points_down/tech_plus/">&darr;</a>
+            {{ score.strength }}
+            <a href="/{{branch}}/{{score.name}}/points_up/strength/">&uarr;</a>
+{% if score.strength %}
+            <a href="/{{branch}}/{{score.name}}/points_down/strength/">&darr;</a>
 {%  endif %}
         </td>
 {% endfor %}
+    </tr>
 </table>
 </div>
 
