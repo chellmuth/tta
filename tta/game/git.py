@@ -142,6 +142,7 @@ def make_initial_civ():
             'tech': 0,
             'tech_plus': 1,
             'strength': 1,
+            'happiness': 0,
             'blue_tokens': 18}
     return { 'p1': civ, 'p2': civ, 'p3': civ, 'p4': civ }
 

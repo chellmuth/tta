@@ -692,6 +692,73 @@ a:visited img{border:0}
 <div id="yellow_tokens">
     <table>
         <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 9 %}
+                X
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 8 %}
+                X
+{% endifequal %}
+            </td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 7 %}
+                X
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 6 %}
+                X
+{% endifequal %}
+            </td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 5 %}
+                X
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 4 %}
+                X
+{% endifequal %}
+            </td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 3 %}
+                X
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 2 %}
+                X
+{% endifequal %}
+            </td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 1 %}
+                X
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 0 %}
+                X
+{% endifequal %}
+{% ifnotequal civ.happiness 9 %}
+                <a href="/{{branch}}/{{player}}/points_up/happiness">
+                    &uarr;
+                </a>
+{% endifnotequal %}
+{% ifnotequal civ.happiness 0 %}
+                <a href="/{{branch}}/{{player}}/points_down/happiness">
+                    &darr;
+                </a>
+{% endifnotequal %}
+            </td>
+        <tr>
             <td>
 {% if not yellow.18 %}
                 <a href="/{{branch}}/{{player}}/count_up/yellow">
