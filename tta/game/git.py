@@ -31,7 +31,7 @@ def make_age_a_military():
                      { 'file': 'age_1/Fighting_Band.png',           'cell': 'tactics',    'deck': 'I' },
                      { 'file': 'age_1/Foray.png',                   'cell': 'event',      'deck': 'I' },
                      { 'file': 'age_1/Good_Harvest.png',            'cell': 'event',      'deck': 'I' },
-                     { 'file': 'age_1/Heavy_Cavalry.png',           'cell': 'event',      'deck': 'I' },
+                     { 'file': 'age_1/Heavy_Cavalry.png',           'cell': 'tactics',    'deck': 'I' },
                      { 'file': 'age_1/Historic_Territory.png',      'cell': 'territory',  'deck': 'I' },
                      { 'file': 'age_1/Immigration.png',             'cell': 'event',      'deck': 'I' },
                      { 'file': 'age_1/Inhabited_Territory.png',     'cell': 'territory',  'deck': 'I' },
