@@ -651,28 +651,12 @@ a:visited img{border:0}
     </table>
 </div>
 
-
 <table border="0">
 <tr>
 <td style="width:80; height:120;">
 {% if civ.military_theory %}
 <div class="card">
     <img src="/site_media/{{civ.military_theory.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/military_theory/">&uarr;</a>
-        {{civ.military_theory.yellow}}
-{% if civ.military_theory.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/military_theory/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/military_theory/">&uarr;</a>
-        {{civ.military_theory.blue}}
-{% if civ.military_theory.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/military_theory/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -682,21 +666,6 @@ a:visited img{border:0}
 {% if civ.satellites %}
 <div class="card">
     <img src="/site_media/{{civ.satellites.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/satellites/">&uarr;</a>
-        {{civ.satellites.yellow}}
-{% if civ.satellites.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/satellites/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/satellites/">&uarr;</a>
-        {{civ.satellites.blue}}
-{% if civ.satellites.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/satellites/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -706,21 +675,6 @@ a:visited img{border:0}
 {% if civ.civil_service %}
 <div class="card">
     <img src="/site_media/{{civ.civil_service.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/civil_service/">&uarr;</a>
-        {{civ.civil_service.yellow}}
-{% if civ.civil_service.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/civil_service/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/civil_service/">&uarr;</a>
-        {{civ.civil_service.blue}}
-{% if civ.civil_service.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/civil_service/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -730,21 +684,6 @@ a:visited img{border:0}
 {% if civ.engineering %}
 <div class="card">
     <img src="/site_media/{{civ.engineering.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/engineering/">&uarr;</a>
-        {{civ.engineering.yellow}}
-{% if civ.engineering.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/engineering/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/engineering/">&uarr;</a>
-        {{civ.engineering.blue}}
-{% if civ.engineering.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/engineering/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -759,14 +698,6 @@ a:visited img{border:0}
         {{civ.air_forces.yellow}}
 {% if civ.air_forces.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/air_forces/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/air_forces/">&uarr;</a>
-        {{civ.air_forces.blue}}
-{% if civ.air_forces.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/air_forces/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -785,14 +716,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/rockets/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/rockets/">&uarr;</a>
-        {{civ.rockets.blue}}
-{% if civ.rockets.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/rockets/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -807,14 +730,6 @@ a:visited img{border:0}
         {{civ.tanks.yellow}}
 {% if civ.tanks.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/tanks/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/tanks/">&uarr;</a>
-        {{civ.tanks.blue}}
-{% if civ.tanks.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/tanks/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -833,14 +748,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/modern_infantry/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/modern_infantry/">&uarr;</a>
-        {{civ.modern_infantry.blue}}
-{% if civ.modern_infantry.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/modern_infantry/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -855,14 +762,6 @@ a:visited img{border:0}
         {{civ.movies.yellow}}
 {% if civ.movies.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/movies/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/movies/">&uarr;</a>
-        {{civ.movies.blue}}
-{% if civ.movies.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/movies/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -881,14 +780,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/multimedia/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/multimedia/">&uarr;</a>
-        {{civ.multimedia.blue}}
-{% if civ.multimedia.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/multimedia/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -905,14 +796,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/professional_sports/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/professional_sports/">&uarr;</a>
-        {{civ.professional_sports.blue}}
-{% if civ.professional_sports.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/professional_sports/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -927,14 +810,6 @@ a:visited img{border:0}
         {{civ.computers.yellow}}
 {% if civ.computers.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/computers/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/computers/">&uarr;</a>
-        {{civ.computers.blue}}
-{% if civ.computers.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/computers/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -996,45 +871,15 @@ a:visited img{border:0}
 {% if civ.strategy %}
 <div class="card">
     <img src="/site_media/{{civ.strategy.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/strategy/">&uarr;</a>
-        {{civ.strategy.yellow}}
-{% if civ.strategy.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/strategy/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/strategy/">&uarr;</a>
-        {{civ.strategy.blue}}
-{% if civ.strategy.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/strategy/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
 {% endif %}
 </td>
 <td style="width:80; height:120;">
-{% if civ.navigaiton %}
+{% if civ.navigation %}
 <div class="card">
-    <img src="/site_media/{{civ.navigaiton.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/navigaiton/">&uarr;</a>
-        {{civ.navigaiton.yellow}}
-{% if civ.navigaiton.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/navigaiton/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/navigaiton/">&uarr;</a>
-        {{civ.navigaiton.blue}}
-{% if civ.navigaiton.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/navigaiton/">&darr;</a>
-{% endif %}
-    </span>
+    <img src="/site_media/{{civ.navigation.file}}" width="*" height="120">
 </div>
 {% else %}
 &nbsp;
@@ -1044,21 +889,6 @@ a:visited img{border:0}
 {% if civ.justice_system %}
 <div class="card">
     <img src="/site_media/{{civ.justice_system.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/justice_system/">&uarr;</a>
-        {{civ.justice_system.yellow}}
-{% if civ.justice_system.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/justice_system/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/justice_system/">&uarr;</a>
-        {{civ.justice_system.blue}}
-{% if civ.justice_system.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/justice_system/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1068,21 +898,6 @@ a:visited img{border:0}
 {% if civ.architecture %}
 <div class="card">
     <img src="/site_media/{{civ.architecture.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/architecture/">&uarr;</a>
-        {{civ.architecture.yellow}}
-{% if civ.architecture.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/architecture/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/architecture/">&uarr;</a>
-        {{civ.architecture.blue}}
-{% if civ.architecture.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/architecture/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1097,14 +912,6 @@ a:visited img{border:0}
         {{civ.cannon.yellow}}
 {% if civ.cannon.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/cannon/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/cannon/">&uarr;</a>
-        {{civ.cannon.blue}}
-{% if civ.cannon.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/cannon/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1123,36 +930,20 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/cavalrymen/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/cavalrymen/">&uarr;</a>
-        {{civ.cavalrymen.blue}}
-{% if civ.cavalrymen.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/cavalrymen/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
 {% endif %}
 </td>
 <td style="width:80; height:120;">
-{% if civ.fiflemen %}
+{% if civ.riflemen %}
 <div class="card">
-    <img src="/site_media/{{civ.fiflemen.file}}" width="*" height="120">
+    <img src="/site_media/{{civ.riflemen.file}}" width="*" height="120">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/fiflemen/">&uarr;</a>
-        {{civ.fiflemen.yellow}}
-{% if civ.fiflemen.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/fiflemen/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/fiflemen/">&uarr;</a>
-        {{civ.fiflemen.blue}}
-{% if civ.fiflemen.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/fiflemen/">&darr;</a>
+        <a href="/{{branch}}/{{player}}/yellow_up/riflemen/">&uarr;</a>
+        {{civ.riflemen.yellow}}
+{% if civ.riflemen.yellow %}
+        <a href="/{{branch}}/{{player}}/yellow_down/riflemen/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1171,14 +962,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/opera/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/opera/">&uarr;</a>
-        {{civ.opera.blue}}
-{% if civ.opera.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/opera/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1193,14 +976,6 @@ a:visited img{border:0}
         {{civ.journalism.yellow}}
 {% if civ.journalism.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/journalism/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/journalism/">&uarr;</a>
-        {{civ.journalism.blue}}
-{% if civ.journalism.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/journalism/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1219,14 +994,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/team_sports/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/team_sports/">&uarr;</a>
-        {{civ.team_sports.blue}}
-{% if civ.team_sports.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/team_sports/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1243,14 +1010,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/scientific_method/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/scientific_method/">&uarr;</a>
-        {{civ.scientific_method.blue}}
-{% if civ.scientific_method.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/scientific_method/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1265,14 +1024,6 @@ a:visited img{border:0}
         {{civ.organized_religion.yellow}}
 {% if civ.organized_religion.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/organized_religion/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/organized_religion/">&uarr;</a>
-        {{civ.organized_religion.blue}}
-{% if civ.organized_religion.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/organized_religion/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1334,21 +1085,6 @@ a:visited img{border:0}
 {% if civ.warfare %}
 <div class="card">
     <img src="/site_media/{{civ.warfare.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/warfare/">&uarr;</a>
-        {{civ.warfare.yellow}}
-{% if civ.warfare.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/warfare/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/warfare/">&uarr;</a>
-        {{civ.warfare.blue}}
-{% if civ.warfare.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/warfare/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1358,21 +1094,6 @@ a:visited img{border:0}
 {% if civ.cartography %}
 <div class="card">
     <img src="/site_media/{{civ.cartography.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/cartography/">&uarr;</a>
-        {{civ.cartography.yellow}}
-{% if civ.cartography.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/cartography/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/cartography/">&uarr;</a>
-        {{civ.cartography.blue}}
-{% if civ.cartography.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/cartography/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1382,21 +1103,6 @@ a:visited img{border:0}
 {% if civ.code_of_laws %}
 <div class="card">
     <img src="/site_media/{{civ.code_of_laws.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/code_of_laws/">&uarr;</a>
-        {{civ.code_of_laws.yellow}}
-{% if civ.code_of_laws.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/code_of_laws/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/code_of_laws/">&uarr;</a>
-        {{civ.code_of_laws.blue}}
-{% if civ.code_of_laws.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/code_of_laws/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1406,21 +1112,6 @@ a:visited img{border:0}
 {% if civ.masonry %}
 <div class="card">
     <img src="/site_media/{{civ.masonry.file}}" width="*" height="120">
-    <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/masonry/">&uarr;</a>
-        {{civ.masonry.yellow}}
-{% if civ.masonry.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/masonry/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/masonry/">&uarr;</a>
-        {{civ.masonry.blue}}
-{% if civ.masonry.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/masonry/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1435,14 +1126,6 @@ a:visited img{border:0}
         {{civ.knights.yellow}}
 {% if civ.knights.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/knights/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/knights/">&uarr;</a>
-        {{civ.knights.blue}}
-{% if civ.knights.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/knights/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1461,14 +1144,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/swordsmen/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/swordsmen/">&uarr;</a>
-        {{civ.swordsmen.blue}}
-{% if civ.swordsmen.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/swordsmen/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1483,14 +1158,6 @@ a:visited img{border:0}
         {{civ.drama.yellow}}
 {% if civ.drama.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/drama/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/drama/">&uarr;</a>
-        {{civ.drama.blue}}
-{% if civ.drama.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/drama/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1509,14 +1176,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/printing_press/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/printing_press/">&uarr;</a>
-        {{civ.printing_press.blue}}
-{% if civ.printing_press.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/printing_press/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1531,14 +1190,6 @@ a:visited img{border:0}
         {{civ.bread_and_circuses.yellow}}
 {% if civ.bread_and_circuses.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/bread_and_circuses/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/bread_and_circuses/">&uarr;</a>
-        {{civ.bread_and_circuses.blue}}
-{% if civ.bread_and_circuses.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/bread_and_circuses/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1557,14 +1208,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/alchemy/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/alchemy/">&uarr;</a>
-        {{civ.alchemy.blue}}
-{% if civ.alchemy.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/alchemy/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1579,14 +1222,6 @@ a:visited img{border:0}
         {{civ.theology.yellow}}
 {% if civ.theology.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/theology/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/theology/">&uarr;</a>
-        {{civ.theology.blue}}
-{% if civ.theology.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/theology/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1699,14 +1334,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/warriors/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/warriors/">&uarr;</a>
-        {{civ.warriors.blue}}
-{% if civ.warriors.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/warriors/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1723,14 +1350,6 @@ a:visited img{border:0}
         <a href="/{{branch}}/{{player}}/yellow_down/philosophy/">&darr;</a>
 {% endif %}
     </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/philosophy/">&uarr;</a>
-        {{civ.philosophy.blue}}
-{% if civ.philosophy.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/philosophy/">&darr;</a>
-{% endif %}
-    </span>
 </div>
 {% else %}
 &nbsp;
@@ -1745,14 +1364,6 @@ a:visited img{border:0}
         {{civ.religion.yellow}}
 {% if civ.religion.yellow %}
         <a href="/{{branch}}/{{player}}/yellow_down/religion/">&darr;</a>
-{% endif %}
-    </span>
-    <br clear="all"/>
-    <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/religion/">&uarr;</a>
-        {{civ.religion.blue}}
-{% if civ.religion.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/religion/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1831,6 +1442,7 @@ a:visited img{border:0}
 </div>
 </table>
 
+{% if can_view_hand %}
 <table>
     <tr>
 {% for card in civ.hand %}
@@ -1860,3 +1472,4 @@ a:visited img{border:0}
 {% endfor %}
     </tr>
 </table>
+{% endif %}

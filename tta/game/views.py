@@ -35,6 +35,7 @@ def index(request, branch, player):
             'blue': dict([ (str(x+1),1) for x in range(min(my_civ['blue_tokens'], 18)) ]),
             'blue_leftover': max(my_civ['blue_tokens'] - 18, 0),
             'yellow': dict([ (str(x+1),1) for x in range(min(my_civ['yellow_tokens'], 18)) ]),
+            'can_view_hand': request.user.username == player
             })
 
 def slide(request, branch, player):
@@ -271,3 +272,12 @@ def shuffle_future_events(request, branch, player):
 
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Shuffle Future Events")
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
+import django.contrib.auth
+def login(request, branch, user):
+    u = django.contrib.auth.authenticate(username=user, password='password')
+    if u:
+        django.contrib.auth.login(request, u)
+        return HttpResponseRedirect("/" + branch + "/" + user + "/card_row")
+    else:
+        None
