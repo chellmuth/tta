@@ -630,6 +630,18 @@ a:visited img{border:0}
             <td>
                 {{ military.I|length }}
             </td>
+            <td>
+            <a href="/{{branch}}/{{player}}/draw_military/II/"><img src="/site_media/age_2/Age_II_Military_-_Card_Back.png" width="*" height="120" /></a>
+            </td>
+            <td>
+                {{ military.II|length }}
+            </td>
+            <td>
+            <a href="/{{branch}}/{{player}}/draw_military/III/"><img src="/site_media/age_3/Age_III_Military_-_Card_Back.png" width="*" height="120" /></a>
+            </td>
+            <td>
+                {{ military.III|length }}
+            </td>
 {% if military.current_event %}
             <td class="card">
 {%   ifequal military.current_event.cell "territory" %}
