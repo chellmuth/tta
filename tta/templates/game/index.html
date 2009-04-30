@@ -1454,7 +1454,6 @@ a:visited img{border:0}
 </div>
 </table>
 
-{% if can_view_hand %}
 <table>
     <tr>
 {% for card in civ.hand %}
@@ -1477,11 +1476,16 @@ a:visited img{border:0}
 {%       endifequal %}
 {%     endifequal %}
 {%   endifequal %}
+
+{% if can_view_hand %}
                     <img src="/site_media/{{card.file}}" width="*" height="120">
+{% else %}
+                    <img src="/site_media/{{card.back}}" width="*" height="120">
+{% endif %}
                 </a>
             </div>
         </td>
 {% endfor %}
     </tr>
 </table>
-{% endif %}
+<a href="/login/{{branch}}/{{player}}/">Login as this player to see their hand.</a>
