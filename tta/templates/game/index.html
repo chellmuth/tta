@@ -1487,5 +1487,12 @@ a:visited img{border:0}
         </td>
 {% endfor %}
     </tr>
+    <tr>
+{% for card in civ.hand %}
+        <td>
+            <center><a href="/{{branch}}/{{player}}/discard/{{ forloop.counter }}/">X</a></center>
+        </td>
+{% endfor %}
+    </tr>
 </table>
 <a href="/login/{{branch}}/{{player}}/">Login as this player to see their hand.</a>

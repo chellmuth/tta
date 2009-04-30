@@ -102,6 +102,15 @@ def play(request, branch, player, index_no):
 
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
+def discard(request, branch, player, index_no):
+    index_no = int(index_no) - 1
+    civ = git.get_civ(branch)
+    card = civ[player]['hand'].pop(index_no)
+
+    git.write_civ(branch, civ, str("Discard card " + card['cell']))
+
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
 def play_event(request, branch, player, index_no):
     index_no = int(index_no) - 1
     civ = git.get_civ(branch)
