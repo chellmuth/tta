@@ -229,14 +229,14 @@ def blue_cell_up(request, branch, player, cell):
     civ = git.get_civ(branch)
     civ[player][cell]['blue'] += 1
     git.write_civ(branch, civ, str("blue up " + cell))
-    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+    return count_down(request, branch, player, 'blue')
 
 def blue_cell_down(request, branch, player, cell):
     civ = git.get_civ(branch)
     civ[player][cell]['blue'] -= 1
     civ[player][cell]['blue'] = max(civ[player][cell]['blue'], 0)
     git.write_civ(branch, civ, str("blue down " + cell))
-    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+    return count_up(request, branch, player, 'blue')
 
 def draw_military(request, branch, player, deck):
     military = git.get_military(branch)
