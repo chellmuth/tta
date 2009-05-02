@@ -7,17 +7,22 @@ $(document).ready(function(){
   $(".card").bind("mouseenter", function() {
     var img = $("img:first", this)
     var url = img.attr("src");
-    var position = img.position();
+    var position = $(this).position();
+    var vertical_offset = 360;
+    if ($(this).hasClass("below")) {
+      vertical_offset = -120;
+    }
+
     $("#zoom")
       .show()
       .css("left", position.left)
-      .css("top", position.top + 300)
+      .css("top", position.top - vertical_offset)
       .css("background-image", "url('" + url +"')")
       .css("width", "240")
       .css("height", "360");
   });
 
-  $("td").bind("mouseleave", function() {
+  $(".card").bind("mouseleave", function() {
     $("#zoom").hide();
   });
 });
@@ -107,7 +112,7 @@ a:visited img{border:0}
     <tr>
 {% for card in card_row %}
         <td>
-            <div class="card">
+            <div class="card below">
                 <a href="/{{branch}}/{{player}}/add/{{ forloop.counter }}">
                     <img src="/site_media/{{ card }}" width="*" height="120">
                 </a>
@@ -643,14 +648,14 @@ a:visited img{border:0}
     <table>
         <tr>
 {% for aggression in military.aggressions %}
-            <td class="card">
+            <td class="card below">
                 <a href="/{{branch}}/{{player}}/remove_aggression/{{forloop.counter0}}/">
                     <img src="/site_media/{{ aggression.file }}" width="*" height="120" />
                 </a>
             </td>
 {% endfor %}
 {% for pact in military.pacts %}
-            <td class="card">
+            <td class="card below">
                 <a href="/{{branch}}/{{player}}/remove_pact/{{forloop.counter0}}/">
                     <img src="/site_media/{{ pact.file }}" width="*" height="120" />
                 </a>
@@ -675,7 +680,7 @@ a:visited img{border:0}
                 {{ military.III|length }}
             </td>
 {% if military.current_event %}
-            <td class="card">
+            <td class="card below">
 {%   ifequal military.current_event.cell "territory" %}
             <a href="/{{branch}}/{{player}}/take_territory">
                 <img src="/site_media/{{military.current_event.file}}" width="*" height="120">
