@@ -216,14 +216,14 @@ def yellow_up(request, branch, player, cell):
     civ = git.get_civ(branch)
     civ[player][cell]['yellow'] += 1
     git.write_civ(branch, civ, str("yellow up " + cell))
-    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+    return points_down(request, branch, player, 'unused_workers')
 
 def yellow_down(request, branch, player, cell):
     civ = git.get_civ(branch)
     civ[player][cell]['yellow'] -= 1
     civ[player][cell]['yellow'] = max(civ[player][cell]['yellow'], 0)
     git.write_civ(branch, civ, str("yellow down " + cell))
-    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+    return points_up(request, branch, player, 'unused_workers')
 
 def blue_cell_up(request, branch, player, cell):
     civ = git.get_civ(branch)
