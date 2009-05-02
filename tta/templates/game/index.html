@@ -11,7 +11,7 @@ $(document).ready(function(){
     $("#zoom")
       .show()
       .css("left", position.left)
-      .css("top", position.top + 120)
+      .css("top", position.top + 300)
       .css("background-image", "url('" + url +"')")
       .css("width", "240")
       .css("height", "360");
@@ -47,6 +47,20 @@ a:visited img{border:0}
  position:absolute;
  top: 300;
  left: 425;
+}
+
+.blue_token_cell_full {
+ width: 25;
+ height: 25;
+ background-image: url(/site_media/misc/blue_token.png);
+}
+
+.blue_token_cell_empty {
+ width: 25;
+ height: 25;
+ border-style: solid;
+ border-width: 1;
+ border-color: black;
 }
 
 #yellow_tokens {
@@ -175,57 +189,66 @@ a:visited img{border:0}
             <td rowspan="2">
                 -6
             </td>
-            <td>
 {% if blue.1 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.3 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
+            &nbsp</td>
             <td rowspan="2">
                 -4
             </td>
-            <td>
 {% if blue.5 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.7 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
+            &nbsp</td>
             <td rowspan="2">
                 -2
             </td>
-            <td>
 {% if blue.9 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.11 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.13 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.15 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.17 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
+            &nbsp</td>
 {% if blue_leftover %}
             <td rowspan="2">
                 + {{ blue_leftover }}
@@ -240,51 +263,60 @@ a:visited img{border:0}
                 </a>
 {% endif %}
             </td>
-            <td>
 {% if blue.2 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.4 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.6 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.8 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.10 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.12 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.14 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.16 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
-            <td>
+            &nbsp</td>
 {% if blue.18 %}
-                <img src="/site_media/misc/blue_token.png" />
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
 {% endif %}
-            </td>
+            &nbsp</td>
         </tr>
     </table>    
 </div>

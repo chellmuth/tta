@@ -245,7 +245,7 @@ def draw_military(request, branch, player, deck):
     civ = git.get_civ(branch)
     civ[player]['hand'].append(card)
 
-    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, "Drawing military")
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Drawing military (deck: " + deck + ")"))
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def pop_current_event(request, branch, player):
