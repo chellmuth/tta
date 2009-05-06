@@ -111,6 +111,14 @@ def discard(request, branch, player, index_no):
 
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
+def discard_leader(request, branch, player):
+    civ = git.get_civ(branch)
+    card = civ[player]['leader'] = None
+
+    git.write_civ(branch, civ, "Discard Leader")
+
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
 def play_event(request, branch, player, index_no):
     index_no = int(index_no) - 1
     civ = git.get_civ(branch)
