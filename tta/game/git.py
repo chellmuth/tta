@@ -460,7 +460,7 @@ def undo(branch):
 
 def serialize_object(object):
     serialized = simplejson.dumps(object, sort_keys=True, indent=3)
-    print serialized
+#     print serialized
     return serialized
 
 def write_deck(branch, deck, commit_msg="WRITE DECK"):
@@ -478,8 +478,8 @@ def write_game(branch, game, commit_msg="DEFAULT COMMIT"):
                  stderr = PIPE)
      
     out, err = proc.communicate(serialized)
-    print out.rstrip()
-    print err
+#     print out.rstrip()
+#     print err
     tree = "100644 blob " + out.rstrip() + "\t" + "deck"
      
     proc = Popen(('git', 'mktree'),
@@ -490,8 +490,8 @@ def write_game(branch, game, commit_msg="DEFAULT COMMIT"):
      
     out, err = proc.communicate(tree)
     tree_hash = out.rstrip()
-    print out.rstrip()
-    print err
+#     print out.rstrip()
+#     print err
 
     proc = Popen(('git', 'ls-tree', tree_hash),
                  env = { "GIT_DIR":git_dir },
@@ -500,8 +500,8 @@ def write_game(branch, game, commit_msg="DEFAULT COMMIT"):
                  stderr = PIPE)
      
     out, err = proc.communicate()
-    print out.rstrip()
-    print err
+#     print out.rstrip()
+#     print err
      
     proc = Popen(('git', 'commit-tree', tree_hash, '-p', branch),
                  env = { "GIT_DIR":git_dir },
@@ -510,8 +510,8 @@ def write_game(branch, game, commit_msg="DEFAULT COMMIT"):
                  stderr = PIPE)
      
     out, err = proc.communicate(commit_msg)
-    print out.rstrip()
-    print err
+#     print out.rstrip()
+#     print err
 
     proc = Popen(('git', 'update-ref', "refs/heads/" + branch, out.rstrip()),
                  env = { "GIT_DIR":git_dir },
@@ -530,7 +530,7 @@ def get_game(branch):
      
     out, err = proc.communicate()
     lines = out.rstrip().split('\0')
-    print lines
+#     print lines
      
     for line in lines:
         if not line: continue
@@ -539,7 +539,7 @@ def get_game(branch):
         if not match.group(5) == 'deck': continue
         
         hash = match.group(4)
-        print hash
+#         print hash
      
      
     proc = Popen(('git', 'cat-file', 'blob',  hash),
@@ -584,5 +584,33 @@ def delete_branch(branch):
                  stderr = PIPE)
 
     out, err = proc.communicate()
-    print out
-    print err
+#     print out
+#     print err
+
+def get_notify_body(branch, last_notify):
+    if last_notify:
+        commit_range = "HEAD..." + last_notify
+    else:
+        commit_range = "HEAD"
+
+    proc = Popen(('git', 'log', '--pretty=format:"%s"', commit_range),
+                 env = { "GIT_DIR":git_dir },
+                 stdin = PIPE,
+                 stdout = PIPE,
+                 stderr = PIPE)
+
+    out, err = proc.communicate()
+    return out
+
+def set_last_notify(branch):
+    proc = Popen(('git', 'rev-list', 'HEAD', '--max-count=1'),
+                 env = { "GIT_DIR":git_dir },
+                 stdin = PIPE,
+                 stdout = PIPE,
+                 stderr = PIPE)
+    out, err = proc.communicate()
+
+    military = get_military(branch)
+    military['last_notify'] = out.strip()
+
+    write_game(branch, {'deck': get_deck(branch), 'civ': get_civ(branch), 'military': military}, "Notify!")

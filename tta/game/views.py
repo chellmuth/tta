@@ -290,6 +290,20 @@ def shuffle_future_events(request, branch, player):
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Shuffle Future Events")
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
+from django.core.mail import send_mail
+def notify(request, branch, player):
+    military = git.get_military(branch)
+
+    last_notify = None
+    if military.has_key('last_notify'):
+        last_notify = military['last_notify']
+
+    notify_body = git.get_notify_body(branch, last_notify)
+    send_mail('Your Turn!', notify_body, 'tta@mail.twognomes.com', ['chellmuth@gmail.com'], fail_silently=True)
+    git.set_last_notify(branch)
+
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+
 import django.contrib.auth
 def login(request, branch, user):
     u = django.contrib.auth.authenticate(username=user, password='password')
