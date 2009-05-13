@@ -1,7 +1,12 @@
 <title>Through The Ages</title>
+<head>
 <script type="text/javascript" src="/site_media/js/jquery.js" type="text/javascript"></script>
+<link type="text/css" href="/site_media/css/custom-theme/jquery-ui-1.7.1.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="/site_media/js/ui.core.js"></script>
+<script type="text/javascript" src="/site_media/js/ui.tabs.js"></script>
 <script>
 $(document).ready(function(){
+  $("#tabs").tabs();
   $("#zoom").hide();
 
   $(".card").bind("mouseenter", function() {
@@ -28,6 +33,10 @@ $(document).ready(function(){
 });
 </script>
 <style>
+.ui-tabs .ui-tabs-hide {
+ display: none;
+}
+
 #zoom {
  position:absolute;
  z-index: 100;
@@ -36,16 +45,20 @@ $(document).ready(function(){
 a:link img{border:0}
 a:visited img{border:0}
 
+#buttons {
+ float: left;
+}
+
 #scores {
- position:absolute;
- top: 200;
- left: 100;
+ float: left;
 }
 
 #military_decks {
- position:absolute;
- top: 170;
- left: 450;
+ float: left;
+}
+
+#tableau {
+ clear: both;
 }
 
 #blue_tokens {
@@ -106,6 +119,15 @@ a:visited img{border:0}
 }
 
 </style>
+</head>
+<div id="zoom"></div>
+<div id="tabs">
+    <ul>
+        <li><a href="#card_row"><span>Card Row</span></li>
+        <li><a href="#tableau"><span>Tableau</span></li>
+    </ul>
+
+<div id="card_row">
 <table>
     <tr>
 {% for card in card_row %}
@@ -161,9 +183,7 @@ a:visited img{border:0}
     </tr>
 </table>
 
-
-<div id="zoom">
-</div>
+<div id="buttons">
 <form method="POST" action="/{{branch}}/{{player}}/slide/">
     <input type="submit" name="action" value="slide"/>
 </form>
@@ -179,6 +199,7 @@ a:visited img{border:0}
 <form method="POST" action="/{{branch}}/{{player}}/undo/">
     <input type="submit" name="action" value="undo"/>
 </form>
+</div>
 
 <div id="scores">
 <table>
@@ -316,19 +337,21 @@ a:visited img{border:0}
         </tr>
     </table>
 </div>
+</div>
 
+<div id="tableau">
 <table>
     <tr>
 {% for wonder in civ.completed_wonders %}
         <td>
-            <div class="card">
+            <div class="card below">
                 <img src="/site_media/{{ wonder }}" width="*" height="120">
             </div>
         </td>
 {% endfor %}
 {% for territory in civ.territories %}
         <td>
-            <div class="card">
+            <div class="card below">
                 <img src="/site_media/{{ territory }}" width="*" height="120">
             </div>
         </td>
@@ -1530,3 +1553,5 @@ a:visited img{border:0}
     </tr>
 </table>
 <a href="/login/{{branch}}/{{player}}/">Login as this player to see their hand.</a>
+</div>
+</div>
