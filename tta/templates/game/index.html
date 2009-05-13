@@ -317,6 +317,26 @@ a:visited img{border:0}
     </table>
 </div>
 
+<table>
+    <tr>
+{% for wonder in civ.completed_wonders %}
+        <td>
+            <div class="card">
+                <img src="/site_media/{{ wonder }}" width="*" height="120">
+            </div>
+        </td>
+{% endfor %}
+{% for territory in civ.territories %}
+        <td>
+            <div class="card">
+                <img src="/site_media/{{ territory }}" width="*" height="120">
+            </div>
+        </td>
+{% endfor %}
+    </tr>
+</div>
+</table>
+
 <table border="0">
 <tr>
 <td style="width:80; height:120;">
@@ -1088,26 +1108,6 @@ a:visited img{border:0}
 </tr>
 </table>
 
-<table>
-    <tr>
-{% for wonder in civ.completed_wonders %}
-        <td>
-            <div class="card">
-                <img src="/site_media/{{ wonder }}" width="*" height="120">
-            </div>
-        </td>
-{% endfor %}
-{% for territory in civ.territories %}
-        <td>
-            <div class="card">
-                <img src="/site_media/{{ territory }}" width="*" height="120">
-            </div>
-        </td>
-{% endfor %}
-    </tr>
-</div>
-</table>
-
 <div id="blue_tokens">
     <table>
         <tr>
@@ -1488,7 +1488,7 @@ a:visited img{border:0}
     </table>    
 </div>
 
-<table style="clear:both; padding-top:10px;">
+<table style="clear:both; padding-top:15px;">
     <tr>
 {% for card in civ.hand %}
         <td>
