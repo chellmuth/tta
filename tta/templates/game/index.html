@@ -49,9 +49,13 @@ a:visited img{border:0}
 }
 
 #blue_tokens {
- position:absolute;
- top: 325;
- left: 425;
+ position:relative;
+ top: 33;
+ float: left;
+}
+
+#yellow_tokens {
+ float:left;
 }
 
 .blue_token_cell_full {
@@ -66,12 +70,6 @@ a:visited img{border:0}
  border-style: solid;
  border-width: 1;
  border-color: black;
-}
-
-#yellow_tokens {
- position:absolute;
- top: 300;
- left: 800;
 }
 
 .yellow_token_cell_full {
@@ -181,387 +179,6 @@ a:visited img{border:0}
 <form method="POST" action="/{{branch}}/{{player}}/undo/">
     <input type="submit" name="action" value="undo"/>
 </form>
-
-
-<div id="blue_tokens">
-    <table>
-        <tr>
-            <td>
-                <a href="/{{branch}}/{{player}}/count_up/blue">
-                    &uarr;
-                </a>
-            </td>
-            <td rowspan="2">
-                -6
-            </td>
-{% if blue.1 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.3 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-            <td rowspan="2">
-                -4
-            </td>
-{% if blue.5 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.7 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-            <td rowspan="2">
-                -2
-            </td>
-{% if blue.9 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.11 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.13 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.15 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.17 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue_leftover %}
-            <td rowspan="2">
-                + {{ blue_leftover }}
-            </td>
-        </tr>
-{% endif %}
-        <tr>
-            <td>
-{% if blue.1 %}
-                <a href="/{{branch}}/{{player}}/count_down/blue">
-                    &darr;
-                </a>
-{% endif %}
-            </td>
-{% if blue.2 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.4 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.6 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.8 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.10 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.12 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.14 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.16 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-{% if blue.18 %}
-            <td class="blue_token_cell_full">
-{% else %}
-            <td class="blue_token_cell_empty">
-{% endif %}
-            &nbsp</td>
-        </tr>
-    </table>    
-</div>
-
-<div id="yellow_tokens">
-    <table>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>
-{% ifequal civ.happiness 9 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-            </td>
-            <td>
-{% ifequal civ.happiness 8 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-            </td>
-            <td>&nbsp;</td>
-            <td>
-{% ifequal civ.happiness 7 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-            </td>
-            <td>
-{% ifequal civ.happiness 6 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-            </td>
-            <td>&nbsp;</td>
-            <td>
-{% ifequal civ.happiness 5 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-            </td>
-            <td>
-{% ifequal civ.happiness 4 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-            </td>
-            <td>&nbsp;</td>
-            <td>
-{% ifequal civ.happiness 3 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-            </td>
-            <td>
-{% ifequal civ.happiness 2 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-            </td>
-            <td>&nbsp;</td>
-            <td>
-{% ifequal civ.happiness 1 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-            </td>
-            <td>
-{% ifequal civ.happiness 0 %}
-                <img src="/site_media/misc/happiness.png" />
-{% endifequal %}
-{% ifnotequal civ.happiness 9 %}
-                <a href="/{{branch}}/{{player}}/points_up/happiness">
-                    &uarr;
-                </a>
-{% endifnotequal %}
-{% ifnotequal civ.happiness 0 %}
-                <a href="/{{branch}}/{{player}}/points_down/happiness">
-                    &darr;
-                </a>
-{% endifnotequal %}
-            </td>
-        <tr>
-            <td>
-{% if not yellow.18 %}
-                <a href="/{{branch}}/{{player}}/count_up/yellow">
-                    &uarr;
-                </a>
-{% endif %}
-            </td>
-            <td rowspan="2">
-                -6
-            </td>
-{% if yellow.1 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                7
-            </td>
-{% if yellow.3 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                7
-            </td>
-            <td rowspan="2">
-                -4
-            </td>
-{% if yellow.5 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                5
-            </td>
-{% if yellow.7 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                5
-            </td>
-            <td rowspan="2">
-                -3
-            </td>
-{% if yellow.9 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                4
-            </td>
-{% if yellow.11 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                4
-            </td>
-            <td rowspan="2">
-                -2
-            </td>
-{% if yellow.13 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                3
-            </td>
-{% if yellow.15 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                3
-            </td>
-            <td rowspan="2">
-                -1
-            </td>
-{% if yellow.17 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                2
-            </td>
-            <td rowspan="2">
-                Unused: {{ civ.unused_workers }}
-                <a href="/{{branch}}/{{player}}/points_up/unused_workers/">&uarr;</a>
-{% if civ.unused_workers %}
-                <a href="/{{branch}}/{{player}}/points_down/unused_workers/">&darr;</a>
-{%  endif %}
-            </td>
-        <tr>
-            <td>
-{% if yellow.1 %}
-                <a href="/{{branch}}/{{player}}/count_down/yellow">
-                    &darr;
-                </a>
-{% endif %}
-            </td>
-{% if yellow.2 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                7
-            </td>
-{% if yellow.4 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                7
-            </td>
-{% if yellow.6 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                5
-            </td>
-{% if yellow.8 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                5
-            </td>
-{% if yellow.10 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                4
-            </td>
-{% if yellow.12 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                4
-            </td>
-{% if yellow.14 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                3
-            </td>
-{% if yellow.16 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                3
-            </td>
-{% if yellow.18 %}
-            <td class="yellow_token_cell_full">
-{% else %}
-            <td class="yellow_token_cell_empty">
-{% endif %}
-                2
-            </td>
-        </tr>
-    </table>    
-</div>
 
 <div id="scores">
 <table>
@@ -1491,7 +1108,387 @@ a:visited img{border:0}
 </div>
 </table>
 
-<table>
+<div id="blue_tokens">
+    <table>
+        <tr>
+            <td>
+                <a href="/{{branch}}/{{player}}/count_up/blue">
+                    &uarr;
+                </a>
+            </td>
+            <td rowspan="2">
+                -6
+            </td>
+{% if blue.1 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.3 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+            <td rowspan="2">
+                -4
+            </td>
+{% if blue.5 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.7 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+            <td rowspan="2">
+                -2
+            </td>
+{% if blue.9 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.11 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.13 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.15 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.17 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue_leftover %}
+            <td rowspan="2">
+                + {{ blue_leftover }}
+            </td>
+        </tr>
+{% endif %}
+        <tr>
+            <td>
+{% if blue.1 %}
+                <a href="/{{branch}}/{{player}}/count_down/blue">
+                    &darr;
+                </a>
+{% endif %}
+            </td>
+{% if blue.2 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.4 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.6 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.8 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.10 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.12 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.14 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.16 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+{% if blue.18 %}
+            <td class="blue_token_cell_full">
+{% else %}
+            <td class="blue_token_cell_empty">
+{% endif %}
+            &nbsp</td>
+        </tr>
+    </table>    
+</div>
+
+<div id="yellow_tokens">
+    <table>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 9 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 8 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+            </td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 7 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 6 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+            </td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 5 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 4 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+            </td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 3 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 2 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+            </td>
+            <td>&nbsp;</td>
+            <td>
+{% ifequal civ.happiness 1 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+            </td>
+            <td>
+{% ifequal civ.happiness 0 %}
+                <img src="/site_media/misc/happiness.png" />
+{% endifequal %}
+{% ifnotequal civ.happiness 9 %}
+                <a href="/{{branch}}/{{player}}/points_up/happiness">
+                    &uarr;
+                </a>
+{% endifnotequal %}
+{% ifnotequal civ.happiness 0 %}
+                <a href="/{{branch}}/{{player}}/points_down/happiness">
+                    &darr;
+                </a>
+{% endifnotequal %}
+            </td>
+        <tr>
+            <td>
+{% if not yellow.18 %}
+                <a href="/{{branch}}/{{player}}/count_up/yellow">
+                    &uarr;
+                </a>
+{% endif %}
+            </td>
+            <td rowspan="2">
+                -6
+            </td>
+{% if yellow.1 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                7
+            </td>
+{% if yellow.3 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                7
+            </td>
+            <td rowspan="2">
+                -4
+            </td>
+{% if yellow.5 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                5
+            </td>
+{% if yellow.7 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                5
+            </td>
+            <td rowspan="2">
+                -3
+            </td>
+{% if yellow.9 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                4
+            </td>
+{% if yellow.11 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                4
+            </td>
+            <td rowspan="2">
+                -2
+            </td>
+{% if yellow.13 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                3
+            </td>
+{% if yellow.15 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                3
+            </td>
+            <td rowspan="2">
+                -1
+            </td>
+{% if yellow.17 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                2
+            </td>
+            <td rowspan="2">
+                Unused: {{ civ.unused_workers }}
+                <a href="/{{branch}}/{{player}}/points_up/unused_workers/">&uarr;</a>
+{% if civ.unused_workers %}
+                <a href="/{{branch}}/{{player}}/points_down/unused_workers/">&darr;</a>
+{%  endif %}
+            </td>
+        <tr>
+            <td>
+{% if yellow.1 %}
+                <a href="/{{branch}}/{{player}}/count_down/yellow">
+                    &darr;
+                </a>
+{% endif %}
+            </td>
+{% if yellow.2 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                7
+            </td>
+{% if yellow.4 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                7
+            </td>
+{% if yellow.6 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                5
+            </td>
+{% if yellow.8 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                5
+            </td>
+{% if yellow.10 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                4
+            </td>
+{% if yellow.12 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                4
+            </td>
+{% if yellow.14 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                3
+            </td>
+{% if yellow.16 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                3
+            </td>
+{% if yellow.18 %}
+            <td class="yellow_token_cell_full">
+{% else %}
+            <td class="yellow_token_cell_empty">
+{% endif %}
+                2
+            </td>
+        </tr>
+    </table>    
+</div>
+
+<table style="clear:both; padding-top:10px;">
     <tr>
 {% for card in civ.hand %}
         <td>
