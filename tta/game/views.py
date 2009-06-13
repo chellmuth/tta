@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 
@@ -26,6 +27,7 @@ def index(request, branch, player):
     military = git.get_military(branch)
     military['future_event_size'] = sum([len(military['future'][x]) for x in military['future'].keys()])
     return render_to_response('game/index.html', {
+            'user_id': request.user.id,
             'player': player,
             'card_row': [ x['file'] for x in card_row ],
             'branch': branch,
@@ -298,3 +300,15 @@ def login(request, branch, user):
         return HttpResponseRedirect("/" + branch + "/" + user + "/card_row")
     else:
         None
+
+from tta.game.models import Heartbeat
+from django.utils import simplejson
+import datetime
+
+def heartbeat(request, branch, user_id):
+    beat = Heartbeat(user_id=user_id)
+    beat.save()
+    active_users = [ x.user.username for x in Heartbeat.objects.filter(last_login__gt=datetime.datetime.now() - datetime.timedelta(0,60)) ]
+
+    json = simplejson.dumps(active_users)
+    return HttpResponse(json, mimetype='application/json')

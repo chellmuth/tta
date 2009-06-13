@@ -37,6 +37,7 @@ urlpatterns = patterns('',
     (r'^(\w+)/(\w+)/finish_wonder/$', 'tta.game.views.finish_wonder'),
     (r'^remove_card/(\d+)$', 'tta.game.views.remove_card'),
     (r'^login/(\w+)/(\w+)/$', 'tta.game.views.login'),
+    (r'^heartbeat/(\w+)/(\w+)/$', 'tta.game.views.heartbeat'),
     (r'^site_media/(?P<path>.*$)', 'django.views.static.serve',
      {'document_root': '/home/cjh/projects/tta/media'}),
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 

@@ -31,10 +31,25 @@ $(document).ready(function(){
     $("#zoom").hide();
   });
 });
+
+{% if user_id %}
+  window.setInterval(function () {
+    $.getJSON("/heartbeat/master/{{user_id}}/", function (data) {
+      $(".active-player").removeClass("active-player");
+      $.each(data, function(i, item) {
+        $(".player-" + item).addClass("active-player");
+      });
+    });
+  }, 10000);
+{% endif %}
 </script>
 <style>
 .ui-tabs .ui-tabs-hide {
  display: none;
+}
+
+.active-player {
+ color:green;
 }
 
 #zoom {
@@ -206,7 +221,7 @@ a:visited img{border:0}
     <tr>
         <th>&nbsp;</th>
 {% for score in scores %}
-        <th>{{score.name}}</th>
+        <th class="player-{{score.name}}">{{score.name}}</th>
 {% endfor %}
     </tr>
     <tr>
