@@ -147,7 +147,26 @@ a:visited img{border:0}
     </ul>
 
 <div id="card_row">
-<table>
+
+<div id="buttons" style="clear:both;margin-top:5px; margin-left:5px;">
+<form style="display:inline;" method="POST" action="/{{branch}}/{{player}}/slide/">
+    <input type="submit" name="action" value="slide"/>
+</form>
+<form style="display:inline;" method="POST" action="/cjh/{{player}}/begin/">
+    <input type="submit" name="action" value="begin"/>
+</form>
+<form style="display:inline;" method="POST" action="/{{branch}}/{{player}}/save/">
+    <input type="submit" name="action" value="save"/>
+</form>
+<form style="display:inline;" method="POST" action="/{{branch}}/{{player}}/reset/">
+    <input type="submit" name="action" value="reset"/>
+</form>
+<form style="display:inline;" method="POST" action="/{{branch}}/{{player}}/undo/">
+    <input type="submit" name="action" value="undo"/>
+</form>
+</div>
+
+<table style="clear:both; margin-top:10px; margin-bottom:10px;">
     <tr>
 {% for card in card_row %}
         <td>
@@ -202,25 +221,7 @@ a:visited img{border:0}
     </tr>
 </table>
 
-<div id="buttons">
-<form method="POST" action="/{{branch}}/{{player}}/slide/">
-    <input type="submit" name="action" value="slide"/>
-</form>
-<form method="POST" action="/cjh/{{player}}/begin/">
-    <input type="submit" name="action" value="begin"/>
-</form>
-<form method="POST" action="/{{branch}}/{{player}}/save/">
-    <input type="submit" name="action" value="save"/>
-</form>
-<form method="POST" action="/{{branch}}/{{player}}/reset/">
-    <input type="submit" name="action" value="reset"/>
-</form>
-<form method="POST" action="/{{branch}}/{{player}}/undo/">
-    <input type="submit" name="action" value="undo"/>
-</form>
-</div>
-
-<div id="scores">
+<div id="scores" style="margin-right:20px;">
 <table>
     <tr>
         <th>&nbsp;</th>
