@@ -12,6 +12,9 @@ $(document).ready(function(){
   $(".card").bind("mouseenter", function() {
     var img = $("img:first", this)
     var url = img.attr("src");
+    if (url == "/site_media/Blank.png") {
+      return;
+    }
     var position = $(this).position();
     var vertical_offset = 360;
     if ($(this).hasClass("below")) {
