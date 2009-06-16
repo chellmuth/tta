@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
-
+from tta.game.models import LoginForm
 from game import git
 
 def index(request, branch, player):
@@ -27,6 +27,7 @@ def index(request, branch, player):
     military = git.get_military(branch)
     military['future_event_size'] = sum([len(military['future'][x]) for x in military['future'].keys()])
     return render_to_response('game/index.html', {
+            'request': request,
             'user_id': request.user.id,
             'player': player,
             'card_row': [ x['file'] for x in card_row ],
@@ -37,7 +38,8 @@ def index(request, branch, player):
             'blue': dict([ (str(x+1),1) for x in range(min(my_civ['blue_tokens'], 18)) ]),
             'blue_leftover': max(my_civ['blue_tokens'] - 18, 0),
             'yellow': dict([ (str(x+1),1) for x in range(min(my_civ['yellow_tokens'], 18)) ]),
-            'can_view_hand': request.user.username == player
+            'can_view_hand': request.user.username == player,
+            'login_form': LoginForm()
             })
 
 def slide(request, branch, player):
@@ -292,15 +294,6 @@ def shuffle_future_events(request, branch, player):
     git.write_game(branch, {'deck': git.get_deck(branch), 'civ': git.get_civ(branch), 'military': military}, "Shuffle Future Events")
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
-import django.contrib.auth
-def login(request, branch, user):
-    u = django.contrib.auth.authenticate(username=user, password='password')
-    if u:
-        django.contrib.auth.login(request, u)
-        return HttpResponseRedirect("/" + branch + "/" + user + "/card_row")
-    else:
-        None
-
 from tta.game.models import Heartbeat
 from django.utils import simplejson
 import datetime
@@ -312,3 +305,45 @@ def heartbeat(request, branch, user_id):
 
     json = simplejson.dumps(active_users)
     return HttpResponse(json, mimetype='application/json')
+
+from django.contrib.auth import authenticate, login as login_user
+from django.shortcuts import render_to_response
+def login(request, branch, player):
+    def errorHandle(error):
+        form = LoginForm()
+        return render_to_response('login.html', {
+                'error' : error,
+                'form' : form,
+                })
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    # Redirect to a success page.
+                    login_user(request, user)
+                    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
+                else:
+                    # Return a 'disabled account' error message
+                    error = u'account disabled'
+                    return errorHandle(error)
+            else:
+                # Return an 'invalid login' error message.
+                error = u'invalid login'
+                return errorHandle(error)
+        else:
+            error = u'form is invalid'
+            return errorHandle(error)
+    else:
+        form = LoginForm() # An unbound form
+        return render_to_response('login.html', {
+                'form': form,
+                })
+
+from django.contrib.auth import logout as logout_user
+def logout(request, branch, player):
+    logout_user(request)
+    return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")

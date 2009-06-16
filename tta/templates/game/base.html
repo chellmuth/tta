@@ -1,0 +1,23 @@
+<title>Through The Ages</title>
+
+<head>
+{{ login_form.media }}
+{% block additional_head_lines %}
+{% endblock %}
+</head>
+
+{% block login %}
+<div style="float:right;">
+{% if request.user.is_authenticated %}
+    {{ request.user.username }} | <a href="/logout/master/p1">Logout</a>
+{% else %}
+    <form action="/login/{{branch}}/{{player}}/" method="post">
+        {{ login_form.as_p }}
+        <input style="float:right; margin-left:5px;" type="submit" value="Submit" />
+    </form>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
