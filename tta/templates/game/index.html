@@ -8,6 +8,7 @@
 <script>
 $(document).ready(function(){
   $("#tabs").tabs();
+  $("#right-bar").tabs();
   $("#zoom").hide();
 
   $(".card").bind("mouseenter", function() {
@@ -145,13 +146,13 @@ a:visited img{border:0}
 .card {
  position: relative;
 }
-
 </style>
 </head>
 {% endblock %}
+
 {% block content %}
 <div id="zoom"></div>
-<div id="tabs" style="clear:both;">
+<div id="tabs" style="clear:both;float:left;width:920px;">
     <ul>
         <li><a href="#card_row"><span>Card Row</span></a></li>
         <li><a href="#tableau"><span>Tableau</span></a></li>
@@ -231,87 +232,6 @@ a:visited img{border:0}
         </td>
     </tr>
 </table>
-
-<div id="scores" style="margin-right:20px;">
-<table>
-    <tr>
-        <th>&nbsp;</th>
-{% for score in scores %}
-        <th class="player-{{score.name}}">{{score.name}}</th>
-{% endfor %}
-    </tr>
-    <tr>
-        <td>
-            Tech:
-        </td>
-{% for score in scores %}
-        <td>
-            {{ score.tech }}
-            <a href="/{{branch}}/{{score.name}}/points_up/tech/">&uarr;</a>
-{% if score.tech %}
-            <a href="/{{branch}}/{{score.name}}/points_down/tech/">&darr;</a>
-{%  endif %}
-        </td>
-{% endfor %}
-    </tr>
-    <tr>
-        <td>
-            Tech+:
-        </td>
-{% for score in scores %}
-        <td>
-            {{ score.tech_plus }}
-            <a href="/{{branch}}/{{score.name}}/points_up/tech_plus/">&uarr;</a>
-{% if score.tech_plus %}
-            <a href="/{{branch}}/{{score.name}}/points_down/tech_plus/">&darr;</a>
-{%  endif %}
-        </td>
-{% endfor %}
-    </tr>
-    <tr>
-        <td>
-            Culture:
-        </td>
-{% for score in scores %}
-        <td>
-            {{ score.culture }}
-            <a href="/{{branch}}/{{score.name}}/points_up/culture/">&uarr;</a>
-{% if score.culture %}
-            <a href="/{{branch}}/{{score.name}}/points_down/culture/">&darr;</a>
-{%  endif %}
-        </td>
-{% endfor %}
-    </tr>
-    <tr>
-        <td>
-            Culture+:
-        </td>
-{% for score in scores %}
-        <td>
-            {{ score.culture_plus }}
-            <a href="/{{branch}}/{{score.name}}/points_up/culture_plus/">&uarr;</a>
-{% if score.culture_plus %}
-            <a href="/{{branch}}/{{score.name}}/points_down/culture_plus/">&darr;</a>
-{%  endif %}
-        </td>
-{% endfor %}
-    </tr>
-    <tr>
-        <td>
-            Strength:
-        </td>
-{% for score in scores %}
-        <td>
-            {{ score.strength }}
-            <a href="/{{branch}}/{{score.name}}/points_up/strength/">&uarr;</a>
-{% if score.strength %}
-            <a href="/{{branch}}/{{score.name}}/points_down/strength/">&darr;</a>
-{%  endif %}
-        </td>
-{% endfor %}
-    </tr>
-</table>
-</div>
 
 <div id="military_decks">
     <table>
@@ -1585,4 +1505,91 @@ a:visited img{border:0}
 
 </div>
 </div>
+
+<div id="right-bar" style="margin-left:5px;float:left;"> 
+    <ul>
+        <li><a href="#scores"><span>Scores</span></a></li>
+    </ul>
+<div id="scores" style="margin-right:20px;">
+<table>
+    <tr>
+        <th>&nbsp;</th>
+{% for score in scores %}
+        <th class="player-{{score.name}}">{{score.name}}</th>
+{% endfor %}
+    </tr>
+    <tr>
+        <td>
+            Tech:
+        </td>
+{% for score in scores %}
+        <td>
+            {{ score.tech }}
+            <a href="/{{branch}}/{{score.name}}/points_up/tech/">&uarr;</a>
+{% if score.tech %}
+            <a href="/{{branch}}/{{score.name}}/points_down/tech/">&darr;</a>
+{%  endif %}
+        </td>
+{% endfor %}
+    </tr>
+    <tr>
+        <td>
+            Tech+:
+        </td>
+{% for score in scores %}
+        <td>
+            {{ score.tech_plus }}
+            <a href="/{{branch}}/{{score.name}}/points_up/tech_plus/">&uarr;</a>
+{% if score.tech_plus %}
+            <a href="/{{branch}}/{{score.name}}/points_down/tech_plus/">&darr;</a>
+{%  endif %}
+        </td>
+{% endfor %}
+    </tr>
+    <tr>
+        <td>
+            Culture:
+        </td>
+{% for score in scores %}
+        <td>
+            {{ score.culture }}
+            <a href="/{{branch}}/{{score.name}}/points_up/culture/">&uarr;</a>
+{% if score.culture %}
+            <a href="/{{branch}}/{{score.name}}/points_down/culture/">&darr;</a>
+{%  endif %}
+        </td>
+{% endfor %}
+    </tr>
+    <tr>
+        <td>
+            Culture+:
+        </td>
+{% for score in scores %}
+        <td>
+            {{ score.culture_plus }}
+            <a href="/{{branch}}/{{score.name}}/points_up/culture_plus/">&uarr;</a>
+{% if score.culture_plus %}
+            <a href="/{{branch}}/{{score.name}}/points_down/culture_plus/">&darr;</a>
+{%  endif %}
+        </td>
+{% endfor %}
+    </tr>
+    <tr>
+        <td>
+            Strength:
+        </td>
+{% for score in scores %}
+        <td>
+            {{ score.strength }}
+            <a href="/{{branch}}/{{score.name}}/points_up/strength/">&uarr;</a>
+{% if score.strength %}
+            <a href="/{{branch}}/{{score.name}}/points_down/strength/">&darr;</a>
+{%  endif %}
+        </td>
+{% endfor %}
+    </tr>
+</table>
+</div>
+</div>
 {% endblock %}
+
