@@ -7,20 +7,25 @@
 {% endblock %}
 </head>
 <body>
-<div style="float:left;" id="everything">
-{% block login %}
-<div style="float:right; padding-bottom:3px;">
-{% if request.user.is_authenticated %}
-    {{ request.user.username }} | <a href="/logout/master/p1">Logout</a>
-{% else %}
-    <form action="/login/{{branch}}/{{player}}/" method="post">
-        {{ login_form.as_p }}
-        <input style="float:right; margin-left:5px;" type="submit" value="Submit" />
-    </form>
-{% endif %}
-</div>
-{% endblock %}
 
+<div id="everything" style="float:left;">
+    <div id="header" style="overflow:auto;">
+    <div style="float:left; font-size:30px; margin-left:5px; font-family:Verdana; margin-bottom:10px;">
+        Through The Ages
+    </div>
+{% block login %}
+    <div style="float:right; margin-top:24px;">
+{% if request.user.is_authenticated %}
+        {{ request.user.username }} | <a href="/logout/master/p1">Logout</a>
+{% else %}
+        <form action="/login/{{branch}}/{{player}}/" method="post">
+            {{ login_form.as_p }}
+            <input style="float:right; margin-left:5px;" type="submit" value="Submit" />
+        </form>
+{% endif %}
+    </div>
+{% endblock %}
+    </div>
 {% block content %}
 {% endblock %}
 </div>
