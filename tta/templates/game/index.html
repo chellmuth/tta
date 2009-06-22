@@ -148,7 +148,12 @@ a:visited img{border:0}
 }
 
 table .score {
+ text-align:right;
  font-size:.9em;
+}
+
+table .score-title {
+ font-size: .9em;
 }
 
 </style>
@@ -1511,84 +1516,104 @@ table .score {
 </div>
 </div>
 
-<div id="right-bar" style="margin-left:5px;float:left; width:300px;">
+<div id="right-bar" style="margin-left:5px;float:left; width:305px;">
     <ul>
         <li><a href="#scores"><span>Scores</span></a></li>
     </ul>
 <div id="scores" style="width:100%;">
-<table width="100%">
+<table align="center">
     <tr>
         <th>&nbsp;</th>
 {% for score in scores %}
-        <th class="player-{{score.name}}">{{score.name}}</th>
+        <th colspan="2" class="player-{{score.name}}">{{score.name}}</th>
 {% endfor %}
     </tr>
     <tr>
-        <td>
+        <td class="score-title">
             Tech:
         </td>
 {% for score in scores %}
         <td class="score">
             {{ score.tech }}
+        </td>
+        <td class="score">
             <a href="/{{branch}}/{{score.name}}/points_up/tech/">&uarr;</a>
 {% if score.tech %}
             <a href="/{{branch}}/{{score.name}}/points_down/tech/">&darr;</a>
+{% else %}
+            &nbsp;
 {%  endif %}
         </td>
 {% endfor %}
     </tr>
     <tr>
-        <td>
+        <td class="score-title">
             Tech+:
         </td>
 {% for score in scores %}
         <td class="score">
             {{ score.tech_plus }}
+        </td>
+        <td class="score">
             <a href="/{{branch}}/{{score.name}}/points_up/tech_plus/">&uarr;</a>
 {% if score.tech_plus %}
             <a href="/{{branch}}/{{score.name}}/points_down/tech_plus/">&darr;</a>
+{% else %}
+            &nbsp;
 {%  endif %}
         </td>
 {% endfor %}
     </tr>
     <tr>
-        <td>
+        <td class="score-title">
             Culture:
         </td>
 {% for score in scores %}
         <td class="score">
             {{ score.culture }}
+        </td>
+        <td class="score">
             <a href="/{{branch}}/{{score.name}}/points_up/culture/">&uarr;</a>
 {% if score.culture %}
             <a href="/{{branch}}/{{score.name}}/points_down/culture/">&darr;</a>
+{% else %}
+            &nbsp;
 {%  endif %}
         </td>
 {% endfor %}
     </tr>
     <tr>
-        <td>
+        <td class="score-title">
             Culture+:
         </td>
 {% for score in scores %}
         <td class="score">
             {{ score.culture_plus }}
+        </td>
+        <td class="score">
             <a href="/{{branch}}/{{score.name}}/points_up/culture_plus/">&uarr;</a>
 {% if score.culture_plus %}
             <a href="/{{branch}}/{{score.name}}/points_down/culture_plus/">&darr;</a>
+{% else %}
+            &nbsp;
 {%  endif %}
         </td>
 {% endfor %}
     </tr>
     <tr>
-        <td>
+        <td class="score-title">
             Strength:
         </td>
 {% for score in scores %}
         <td class="score">
-            {{ score.strength }}
+            {{ score.culture_plus }}
+        </td>
+        <td class="score">
             <a href="/{{branch}}/{{score.name}}/points_up/strength/">&uarr;</a>
 {% if score.strength %}
             <a href="/{{branch}}/{{score.name}}/points_down/strength/">&darr;</a>
+{% else %}
+            &nbsp;
 {%  endif %}
         </td>
 {% endfor %}
