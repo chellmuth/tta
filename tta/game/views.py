@@ -4,6 +4,12 @@ from django.http import HttpResponseRedirect
 from tta.game.models import LoginForm, Game
 from game.git import Git as g
 
+def home(request):
+    return render_to_response('home.html', {
+            'request': request,
+            'login_form': LoginForm()
+            })
+
 def index(request, game, branch, player):
     git = g(Game.objects.get(id=game).directory)
     card_row = git.get_deck(branch)[:13]
@@ -379,13 +385,15 @@ def logout(request, game, branch, player):
 
 from django.contrib.auth.models import User
 from game.models import GamePlayer
+from django.db.models import Q
 import urllib, hashlib
 def profile(request, user_id):
     user = User.objects.get(id=user_id)
     email = user.email
     size = 80
 
-    games = GamePlayer.objects.filter(user=user.id)
+    current_games = GamePlayer.objects.filter(user=user.id)
+    upcoming_games = OpenGame.objects.filter(Q(player_1=user.id) | Q(player_2=user.id) | Q(player_3=user.id) | Q(player_4=user.id))
 
     gravatar_url = "http://www.gravatar.com/avatar.php?"
     gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(email).hexdigest(),
@@ -395,7 +403,8 @@ def profile(request, user_id):
             'user': user,
             'gravatar_url': gravatar_url,
             'login_form': LoginForm(),
-            'games': [ g.game for g in games ],
+            'current_games': [ g.game for g in current_games ],
+            'upcoming_games': upcoming_games
             })
 
 from django.contrib.auth.decorators import login_required

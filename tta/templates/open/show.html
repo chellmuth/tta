@@ -1,4 +1,4 @@
-{% extends "game/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <h3>{{ game.title }}</h3>
@@ -32,5 +32,9 @@
 {% endifnotequal %}
     </tr>
 </table>
+
+<p>
+    <a href="/open/list/">Back</a>
+</p>
 
 {% endblock %}

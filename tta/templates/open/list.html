@@ -1,10 +1,17 @@
-{% extends "game/base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <table>
+    <tr>
+        <th>Title</th>
+        <th>Started By</th>
+        <th>Players</th>
+        <th>&nbsp;</th>
+    </tr>
 {% for game in games %}
     <tr>
         <td>{{ game.title }}</td>
+        <td>{{ game.player_1.username }}</td>
         <td>{{ game.current_players }}/{{ game.max_players }}</td>
         <td><a href="/open/show/{{ game.id }}/">View</a>
     </tr>

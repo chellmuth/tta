@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<p>
+    <a href="/open/list/">View Games</a>
+</p>
+<p>
+    <a href="/open/create/">Create a Game</a>
+</p>
+{% if request.user.is_authenticated %}
+<p>
+    <a href="/profile/{{ request.user.id }}/{{request.user.username }}">My Profile</a>
+</p>
+{% endif %}
+{% endblock %}

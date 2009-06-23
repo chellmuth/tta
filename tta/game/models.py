@@ -21,7 +21,6 @@ class OpenGame(models.Model):
                 count+=1
         return count
 
-
 class Game(models.Model):
     directory = models.CharField(max_length=40)
     title = models.CharField(max_length=60)

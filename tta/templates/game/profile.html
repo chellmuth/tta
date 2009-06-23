@@ -1,11 +1,26 @@
-{% extends "game/base.html" %}
+{% extends "base.html" %}
 {% block content %}
 <div id="content" style="width:920px;">
     <img src="{{ gravatar_url }}" />
     {{ user.username }}
 </div>
 
-<div id="current-games">
+<div id="upcoming-games" style="margin-top:20px;">
+    Upcoming Games:
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Date Created</th>
+    </tr>
+{%  for game in upcoming_games %}
+    <tr>
+        <td><a href="/open/show/{{ game.id }}">{{ game.title }}</a></td>
+        <td>{{ game.date_created|date:"D, M dS y" }}</td>
+    </tr>
+{% endfor %}
+</table>
+
+<div id="current-games" style="margin-top:20px;">
     Current Games:
 <table>
     <tr>
@@ -13,7 +28,7 @@
         <th>Date Started</th>
         <th>Date Last Move</th>
     </tr>
-{%  for game in games %}
+{%  for game in current_games %}
     <tr>
         <td><a href="/{{ game.id }}/master/{{ user.username}}/card_row">{{ game.title }}</a></td>
         <td>{{ game.date_started|date:"D, M dS y" }}</td>
