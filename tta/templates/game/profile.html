@@ -4,4 +4,13 @@
     <img src="{{ gravatar_url }}" />
     {{ user.username }}
 </div>
+
+<div id="current-games">
+    Current Games:
+{%  for game in games %}
+    {{ game.title }}
+    {{ date_started }}
+    {{ date_finished }}
+    {{ date_last_move }}
+{% endfor %}
 {% endblock %}

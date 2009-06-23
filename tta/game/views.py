@@ -2,9 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from tta.game.models import LoginForm
-from game import git
+from game.git import Git as g
 
 def index(request, branch, player):
+    git = g('fake')
     card_row = git.get_deck(branch)[:13]
     civ = git.get_civ(branch)
     my_civ = civ[player]
@@ -43,6 +44,7 @@ def index(request, branch, player):
             })
 
 def slide(request, branch, player):
+    git = g('fake')
     deck = git.get_deck(branch)
     first = deck[0]
     if first:
@@ -54,6 +56,7 @@ def slide(request, branch, player):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def add_to_hand(request, branch, player, index_no):
+    git = g('fake')
     index_no = int(index_no) - 1
     deck = git.get_deck(branch)
 
@@ -73,22 +76,27 @@ def add_to_hand(request, branch, player, index_no):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def undo(request, branch, player):
+    git = g('fake')
     git.undo(branch)
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def begin(request, branch, player):
+    git = g('fake')
     git.create_branch_at_master_head(branch)
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def save(request, branch, player):
+    git = g('fake')
     git.replace_master_with_branch(branch)
     return HttpResponseRedirect("/master/" + player + "/card_row")
 
 def reset(request, branch, player):
+    git = g('fake')
     git.delete_branch(branch)
     return HttpResponseRedirect("/master/" + player + "/card_row")
 
 def play(request, branch, player, index_no):
+    git = g('fake')
     index_no = int(index_no) - 1
     civ = git.get_civ(branch)
     my_civ = civ[player]
@@ -107,6 +115,7 @@ def play(request, branch, player, index_no):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def discard(request, branch, player, index_no):
+    git = g('fake')
     index_no = int(index_no) - 1
     civ = git.get_civ(branch)
     card = civ[player]['hand'].pop(index_no)
@@ -116,6 +125,7 @@ def discard(request, branch, player, index_no):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def discard_leader(request, branch, player):
+    git = g('fake')
     civ = git.get_civ(branch)
     card = civ[player]['leader'] = None
 
@@ -124,6 +134,7 @@ def discard_leader(request, branch, player):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def play_event(request, branch, player, index_no):
+    git = g('fake')
     index_no = int(index_no) - 1
     civ = git.get_civ(branch)
     my_civ = civ[player]
@@ -140,6 +151,7 @@ def play_event(request, branch, player, index_no):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def play_aggression(request, branch, player, index_no):
+    git = g('fake')
     index_no = int(index_no) - 1
     civ = git.get_civ(branch)
     my_civ = civ[player]
@@ -156,6 +168,7 @@ def play_aggression(request, branch, player, index_no):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def play_pact(request, branch, player, index_no):
+    git = g('fake')
     index_no = int(index_no) - 1
     civ = git.get_civ(branch)
     my_civ = civ[player]
@@ -172,6 +185,7 @@ def play_pact(request, branch, player, index_no):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def remove_aggression(request, branch, player, index_no):
+    git = g('fake')
     index_no = int(index_no)
     military = git.get_military(branch)
     military['aggressions'].pop(index_no)
@@ -180,6 +194,7 @@ def remove_aggression(request, branch, player, index_no):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def remove_pact(request, branch, player, index_no):
+    git = g('fake')
     index_no = int(index_no)
     military = git.get_military(branch)
     military['pacts'].pop(index_no)
@@ -188,6 +203,7 @@ def remove_pact(request, branch, player, index_no):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def take_territory(request, branch, player):
+    git = g('fake')
     military = git.get_military(branch)
     card = military['current_event']
     military['current_event'] = None
@@ -199,12 +215,14 @@ def take_territory(request, branch, player):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def count_up(request, branch, player, type):
+    git = g('fake')
     civ = git.get_civ(branch)
     civ[player][type + '_tokens'] += 1
     git.write_civ(branch, civ, str(type + " up"))
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def count_down(request, branch, player, type):
+    git = g('fake')
     civ = git.get_civ(branch)
     civ[player][type + '_tokens'] -= 1
     civ[player][type + '_tokens'] = max(civ[player][type + '_tokens'], 0)
@@ -212,12 +230,14 @@ def count_down(request, branch, player, type):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def points_up(request, branch, player, category):
+    git = g('fake')
     civ = git.get_civ(branch)
     civ[player][category] += 1
     git.write_civ(branch, civ, str(category + " up"))
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def points_down(request, branch, player, category):
+    git = g('fake')
     civ = git.get_civ(branch)
     civ[player][category] -= 1
     civ[player][category] = max(civ[player][category], 0)
@@ -225,12 +245,14 @@ def points_down(request, branch, player, category):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def yellow_up(request, branch, player, cell):
+    git = g('fake')
     civ = git.get_civ(branch)
     civ[player][cell]['yellow'] += 1
     git.write_civ(branch, civ, str("yellow up " + cell))
     return points_down(request, branch, player, 'unused_workers')
 
 def yellow_down(request, branch, player, cell):
+    git = g('fake')
     civ = git.get_civ(branch)
     civ[player][cell]['yellow'] -= 1
     civ[player][cell]['yellow'] = max(civ[player][cell]['yellow'], 0)
@@ -238,12 +260,14 @@ def yellow_down(request, branch, player, cell):
     return points_up(request, branch, player, 'unused_workers')
 
 def blue_cell_up(request, branch, player, cell):
+    git = g('fake')
     civ = git.get_civ(branch)
     civ[player][cell]['blue'] += 1
     git.write_civ(branch, civ, str("blue up " + cell))
     return count_down(request, branch, player, 'blue')
 
 def blue_cell_down(request, branch, player, cell):
+    git = g('fake')
     civ = git.get_civ(branch)
     civ[player][cell]['blue'] -= 1
     civ[player][cell]['blue'] = max(civ[player][cell]['blue'], 0)
@@ -251,6 +275,7 @@ def blue_cell_down(request, branch, player, cell):
     return count_up(request, branch, player, 'blue')
 
 def draw_military(request, branch, player, deck):
+    git = g('fake')
     military = git.get_military(branch)
     card = military[deck].pop()
     
@@ -261,6 +286,7 @@ def draw_military(request, branch, player, deck):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def pop_current_event(request, branch, player):
+    git = g('fake')
     military = git.get_military(branch)
     if len(military['current']) == 0:
         return shuffle_future_events(request, branch, player)
@@ -272,6 +298,7 @@ def pop_current_event(request, branch, player):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def finish_wonder(request, branch, player):
+    git = g('fake')
     civ = git.get_civ(branch)
     my_civ = civ[player]
     wonder = my_civ['wonder']
@@ -282,6 +309,7 @@ def finish_wonder(request, branch, player):
     return HttpResponseRedirect("/" + branch + "/" + player + "/card_row")
 
 def shuffle_future_events(request, branch, player):
+    git = g('fake')
     military = git.get_military(branch)
 
     shuffled = git.shuffle(military['future']['III']) + git.shuffle(military['future']['II']) + git.shuffle(military['future']['I']) + git.shuffle(military['future']['A'])
@@ -362,5 +390,6 @@ def profile(request, user_id):
             'request': request,
             'user': user,
             'gravatar_url': gravatar_url,
-            'login_form': LoginForm()
+            'login_form': LoginForm(),
+            'games': [],
             });
