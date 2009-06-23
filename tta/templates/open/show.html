@@ -1,0 +1,36 @@
+{% extends "game/base.html" %}
+
+{% block content %}
+<h3>{{ game.title }}</h3>
+<table>
+    <tr>
+        <td>{{ game.player_1.username }}</td>
+    </tr>
+    <tr>
+{% if game.player_2 %}
+        <td>{{ game.player_2.username }}</td>
+{% else %}
+        <td><a href="/open/join/{{ game.id }}/">SIGN UP</a></td>
+{% endif %}
+    </tr>
+    <tr>
+{% ifnotequal game.max_players 2 %}
+{% if game.player_3 %}
+        <td>{{ game.player_3.username }}</td>
+{% else %}
+        <td><a href="/open/join/{{ game.id }}/">SIGN UP</a></td>
+{% endif %}
+    </tr>
+    <tr>
+{% ifequal game.max_players 4 %}
+{% if game.player_4 %}
+        <td>{{ game.player_4.username }}</td>
+{% else %}
+        <td><a href="/open/join/{{ game.id }}/">SIGN UP</a></td>
+{% endif %}
+{% endifequal %}
+{% endifnotequal %}
+    </tr>
+</table>
+
+{% endblock %}

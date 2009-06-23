@@ -337,7 +337,7 @@ def heartbeat(request, game, branch, user_id):
 
 from django.contrib.auth import authenticate, login as login_user
 from django.shortcuts import render_to_response
-def login(request, game, branch, player):
+def login(request):
     def errorHandle(error):
         form = LoginForm()
         return render_to_response('login.html', {
@@ -354,7 +354,7 @@ def login(request, game, branch, player):
                 if user.is_active:
                     # Redirect to a success page.
                     login_user(request, user)
-                    return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
+                    return HttpResponseRedirect("/" + "1" + "/" + "master" + "/" + "p1" + "/card_row")
                 else:
                     # Return a 'disabled account' error message
                     error = u'account disabled'
@@ -396,4 +396,68 @@ def profile(request, user_id):
             'gravatar_url': gravatar_url,
             'login_form': LoginForm(),
             'games': [ g.game for g in games ],
-            });
+            })
+
+from django.contrib.auth.decorators import login_required
+from game.models import OpenGameForm
+@login_required
+def create_game(request):
+    if request.method == 'POST':
+        form = OpenGameForm(request.POST)
+        if form.is_valid():
+            ogame = form.save()
+            ogame.player_1 = request.user
+            ogame.save()
+            return HttpResponseRedirect('/open/show/' + str(ogame.id) + '/')
+    else:
+        form = OpenGameForm()
+        return render_to_response('open/create.html', {
+                'request': request,
+                'login_form': LoginForm(),
+                'open_form': form,
+                })
+
+from game.models import OpenGame
+def show_game(request, game_id):
+    game = OpenGame.objects.get(id=game_id)
+    return render_to_response('open/show.html', {
+            'request': request,
+            'login_form': LoginForm(),
+            'game': game
+            })
+
+def list_games(request):
+    ogames = OpenGame.objects.all()
+    return render_to_response('open/list.html', {
+            'request': request,
+            'login_form': LoginForm(),
+            'games': ogames
+            })
+    
+
+@login_required
+def join_game(request, game_id):
+    ogame = OpenGame.objects.get(id=game_id)
+    if request.user in [ ogame.player_1, ogame.player_2, ogame.player_3, ogame.player_4]:
+        return render_to_response('open/show.html', {
+                'request': request,
+                'login_form': LoginForm(),
+                'game': ogame
+                })
+    else:
+        for num in range(2,ogame.max_players + 1):
+            attr =  'player_' + str(num)
+            if not getattr(ogame, attr):
+                setattr(ogame, attr, request.user)
+                ogame.save()
+                return render_to_response('open/show.html', {
+                        'request': request,
+                        'login_form': LoginForm(),
+                        'game': ogame
+                        })
+
+    return render_to_response('open/show.html', {
+            'request': request,
+            'login_form': LoginForm(),
+            'game': ogame
+            })
