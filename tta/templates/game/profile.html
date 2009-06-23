@@ -7,10 +7,18 @@
 
 <div id="current-games">
     Current Games:
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Date Started</th>
+        <th>Date Last Move</th>
+    </tr>
 {%  for game in games %}
-    {{ game.title }}
-    {{ date_started }}
-    {{ date_finished }}
-    {{ date_last_move }}
+    <tr>
+        <td><a href="/{{ game.id }}/master/{{ user.username}}/card_row">{{ game.title }}</a></td>
+        <td>{{ game.date_started|date:"D, M dS y" }}</td>
+        <td>{{ game.date_last_move|date:"D, M dS y" }}</td>
+    </tr>
 {% endfor %}
+</table>
 {% endblock %}

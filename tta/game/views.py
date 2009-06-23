@@ -378,11 +378,14 @@ def logout(request, game, branch, player):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 from django.contrib.auth.models import User
+from game.models import GamePlayer
 import urllib, hashlib
 def profile(request, user_id):
     user = User.objects.get(id=user_id)
     email = user.email
     size = 80
+
+    games = GamePlayer.objects.filter(user=user.id)
 
     gravatar_url = "http://www.gravatar.com/avatar.php?"
     gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(email).hexdigest(),
@@ -392,5 +395,5 @@ def profile(request, user_id):
             'user': user,
             'gravatar_url': gravatar_url,
             'login_form': LoginForm(),
-            'games': [],
+            'games': [ g.game for g in games ],
             });
