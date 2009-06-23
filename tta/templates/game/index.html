@@ -171,19 +171,19 @@ table .score-title {
 <div id="card_row">
 
 <div id="buttons" style="clear:both;margin-top:5px; margin-left:5px;">
-<form style="display:inline;" method="POST" action="/{{branch}}/{{player}}/slide/">
+<form style="display:inline;" method="POST" action="/{{ game }}/{{ branch }}/{{ player }}/slide/">
     <input type="submit" name="action" value="slide"/>
 </form>
 <form style="display:inline;" method="POST" action="/cjh/{{player}}/begin/">
     <input type="submit" name="action" value="begin"/>
 </form>
-<form style="display:inline;" method="POST" action="/{{branch}}/{{player}}/save/">
+<form style="display:inline;" method="POST" action="/{{ game }}/{{ branch }}/{{ player }}/save/">
     <input type="submit" name="action" value="save"/>
 </form>
-<form style="display:inline;" method="POST" action="/{{branch}}/{{player}}/reset/">
+<form style="display:inline;" method="POST" action="/{{ game }}/{{ branch }}/{{ player }}/reset/">
     <input type="submit" name="action" value="reset"/>
 </form>
-<form style="display:inline;" method="POST" action="/{{branch}}/{{player}}/undo/">
+<form style="display:inline;" method="POST" action="/{{ game }}/{{ branch }}/{{ player }}/undo/">
     <input type="submit" name="action" value="undo"/>
 </form>
 </div>
@@ -193,7 +193,7 @@ table .score-title {
 {% for card in card_row %}
         <td>
             <div class="card below">
-                <a href="/{{branch}}/{{player}}/add/{{ forloop.counter }}">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/add/{{ forloop.counter }}">
                     <img src="/site_media/{{ card }}" width="*" height="90">
                 </a>
             </div>
@@ -248,32 +248,32 @@ table .score-title {
         <tr>
 {% for aggression in military.aggressions %}
             <td class="card below">
-                <a href="/{{branch}}/{{player}}/remove_aggression/{{forloop.counter0}}/">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/remove_aggression/{{forloop.counter0}}/">
                     <img src="/site_media/{{ aggression.file }}" width="*" height="90" />
                 </a>
             </td>
 {% endfor %}
 {% for pact in military.pacts %}
             <td class="card below">
-                <a href="/{{branch}}/{{player}}/remove_pact/{{forloop.counter0}}/">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/remove_pact/{{forloop.counter0}}/">
                     <img src="/site_media/{{ pact.file }}" width="*" height="90" />
                 </a>
             </td>
 {% endfor %}
             <td>
-            <a href="/{{branch}}/{{player}}/draw_military/I/"><img src="/site_media/age_1/Age_I_Military_-_Card_Back.png" width="*" height="90" /></a>
+            <a href="/{{ game }}/{{ branch }}/{{ player }}/draw_military/I/"><img src="/site_media/age_1/Age_I_Military_-_Card_Back.png" width="*" height="90" /></a>
             </td>
             <td>
                 {{ military.I|length }}
             </td>
             <td>
-            <a href="/{{branch}}/{{player}}/draw_military/II/"><img src="/site_media/age_2/Age_II_Military_-_Card_Back.png" width="*" height="90" /></a>
+            <a href="/{{ game }}/{{ branch }}/{{ player }}/draw_military/II/"><img src="/site_media/age_2/Age_II_Military_-_Card_Back.png" width="*" height="90" /></a>
             </td>
             <td>
                 {{ military.II|length }}
             </td>
             <td>
-            <a href="/{{branch}}/{{player}}/draw_military/III/"><img src="/site_media/age_3/Age_III_Military_-_Card_Back.png" width="*" height="90" /></a>
+            <a href="/{{ game }}/{{ branch }}/{{ player }}/draw_military/III/"><img src="/site_media/age_3/Age_III_Military_-_Card_Back.png" width="*" height="90" /></a>
             </td>
             <td>
                 {{ military.III|length }}
@@ -281,7 +281,7 @@ table .score-title {
 {% if military.current_event %}
             <td class="card below">
 {%   ifequal military.current_event.cell "territory" %}
-            <a href="/{{branch}}/{{player}}/take_territory">
+            <a href="/{{ game }}/{{ branch }}/{{ player }}/take_territory">
                 <img src="/site_media/{{military.current_event.file}}" width="*" height="90">
             </a>
 {%   else %}
@@ -293,7 +293,7 @@ table .score-title {
                 Future Events: {{military.future_event_size}}
             </td>
             <td>
-                <a href="/{{branch}}/{{player}}/pop_current_event/">Pop Current Event ({{military.current|length}})</a>
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/pop_current_event/">Pop Current Event ({{military.current|length}})</a>
             </td>
         </tr>
     </table>
@@ -307,18 +307,18 @@ table .score-title {
         <td>
             <div class="card below">
 {%   ifequal card.cell "event" %}
-                <a href="/{{branch}}/{{player}}/play_event/{{ forloop.counter }}/">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/play_event/{{ forloop.counter }}/">
 {%   else %}
 {%     ifequal card.cell "territory" %}
-                <a href="/{{branch}}/{{player}}/play_event/{{ forloop.counter }}/">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/play_event/{{ forloop.counter }}/">
 {%     else %}
 {%       ifequal card.cell "aggression" %}
-                <a href="/{{branch}}/{{player}}/play_aggression/{{ forloop.counter }}/">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/play_aggression/{{ forloop.counter }}/">
 {%       else %}
 {%         ifequal card.cell "pact" %}
-                <a href="/{{branch}}/{{player}}/play_pact/{{ forloop.counter }}/">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/play_pact/{{ forloop.counter }}/">
 {%         else %}
-                <a href="/{{branch}}/{{player}}/play/{{ forloop.counter }}/">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/play/{{ forloop.counter }}/">
 {%         endifequal %}
 {%       endifequal %}
 {%     endifequal %}
@@ -337,7 +337,7 @@ table .score-title {
     <tr>
 {% for card in civ.hand %}
         <td>
-            <center><a href="/{{branch}}/{{player}}/discard/{{ forloop.counter }}/">X</a></center>
+            <center><a href="/{{ game }}/{{ branch }}/{{ player }}/discard/{{ forloop.counter }}/">X</a></center>
         </td>
 {% endfor %}
     </tr>
@@ -367,13 +367,13 @@ table .score-title {
 <td class="board">
 {% if civ.wonder %}
 <div class="card below">
-    <a href="/{{branch}}/{{player}}/finish_wonder/"><img src="/site_media/{{civ.wonder.file}}" width="*" height="90"></a>
+    <a href="/{{ game }}/{{ branch }}/{{ player }}/finish_wonder/"><img src="/site_media/{{civ.wonder.file}}" width="*" height="90"></a>
     <br clear="all"/>
     <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/wonder/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_up/wonder/">&uarr;</a>
         {{civ.wonder.blue}}
 {% if civ.wonder.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/wonder/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_down/wonder/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -384,7 +384,7 @@ table .score-title {
 <td class="board">
 {% if civ.leader %}
 <div class="card below">
-    <a href="/{{branch}}/{{player}}/discard_leader/"><img src="/site_media/{{civ.leader.file}}" width="*" height="90"></a>
+    <a href="/{{ game }}/{{ branch }}/{{ player }}/discard_leader/"><img src="/site_media/{{civ.leader.file}}" width="*" height="90"></a>
 </div>
 {% else %}
 &nbsp;
@@ -413,10 +413,10 @@ table .score-title {
 <div class="card below">
     <img src="/site_media/{{civ.warriors.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/warriors/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/warriors/">&uarr;</a>
         {{civ.warriors.yellow}}
 {% if civ.warriors.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/warriors/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/warriors/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -429,10 +429,10 @@ table .score-title {
 <div class="card below">
     <img src="/site_media/{{civ.philosophy.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/philosophy/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/philosophy/">&uarr;</a>
         {{civ.philosophy.yellow}}
 {% if civ.philosophy.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/philosophy/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/philosophy/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -445,10 +445,10 @@ table .score-title {
 <div class="card below">
     <img src="/site_media/{{civ.religion.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/religion/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/religion/">&uarr;</a>
         {{civ.religion.yellow}}
 {% if civ.religion.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/religion/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/religion/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -461,18 +461,18 @@ table .score-title {
 <div class="card below">
     <img src="/site_media/{{civ.bronze.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/bronze/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/bronze/">&uarr;</a>
         {{civ.bronze.yellow}}
 {% if civ.bronze.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/bronze/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/bronze/">&darr;</a>
 {% endif %}
     </span>
     <br clear="all"/>
     <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/bronze/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_up/bronze/">&uarr;</a>
         {{civ.bronze.blue}}
 {% if civ.bronze.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/bronze/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_down/bronze/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -485,18 +485,18 @@ table .score-title {
 <div class="card below">
     <img src="/site_media/{{civ.agriculture.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/agriculture/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/agriculture/">&uarr;</a>
         {{civ.agriculture.yellow}}
 {% if civ.agriculture.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/agriculture/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/agriculture/">&darr;</a>
 {% endif %}
     </span>
     <br clear="all"/>
     <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/agriculture/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_up/agriculture/">&uarr;</a>
         {{civ.agriculture.blue}}
 {% if civ.agriculture.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/agriculture/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_down/agriculture/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -547,10 +547,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.knights.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/knights/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/knights/">&uarr;</a>
         {{civ.knights.yellow}}
 {% if civ.knights.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/knights/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/knights/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -563,10 +563,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.swordsmen.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/swordsmen/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/swordsmen/">&uarr;</a>
         {{civ.swordsmen.yellow}}
 {% if civ.swordsmen.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/swordsmen/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/swordsmen/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -579,10 +579,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.drama.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/drama/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/drama/">&uarr;</a>
         {{civ.drama.yellow}}
 {% if civ.drama.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/drama/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/drama/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -595,10 +595,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.printing_press.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/printing_press/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/printing_press/">&uarr;</a>
         {{civ.printing_press.yellow}}
 {% if civ.printing_press.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/printing_press/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/printing_press/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -611,10 +611,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.bread_and_circuses.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/bread_and_circuses/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/bread_and_circuses/">&uarr;</a>
         {{civ.bread_and_circuses.yellow}}
 {% if civ.bread_and_circuses.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/bread_and_circuses/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/bread_and_circuses/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -627,10 +627,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.alchemy.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/alchemy/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/alchemy/">&uarr;</a>
         {{civ.alchemy.yellow}}
 {% if civ.alchemy.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/alchemy/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/alchemy/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -643,10 +643,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.theology.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/theology/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/theology/">&uarr;</a>
         {{civ.theology.yellow}}
 {% if civ.theology.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/theology/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/theology/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -659,18 +659,18 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.iron.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/iron/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/iron/">&uarr;</a>
         {{civ.iron.yellow}}
 {% if civ.iron.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/iron/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/iron/">&darr;</a>
 {% endif %}
     </span>
     <br clear="all"/>
     <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/iron/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_up/iron/">&uarr;</a>
         {{civ.iron.blue}}
 {% if civ.iron.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/iron/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_down/iron/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -683,18 +683,18 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.irrigation.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/irrigation/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/irrigation/">&uarr;</a>
         {{civ.irrigation.yellow}}
 {% if civ.irrigation.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/irrigation/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/irrigation/">&darr;</a>
 {% endif %}
     </span>
     <br clear="all"/>
     <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/irrigation/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_up/irrigation/">&uarr;</a>
         {{civ.irrigation.blue}}
 {% if civ.irrigation.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/irrigation/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_down/irrigation/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -745,10 +745,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.cannon.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/cannon/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/cannon/">&uarr;</a>
         {{civ.cannon.yellow}}
 {% if civ.cannon.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/cannon/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/cannon/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -761,10 +761,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.cavalrymen.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/cavalrymen/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/cavalrymen/">&uarr;</a>
         {{civ.cavalrymen.yellow}}
 {% if civ.cavalrymen.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/cavalrymen/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/cavalrymen/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -777,10 +777,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.riflemen.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/riflemen/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/riflemen/">&uarr;</a>
         {{civ.riflemen.yellow}}
 {% if civ.riflemen.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/riflemen/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/riflemen/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -793,10 +793,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.opera.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/opera/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/opera/">&uarr;</a>
         {{civ.opera.yellow}}
 {% if civ.opera.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/opera/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/opera/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -809,10 +809,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.journalism.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/journalism/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/journalism/">&uarr;</a>
         {{civ.journalism.yellow}}
 {% if civ.journalism.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/journalism/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/journalism/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -825,10 +825,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.team_sports.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/team_sports/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/team_sports/">&uarr;</a>
         {{civ.team_sports.yellow}}
 {% if civ.team_sports.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/team_sports/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/team_sports/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -841,10 +841,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.scientific_method.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/scientific_method/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/scientific_method/">&uarr;</a>
         {{civ.scientific_method.yellow}}
 {% if civ.scientific_method.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/scientific_method/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/scientific_method/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -857,10 +857,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.organized_religion.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/organized_religion/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/organized_religion/">&uarr;</a>
         {{civ.organized_religion.yellow}}
 {% if civ.organized_religion.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/organized_religion/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/organized_religion/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -873,18 +873,18 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.coal.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/coal/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/coal/">&uarr;</a>
         {{civ.coal.yellow}}
 {% if civ.coal.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/coal/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/coal/">&darr;</a>
 {% endif %}
     </span>
     <br clear="all"/>
     <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/coal/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_up/coal/">&uarr;</a>
         {{civ.coal.blue}}
 {% if civ.coal.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/coal/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_down/coal/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -897,18 +897,18 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.selective_breeding.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/selective_breeding/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/selective_breeding/">&uarr;</a>
         {{civ.selective_breeding.yellow}}
 {% if civ.selective_breeding.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/selective_breeding/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/selective_breeding/">&darr;</a>
 {% endif %}
     </span>
     <br clear="all"/>
     <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/selective_breeding/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_up/selective_breeding/">&uarr;</a>
         {{civ.selective_breeding.blue}}
 {% if civ.selective_breeding.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/selective_breeding/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_down/selective_breeding/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -959,10 +959,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.air_forces.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/air_forces/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/air_forces/">&uarr;</a>
         {{civ.air_forces.yellow}}
 {% if civ.air_forces.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/air_forces/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/air_forces/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -975,10 +975,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.rockets.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/rockets/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/rockets/">&uarr;</a>
         {{civ.rockets.yellow}}
 {% if civ.rockets.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/rockets/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/rockets/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -991,10 +991,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.tanks.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/tanks/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/tanks/">&uarr;</a>
         {{civ.tanks.yellow}}
 {% if civ.tanks.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/tanks/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/tanks/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1007,10 +1007,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.modern_infantry.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/modern_infantry/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/modern_infantry/">&uarr;</a>
         {{civ.modern_infantry.yellow}}
 {% if civ.modern_infantry.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/modern_infantry/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/modern_infantry/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1023,10 +1023,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.movies.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/movies/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/movies/">&uarr;</a>
         {{civ.movies.yellow}}
 {% if civ.movies.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/movies/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/movies/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1039,10 +1039,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.multimedia.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/multimedia/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/multimedia/">&uarr;</a>
         {{civ.multimedia.yellow}}
 {% if civ.multimedia.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/multimedia/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/multimedia/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1055,10 +1055,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.professional_sports.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/professional_sports/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/professional_sports/">&uarr;</a>
         {{civ.professional_sports.yellow}}
 {% if civ.professional_sports.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/professional_sports/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/professional_sports/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1071,10 +1071,10 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.computers.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/computers/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/computers/">&uarr;</a>
         {{civ.computers.yellow}}
 {% if civ.computers.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/computers/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/computers/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1087,18 +1087,18 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.oil.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/oil/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/oil/">&uarr;</a>
         {{civ.oil.yellow}}
 {% if civ.oil.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/oil/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/oil/">&darr;</a>
 {% endif %}
     </span>
     <br clear="all"/>
     <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/oil/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_up/oil/">&uarr;</a>
         {{civ.oil.blue}}
 {% if civ.oil.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/oil/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_down/oil/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1111,18 +1111,18 @@ table .score-title {
 <div class="card">
     <img src="/site_media/{{civ.mechanized_agriculture.file}}" width="*" height="90">
     <span class="yellow_counter">
-        <a href="/{{branch}}/{{player}}/yellow_up/mechanized_agriculture/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_up/mechanized_agriculture/">&uarr;</a>
         {{civ.mechanized_agriculture.yellow}}
 {% if civ.mechanized_agriculture.yellow %}
-        <a href="/{{branch}}/{{player}}/yellow_down/mechanized_agriculture/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/yellow_down/mechanized_agriculture/">&darr;</a>
 {% endif %}
     </span>
     <br clear="all"/>
     <span class="blue_counter">
-        <a href="/{{branch}}/{{player}}/blue_cell_up/mechanized_agriculture/">&uarr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_up/mechanized_agriculture/">&uarr;</a>
         {{civ.mechanized_agriculture.blue}}
 {% if civ.mechanized_agriculture.blue %}
-        <a href="/{{branch}}/{{player}}/blue_cell_down/mechanized_agriculture/">&darr;</a>
+        <a href="/{{ game }}/{{ branch }}/{{ player }}/blue_cell_down/mechanized_agriculture/">&darr;</a>
 {% endif %}
     </span>
 </div>
@@ -1137,7 +1137,7 @@ table .score-title {
     <table>
         <tr>
             <td>
-                <a href="/{{branch}}/{{player}}/count_up/blue">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/count_up/blue">
                     &uarr;
                 </a>
             </td>
@@ -1213,7 +1213,7 @@ table .score-title {
         <tr>
             <td>
 {% if blue.1 %}
-                <a href="/{{branch}}/{{player}}/count_down/blue">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/count_down/blue">
                     &darr;
                 </a>
 {% endif %}
@@ -1335,12 +1335,12 @@ table .score-title {
                 <img src="/site_media/misc/happiness.png" />
 {% endifequal %}
 {% ifnotequal civ.happiness 9 %}
-                <a href="/{{branch}}/{{player}}/points_up/happiness">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/points_up/happiness">
                     &uarr;
                 </a>
 {% endifnotequal %}
 {% ifnotequal civ.happiness 0 %}
-                <a href="/{{branch}}/{{player}}/points_down/happiness">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/points_down/happiness">
                     &darr;
                 </a>
 {% endifnotequal %}
@@ -1348,7 +1348,7 @@ table .score-title {
         <tr>
             <td>
 {% if not yellow.18 %}
-                <a href="/{{branch}}/{{player}}/count_up/yellow">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/count_up/yellow">
                     &uarr;
                 </a>
 {% endif %}
@@ -1433,15 +1433,15 @@ table .score-title {
             </td>
             <td rowspan="2">
                 Unused: {{ civ.unused_workers }}
-                <a href="/{{branch}}/{{player}}/points_up/unused_workers/">&uarr;</a>
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/points_up/unused_workers/">&uarr;</a>
 {% if civ.unused_workers %}
-                <a href="/{{branch}}/{{player}}/points_down/unused_workers/">&darr;</a>
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/points_down/unused_workers/">&darr;</a>
 {%  endif %}
             </td>
         <tr>
             <td>
 {% if yellow.1 %}
-                <a href="/{{branch}}/{{player}}/count_down/yellow">
+                <a href="/{{ game }}/{{ branch }}/{{ player }}/count_down/yellow">
                     &darr;
                 </a>
 {% endif %}

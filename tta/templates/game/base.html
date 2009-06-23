@@ -18,7 +18,7 @@
 {% if request.user.is_authenticated %}
         <a href="/profile/{{request.user.id}}/{{ request.user.username }}">{{ request.user.username }}</a> | <a href="/logout/master/p1">Logout</a>
 {% else %}
-        <form action="/login/{{branch}}/{{player}}/" method="post">
+        <form action="/login/{{ game }}/ {{ branch }}/{{ player }}/" method="post">
             {{ login_form.as_p }}
             <input style="float:right; margin-left:5px;" type="submit" value="Submit" />
         </form>

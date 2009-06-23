@@ -9,7 +9,6 @@ class Game(models.Model):
     date_started = models.DateTimeField(default=datetime.datetime.now)
     date_finished = models.DateTimeField(default=datetime.datetime.now)
     date_last_move = models.DateTimeField(default=datetime.datetime.now)
-    winner = models.ForeignKey(User)
 
 class GamePlayer(models.Model):
     user = models.ForeignKey(User)
