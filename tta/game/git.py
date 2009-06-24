@@ -9,7 +9,7 @@ from subprocess import Popen, PIPE
 from tta.settings import REPO_ROOT
 
 class Git:
-    def __init__(self, dir):
+    def __init__(self, dir, init_data={}):
         self.git_dir = REPO_ROOT + dir
         if not os.path.exists(self.git_dir):
             proc = Popen(('git', 'clone', "--bare", REPO_ROOT + "/root_game", self.git_dir),
@@ -19,7 +19,7 @@ class Git:
                      stderr = PIPE)
 
             out, err = proc.communicate()
-            self.write_game('master',{'deck':self.make_shuffled_deck(), 'civ':self.make_initial_civ(), 'military': self.make_age_a_military()})
+            self.write_game('master',{'deck':self.make_shuffled_deck(init_data['num_players']), 'civ':self.make_initial_civ(init_data['player_names']), 'military': self.make_age_a_military()})
 
     def make_age_a_military(self):
         age_a = self.shuffle([
@@ -215,7 +215,7 @@ class Git:
                  'aggressions': [],
                  'pacts': [] }
 
-    def make_shuffled_deck(self):
+    def make_shuffled_deck(self, num_players):
         ageA = self.shuffle([
                 { 'file': 'Alexander_the_Great.png',   'cell': 'leader', 'back': 'Age_A_Civil_-_Card_Back.png' },
                 { 'file': 'Aristotle.png',             'cell': 'leader', 'back': 'Age_A_Civil_-_Card_Back.png' },
@@ -241,196 +241,231 @@ class Git:
                 { 'file': 'Work_of_Art.png',           'cell': 'yellow-card', 'back': 'Age_A_Civil_-_Card_Back.png' }
                 ])
 
-        ageI = self.shuffle([
-                { 'file': 'age_1/Bountiful_Harvest.png',       'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Breakthrough.png',            'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Efficient_Upgrade.png',       'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Efficient_Upgrade.png',       'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Engineering_Genius.png',      'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Frugality.png',               'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Ideal_Building_Site_dsn.png', 'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Mineral_Deposits_dsn.png',    'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Mineral_Deposits_dsn.png',    'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Patiotism_Age_1_dsn.png',     'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Revolutionary_Idea_dsn.png',  'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Rich_Land_dsn.png',           'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Work_of_Art.png',             'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+        _4ageI = [
+            { 'file': 'age_1/Alchemy.png',        'cell': 'alchemy', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Iron_dsn.png',       'cell': 'iron', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Swordsmen_dsn.png',  'cell': 'swordsmen', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Irrigation_dsn.png', 'cell': 'irrigation', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/knights_dsn.png',    'cell': 'knights', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' }
+            ]
+        if num_players < 4:
+            _4ageI = []
 
-                { 'file': 'age_1/Theology_dsn.png', 'cell': 'theology', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Theology_dsn.png', 'cell': 'theology', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Alchemy.png', 'cell': 'alchemy', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Alchemy.png', 'cell': 'alchemy', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Alchemy.png', 'cell': 'alchemy', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Bread_and_Circuses.png', 'cell': 'bread_and_circuses', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Bread_and_Circuses.png', 'cell': 'bread_and_circuses', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Drama.png', 'cell': 'drama', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Drama.png', 'cell': 'drama', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Iron_dsn.png', 'cell': 'iron', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Iron_dsn.png', 'cell': 'iron', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Iron_dsn.png', 'cell': 'iron', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Irrigation_dsn.png', 'cell': 'irrigation', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Irrigation_dsn.png', 'cell': 'irrigation', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Irrigation_dsn.png', 'cell': 'irrigation', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Printing_Press_1_dsn.png', 'cell': 'printing_press', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Printing_Press_1_dsn.png', 'cell': 'printing_press', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Swordsmen_dsn.png', 'cell': 'swordsmen', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Swordsmen_dsn.png', 'cell': 'swordsmen', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Swordsmen_dsn.png', 'cell': 'swordsmen', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/knights_dsn.png', 'cell': 'knights', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/knights_dsn.png', 'cell': 'knights', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/knights_dsn.png', 'cell': 'knights', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-
-                { 'file': 'age_1/Great_Wall_dsn.png', 'cell': 'wonder', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/St_Peters_Basilica_dsn.png', 'cell': 'wonder', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Taj_Mahal_dsn.png', 'cell': 'wonder', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/universitas_carolina_dsn.png', 'cell': 'wonder', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-
-                { 'file': 'age_1/Cartography.png', 'cell': 'cartography', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Code_of_Laws.png', 'cell': 'code_of_laws', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Code_of_Laws.png', 'cell': 'code_of_laws', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Masonry_dsn.png', 'cell': 'masonry', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+        _3ageI = [
+                { 'file': 'age_1/Theology_dsn.png',         'cell': 'theology', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+                { 'file': 'age_1/Bread_and_Circuses.png',   'cell': 'bread_and_circuses', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
                 { 'file': 'age_1/warfare_dsn.png', 'cell': 'warfare', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/warfare_dsn.png', 'cell': 'warfare', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+                { 'file': 'age_1/Code_of_Laws.png', 'cell': 'code_of_laws', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+                { 'file': 'age_1/Monarchy_dsn.png', 'cell': 'government', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' }
+            ]
+        if num_players < 3:
+            _3ageI = []
 
-                { 'file': 'age_1/Michelangelo_dsn.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Joan_of_Arc_dsn.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Leonardo_da_Vinci_dsn.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Genghis_Khan.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Christopher_Columbus.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Frederick_Barbarrossa.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+        _2ageI = [
+            { 'file': 'age_1/Bountiful_Harvest.png',       'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Breakthrough.png',            'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Efficient_Upgrade.png',       'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Efficient_Upgrade.png',       'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Engineering_Genius.png',      'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Frugality.png',               'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Ideal_Building_Site_dsn.png', 'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Mineral_Deposits_dsn.png',    'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Mineral_Deposits_dsn.png',    'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Patiotism_Age_1_dsn.png',     'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Revolutionary_Idea_dsn.png',  'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Rich_Land_dsn.png',           'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Work_of_Art.png',             'cell': 'yellow-card', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_1/Monarchy_dsn.png', 'cell': 'government', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Monarchy_dsn.png', 'cell': 'government', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
-                { 'file': 'age_1/Theocracy_dsn.png', 'cell': 'government', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' }
-                ])
+            { 'file': 'age_1/Theology_dsn.png',         'cell': 'theology', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Alchemy.png',              'cell': 'alchemy', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Alchemy.png',              'cell': 'alchemy', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Bread_and_Circuses.png',   'cell': 'bread_and_circuses', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Drama.png',                'cell': 'drama', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Drama.png',                'cell': 'drama', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Iron_dsn.png',             'cell': 'iron', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Iron_dsn.png',             'cell': 'iron', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Irrigation_dsn.png',       'cell': 'irrigation', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Irrigation_dsn.png',       'cell': 'irrigation', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Printing_Press_1_dsn.png', 'cell': 'printing_press', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Printing_Press_1_dsn.png', 'cell': 'printing_press', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Swordsmen_dsn.png',        'cell': 'swordsmen', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Swordsmen_dsn.png',        'cell': 'swordsmen', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/knights_dsn.png',          'cell': 'knights', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/knights_dsn.png',          'cell': 'knights', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
 
-        ageII = self.shuffle([
-                { 'file': 'age_2/Bountiful_Harvest.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Breakthrough.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Efficient_Upgrade.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Efficient_Upgrade.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Engineering_Genius.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Frugality.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Ideal_Building_Site.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Mineral_Deposits.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Patriotism.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Revolutionary_Idea.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Rich_Land.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Wave_of_Nationalism.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Work_of_Art.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Great_Wall_dsn.png', 'cell': 'wonder', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/St_Peters_Basilica_dsn.png', 'cell': 'wonder', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Taj_Mahal_dsn.png', 'cell': 'wonder', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/universitas_carolina_dsn.png', 'cell': 'wonder', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_2/Selective_Breeding.png', 'cell': 'selective_breeding', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Selective_Breeding.png', 'cell': 'selective_breeding', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Coal.png', 'cell': 'coal', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Coal.png', 'cell': 'coal', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Organized_Religion.png', 'cell': 'organized_religion', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Organized_Religion.png', 'cell': 'organized_religion', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Scientific_Method.png', 'cell': 'scientific_method', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Scientific_Method.png', 'cell': 'scientific_method', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Team_Sports.png', 'cell': 'team_sports', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Journalism.png', 'cell': 'journalism', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Journalism.png', 'cell': 'journalism', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Journalism.png', 'cell': 'journalism', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Opera.png', 'cell': 'opera', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Opera.png', 'cell': 'opera', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Cartography.png', 'cell': 'cartography', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Code_of_Laws.png', 'cell': 'code_of_laws', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Masonry_dsn.png', 'cell': 'masonry', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/warfare_dsn.png', 'cell': 'warfare', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_2/Riflemen.png', 'cell': 'riflemen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Riflemen.png', 'cell': 'riflemen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Cavalrymen.png', 'cell': 'cavalrymen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Cavalrymen.png', 'cell': 'cavalrymen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Cavalrymen.png', 'cell': 'cavalrymen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Cannon.png', 'cell': 'cannon', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Cannon.png', 'cell': 'cannon', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Cannon.png', 'cell': 'cannon', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Michelangelo_dsn.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Joan_of_Arc_dsn.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Leonardo_da_Vinci_dsn.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Genghis_Khan.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Christopher_Columbus.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Frederick_Barbarrossa.png', 'cell': 'leader', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_2/Transcontinental_Railroad.png', 'cell': 'wonder', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Eiffel_Tower.png', 'cell': 'wonder', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Kremlin.png', 'cell': 'wonder', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Ocean_Liner_Service.png', 'cell': 'wonder', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Monarchy_dsn.png', 'cell': 'government', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' },
+            { 'file': 'age_1/Theocracy_dsn.png', 'cell': 'government', 'back': 'age_1/Age_I_Civil_-_Card_Back.png' }
+            ]
 
-                { 'file': 'age_2/William_Shakespeare.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/James_Cook.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Napoleon_Bonaparte.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Maximilien_Robespierre.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/JS_Bach.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Isaac_Newton.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+        ageI = self.shuffle(_4ageI + _3ageI + _2ageI)
 
-                { 'file': 'age_2/Constitutional_Monarchy.png', 'cell': 'government', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Constitutional_Monarchy.png', 'cell': 'government', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Republic.png', 'cell': 'government', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Republic.png', 'cell': 'government', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+        __4ageII = [
+            { 'file': 'age_2/Journalism.png',         'cell': 'journalism', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Cavalrymen.png', 'cell': 'cavalrymen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Cavalrymen.png', 'cell': 'cavalrymen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Republic.png', 'cell': 'government', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Justice_System.png', 'cell': 'justice_system', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' }
+        ]
+        if num_players < 4:
+            _4ageII = []
 
-                { 'file': 'age_2/Strategy.png', 'cell': 'strategy', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Justice_System.png', 'cell': 'justice_system', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Justice_System.png', 'cell': 'justice_system', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Navigation.png', 'cell': 'navigation', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Architecture.png', 'cell': 'architecture', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
-                { 'file': 'age_2/Architecture.png', 'cell': 'architecture', 'back': 'age_2/Age_II_Civil_-_Card_Back.png'  }
-                ])
+        _3ageII = [
+            { 'file': 'age_2/Selective_Breeding.png', 'cell': 'selective_breeding', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Coal.png',               'cell': 'coal', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Riflemen.png', 'cell': 'riflemen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Constitutional_Monarchy.png', 'cell': 'government', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Architecture.png', 'cell': 'architecture', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' }
+        ]
+        if num_players < 3:
+            _3ageII = []
 
-        ageIII = self.shuffle([
-                { 'file': 'age_3/Bountiful_Harvest.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Efficient_Upgrade.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Endowment_for_the_Arts.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Engineering_Genius.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Ideal_Building_Site.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Civil_Build-Up.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Mineral_Deposits.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Patriotism.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Revolutionary_Idea.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Work_of_Art.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+        _2ageII = [
+            { 'file': 'age_2/Bountiful_Harvest.png',   'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Breakthrough.png',        'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Efficient_Upgrade.png',   'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Efficient_Upgrade.png',   'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Engineering_Genius.png',  'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Frugality.png',           'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Ideal_Building_Site.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Mineral_Deposits.png',    'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Patriotism.png',          'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Revolutionary_Idea.png',  'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Rich_Land.png',           'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Wave_of_Nationalism.png', 'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Work_of_Art.png',         'cell': 'yellow-card', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_3/Mechanized_Agriculture.png', 'cell':'mechanized_agriculture', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Mechanized_Agriculture.png', 'cell':'mechanized_agriculture', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Oil.png', 'cell':'oil', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Oil.png', 'cell':'oil', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Computers.png', 'cell':'computers', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Computers.png', 'cell':'computers', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Professional_Sports.png', 'cell':'professional_sports', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Professional_Sports.png', 'cell':'professional_sports', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Multimedia.png', 'cell':'multimedia', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Multimedia.png', 'cell':'multimedia', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Movies.png', 'cell':'movies', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Movies.png', 'cell':'movies', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Selective_Breeding.png', 'cell': 'selective_breeding', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Coal.png',               'cell': 'coal', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Organized_Religion.png', 'cell': 'organized_religion', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Organized_Religion.png', 'cell': 'organized_religion', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Scientific_Method.png',  'cell': 'scientific_method', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Scientific_Method.png',  'cell': 'scientific_method', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Team_Sports.png',        'cell': 'team_sports', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Journalism.png',         'cell': 'journalism', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Journalism.png',         'cell': 'journalism', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Opera.png',              'cell': 'opera', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Opera.png',              'cell': 'opera', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_3/Modern_Infantry.png', 'cell':'modern_infantry', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Modern_Infantry.png', 'cell':'modern_infantry', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Tanks.png', 'cell':'tanks', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Tanks.png', 'cell':'tanks', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Rockets.png', 'cell':'rockets', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Rockets.png', 'cell':'rockets', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Rockets.png', 'cell':'rockets', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Air_Forces.png', 'cell':'air_forces', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Air_Forces.png', 'cell':'air_forces', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Air_Forces.png', 'cell':'air_forces', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Riflemen.png', 'cell': 'riflemen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Cavalrymen.png', 'cell': 'cavalrymen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Cannon.png', 'cell': 'cannon', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Cannon.png', 'cell': 'cannon', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Cannon.png', 'cell': 'cannon', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_3/Hollywood.png', 'cell':'wonder', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Internet.png', 'cell':'wonder', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/First_Space_Flight.png', 'cell':'wonder', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Fast_Food_Chains.png', 'cell':'wonder', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Transcontinental_Railroad.png', 'cell': 'wonder', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Eiffel_Tower.png',              'cell': 'wonder', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Kremlin.png',                   'cell': 'wonder', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Ocean_Liner_Service.png',       'cell': 'wonder', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_3/Albert_Einstein.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Mahatma_Gandhi.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Rock_and_Roll_Icon.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Nikola_Tesla.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Winston_Churchill.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Game_Designer.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/William_Shakespeare.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/James_Cook.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Napoleon_Bonaparte.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Maximilien_Robespierre.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/JS_Bach.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Isaac_Newton.png', 'cell': 'leader', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_3/Communism.png', 'cell':'government', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Democracy.png', 'cell':'government', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Democracy.png', 'cell':'government', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Fundamentalism.png', 'cell':'government', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Constitutional_Monarchy.png', 'cell': 'government', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Republic.png', 'cell': 'government', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
 
-                { 'file': 'age_3/Civil_Theory.png', 'cell':'military_theory', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Civil_Theory.png', 'cell':'military_theory', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Civil_Service.png', 'cell':'civil_service', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Satellites.png', 'cell':'satellites', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Engineering.png', 'cell':'engineering', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
-                { 'file': 'age_3/Engineering.png', 'cell':'engineering', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' }
-                ])
+            { 'file': 'age_2/Strategy.png', 'cell': 'strategy', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Justice_System.png', 'cell': 'justice_system', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Navigation.png', 'cell': 'navigation', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
+            { 'file': 'age_2/Architecture.png', 'cell': 'architecture', 'back': 'age_2/Age_II_Civil_-_Card_Back.png'  }
+            ]
+
+        ageII = self.shuffle([_4ageII + _3ageII + _2ageII])
+
+        _4ageIII = [
+            { 'file': 'age_3/Professional_Sports.png',    'cell':'professional_sports', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Rockets.png',         'cell':'rockets', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Air_Forces.png',      'cell':'air_forces', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Civil_Theory.png', 'cell':'military_theory', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Engineering.png', 'cell':'engineering', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' }
+        ]
+        if num_players < 4:
+            _4ageIII = []
+
+        _3ageIII = [
+            { 'file': 'age_3/Mechanized_Agriculture.png', 'cell':'mechanized_agriculture', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Oil.png',                    'cell':'oil', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Modern_Infantry.png', 'cell':'modern_infantry', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Tanks.png',           'cell':'tanks', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Democracy.png', 'cell':'government', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' }
+        ]
+        if num_players < 3:
+            _3ageIII = []
+
+        _2ageIII = [
+            { 'file': 'age_3/Bountiful_Harvest.png',      'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Efficient_Upgrade.png',      'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Endowment_for_the_Arts.png', 'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Engineering_Genius.png',     'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Ideal_Building_Site.png',    'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Civil_Build-Up.png',         'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Mineral_Deposits.png',       'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Patriotism.png',             'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Revolutionary_Idea.png',     'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Work_of_Art.png',            'cell':'yellow-card', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+
+            { 'file': 'age_3/Mechanized_Agriculture.png', 'cell':'mechanized_agriculture', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Oil.png',                    'cell':'oil', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Computers.png',              'cell':'computers', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Computers.png',              'cell':'computers', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Professional_Sports.png',    'cell':'professional_sports', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Multimedia.png',             'cell':'multimedia', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Multimedia.png',             'cell':'multimedia', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Movies.png',                 'cell':'movies', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Movies.png',                 'cell':'movies', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+
+            { 'file': 'age_3/Modern_Infantry.png', 'cell':'modern_infantry', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Tanks.png',           'cell':'tanks', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Rockets.png',         'cell':'rockets', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Rockets.png',         'cell':'rockets', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Air_Forces.png',      'cell':'air_forces', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Air_Forces.png',      'cell':'air_forces', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+
+            { 'file': 'age_3/Hollywood.png', 'cell':'wonder', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Internet.png', 'cell':'wonder', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/First_Space_Flight.png', 'cell':'wonder', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Fast_Food_Chains.png', 'cell':'wonder', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+
+            { 'file': 'age_3/Albert_Einstein.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Mahatma_Gandhi.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Rock_and_Roll_Icon.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Nikola_Tesla.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Winston_Churchill.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Game_Designer.png', 'cell':'leader', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+
+            { 'file': 'age_3/Communism.png', 'cell':'government', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Democracy.png', 'cell':'government', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Fundamentalism.png', 'cell':'government', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+
+            { 'file': 'age_3/Civil_Theory.png', 'cell':'military_theory', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Civil_Service.png', 'cell':'civil_service', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Satellites.png', 'cell':'satellites', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' },
+            { 'file': 'age_3/Engineering.png', 'cell':'engineering', 'back': 'age_3/Age_III_Civil_-_Card_Back.png' }
+            ]
+
+        ageIII = self.shuffle([_4ageIII + _3ageIII + _2ageIII])
 
         return ageA + ageI + ageII + ageIII
-
 
     def shuffle(self, cards):
         shuffled = []
@@ -440,7 +475,7 @@ class Git:
 
         return shuffled
 
-    def make_initial_civ(self):
+    def make_initial_civ(self, player_names):
         civ = { 'government':  { 'file': 'Despotism.png',   'blue': 0, 'yellow': 0 },
                 'philosophy':  { 'file': 'Philosophy.png',  'blue': 0, 'yellow': 1 },
                 'religion':    { 'file': 'Religion.png',    'blue': 0, 'yellow': 0 },
@@ -459,7 +494,7 @@ class Git:
                 'strength': 1,
                 'happiness': 0,
                 'blue_tokens': 18}
-        return { 'p1': civ, 'p2': civ, 'p3': civ, 'p4': civ }
+        return dict((name, civ) for name in player_names)
 
     def undo(self, branch):
         proc = Popen(('git', 'update-ref', "refs/heads/" + branch, branch + '~1'),

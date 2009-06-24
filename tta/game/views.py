@@ -431,6 +431,9 @@ def start_game(request):
     ogame = OpenGame.objects.get(id=request.POST['game_id'])
     if ogame.date_started:
         return
+    if ogame.current_players() not in [2,3,4]:
+        return
+
     ogame.date_started = datetime.datetime.now()
     ogame.save()
 
@@ -438,13 +441,19 @@ def start_game(request):
                 title=ogame.title,
                 date_started=datetime.datetime.now())
     game.save()
-    for num in range(2, ogame.current_players() + 1):
+
+    player_names = []
+    for num in range(1, ogame.current_players() + 1):
         attr = 'player_' + str(num)
         player = getattr(ogame, attr)
+        player_names.append(player.username)
         gp = GamePlayer(user=player, game=game)
         gp.save()
 
-    git = g(game.directory)
+    git = g(game.directory, {
+            'num_players': ogame.current_players(),
+            'player_names': player_names
+            })
     return HttpResponseRedirect("/" + str(game.id) + "/" + "master" + "/" + request.user.username + "/card_row/")
 
 from game.models import OpenGame
@@ -457,7 +466,7 @@ def show_game(request, game_id):
             })
 
 def list_games(request):
-    ogames = OpenGame.objects.all()
+    ogames = OpenGame.objects.exclude(date_started__isnull=False)
     return render_to_response('open/list.html', {
             'request': request,
             'login_form': LoginForm(),
