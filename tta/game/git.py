@@ -6,10 +6,20 @@ from django.utils import simplejson
 import os
 import re
 from subprocess import Popen, PIPE
+from tta.settings import REPO_ROOT
 
 class Git:
     def __init__(self, dir):
-        self.git_dir = '/home/cjh/tta_game/'
+        self.git_dir = REPO_ROOT + dir
+        if not os.path.exists(self.git_dir):
+            proc = Popen(('git', 'clone', "--bare", REPO_ROOT + "/root_game", self.git_dir),
+                     env = { "GIT_DIR":self.git_dir },
+                     stdin = PIPE,
+                     stdout = PIPE,
+                     stderr = PIPE)
+
+            out, err = proc.communicate()
+            self.write_game('master',{'deck':self.make_shuffled_deck(), 'civ':self.make_initial_civ(), 'military': self.make_age_a_military()})
 
     def make_age_a_military(self):
         age_a = self.shuffle([

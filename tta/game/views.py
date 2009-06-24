@@ -360,7 +360,7 @@ def login(request):
                 if user.is_active:
                     # Redirect to a success page.
                     login_user(request, user)
-                    return HttpResponseRedirect("/" + "1" + "/" + "master" + "/" + "p1" + "/card_row")
+                    return HttpResponseRedirect("/profile/" + str(user.id))
                 else:
                     # Return a 'disabled account' error message
                     error = u'account disabled'
@@ -379,9 +379,9 @@ def login(request):
                 })
 
 from django.contrib.auth import logout as logout_user
-def logout(request, game, branch, player):
+def logout(request):
     logout_user(request)
-    return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
+    return HttpResponseRedirect("/")
 
 from django.contrib.auth.models import User
 from game.models import GamePlayer
@@ -425,6 +425,27 @@ def create_game(request):
                 'login_form': LoginForm(),
                 'open_form': form,
                 })
+
+@login_required
+def start_game(request):
+    ogame = OpenGame.objects.get(id=request.POST['game_id'])
+    if ogame.date_started:
+        return
+    ogame.date_started = datetime.datetime.now()
+    ogame.save()
+
+    game = Game(directory=hashlib.md5(request.user.username + str(datetime.datetime.now())).hexdigest(),
+                title=ogame.title,
+                date_started=datetime.datetime.now())
+    game.save()
+    for num in range(2, ogame.current_players() + 1):
+        attr = 'player_' + str(num)
+        player = getattr(ogame, attr)
+        gp = GamePlayer(user=player, game=game)
+        gp.save()
+
+    git = g(game.directory)
+    return HttpResponseRedirect("/" + str(game.id) + "/" + "master" + "/" + request.user.username + "/card_row/")
 
 from game.models import OpenGame
 def show_game(request, game_id):

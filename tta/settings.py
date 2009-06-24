@@ -79,3 +79,5 @@ INSTALLED_APPS = (
 #   'django.contrib.sites',
     'tta.game',
 )
+
+REPO_ROOT = '/home/cjh/projects/tta/tta/git_repos/'

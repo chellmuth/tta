@@ -11,7 +11,7 @@ class OpenGame(models.Model):
     player_3 = models.ForeignKey(User, blank=True, related_name='player_3_player', null=True)
     player_4 = models.ForeignKey(User, blank=True, related_name='player_4_player', null=True)
     date_created = models.DateTimeField(default=datetime.datetime.now)
-    date_started = models.DateTimeField(default=datetime.datetime.now)
+    date_started = models.DateTimeField(blank=True, null=True)
 
     def current_players(self):
         count = 1

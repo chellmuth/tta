@@ -32,7 +32,10 @@
 {% endifnotequal %}
     </tr>
 </table>
-
+<form action="/open/start/" method="POST">
+    <input type="hidden" name="game_id" value="{{ game.id }}" />
+    <input type="submit" name="Start" value="Start" />
+</form>
 <p>
     <a href="/open/list/">Back</a>
 </p>
