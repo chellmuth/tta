@@ -393,7 +393,7 @@ def profile(request, user_id):
     size = 80
 
     current_games = GamePlayer.objects.filter(user=user.id)
-    upcoming_games = OpenGame.objects.filter(Q(player_1=user.id) | Q(player_2=user.id) | Q(player_3=user.id) | Q(player_4=user.id))
+    upcoming_games = OpenGame.objects.filter(Q(player_1=user.id) | Q(player_2=user.id) | Q(player_3=user.id) | Q(player_4=user.id)).exclude(date_started__isnull=False)
 
     gravatar_url = "http://www.gravatar.com/avatar.php?"
     gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(email).hexdigest(),

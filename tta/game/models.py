@@ -25,8 +25,8 @@ class Game(models.Model):
     directory = models.CharField(max_length=40)
     title = models.CharField(max_length=60)
     date_started = models.DateTimeField(default=datetime.datetime.now)
-    date_finished = models.DateTimeField(default=datetime.datetime.now)
-    date_last_move = models.DateTimeField(default=datetime.datetime.now)
+    date_finished = models.DateTimeField(blank=True, null=True)
+    date_last_move = models.DateTimeField(blank=True, null=True)
 
 class GamePlayer(models.Model):
     user = models.ForeignKey(User)
