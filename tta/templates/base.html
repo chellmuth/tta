@@ -2,16 +2,20 @@
 <head>
 <title>Through The Ages</title>
 
+<link href="/site_media/css/reset.css" type="text/css" media="all" rel="stylesheet" />
+<link href="/site_media/css/main.css" type="text/css" media="all" rel="stylesheet" />
 {{ login_form.media }}
+
 {% block additional_head_lines %}
 {% endblock %}
+
 </head>
 <body>
 
-<div id="everything" style="float:left;">
-    <div id="header" style="overflow:auto;">
-    <div style="float:left; font-size:30px; margin-left:5px; font-family:Verdana; margin-bottom:10px;">
-        Through The Ages
+<div id="everything">
+    <div id="header">
+    <div id="title-container">
+        <a id="title-link" href="/">Through The Ages</a>
     </div>
 {% block login %}
     <div style="float:right; margin-top:24px;">

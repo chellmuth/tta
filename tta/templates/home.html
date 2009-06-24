@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div id="content">
 <p>
     <a href="/open/list/">View Games</a>
 </p>
@@ -11,5 +12,6 @@
 <p>
     <a href="/profile/{{ request.user.id }}/{{request.user.username }}">My Profile</a>
 </p>
+</div>
 {% endif %}
 {% endblock %}

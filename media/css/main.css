@@ -1,0 +1,15 @@
+a:link { text-decoration:none; }
+a:visited { text-decoration:none; }
+a:hover { text-decoration:none; }
+a:active { text-decoration:none; }
+
+#title-link:link { color:#000; }
+#title-link:visited { color:#000; }
+#title-link:hover { color:#000; }
+#title-link:active { color:#000; }
+
+#everything { width: 1250px; float:left; }
+#header { overflow:auto; }
+#title-container { float:left; font-size:30px; margin-left:5px; font-family:Verdana; margin-bottom:10px; }
+
+#content { margin-left: 20px; margin-top:40px; }
