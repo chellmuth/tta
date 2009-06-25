@@ -10,29 +10,36 @@ def home(request):
             'login_form': LoginForm()
             })
 
-def index(request, game, branch, player):
+def stuff(request, game, branch):
     git = g(Game.objects.get(id=game).directory)
     card_row = git.get_deck(branch)[:13]
     civ = git.get_civ(branch)
-    my_civ = civ[player]
+    print civ
+
+    return render_to_response('game/stuff.html', {
+            'request': request,
+            'login_form': LoginForm(),
+            'civs': civ
+            })
+
+def civ_for_player(civs, player):
+    for i, civ in enumerate(civs):
+        if civ['user'] == int(player):
+            return (civ,i)
+
+def index(request, game, branch, player):
+    git = g(Game.objects.get(id=game).directory)
+    card_row = git.get_deck(branch)[:13]
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
 
     for index in range(len(card_row), 13):
         card_row.append({'file': "Blank.png"})
     card_row = [ x and x or {'file': "Blank.png"} for x in card_row ]
 
-    scores = []
-    for name in sorted(civ.keys()):
-        score = {}
-        score['name'] = name
-        score['culture'] = civ[name]['culture']
-        score['culture_plus'] = civ[name]['culture_plus']
-        score['tech'] = civ[name]['tech']
-        score['tech_plus'] = civ[name]['tech_plus']
-        score['strength'] = civ[name]['strength']
-        scores.append(score)
-
     military = git.get_military(branch)
     military['future_event_size'] = sum([len(military['future'][x]) for x in military['future'].keys()])
+
     return render_to_response('game/index.html', {
             'request': request,
             'user_id': request.user.id,
@@ -40,12 +47,12 @@ def index(request, game, branch, player):
             'card_row': [ x['file'] for x in card_row ],
             'branch': branch,
             'civ': my_civ,
-            'scores': scores,
+            'civs': civs,
             'military': military,
             'blue': dict([ (str(x+1),1) for x in range(min(my_civ['blue_tokens'], 18)) ]),
             'blue_leftover': max(my_civ['blue_tokens'] - 18, 0),
             'yellow': dict([ (str(x+1),1) for x in range(min(my_civ['yellow_tokens'], 18)) ]),
-            'can_view_hand': request.user.username == player,
+            'can_view_hand': request.user.id == int(player),
             'login_form': LoginForm(),
             'game': game
             })
@@ -69,17 +76,18 @@ def add_to_hand(request, game, branch, player, index_no):
 
     if deck[index_no]:
         cell = deck[index_no]['cell']
-        civ = git.get_civ(branch)
-        my_civ = civ[player]
+        civs = git.get_civ(branch)
+        (my_civ,index) = civ_for_player(civs, player)
+
         if cell == 'wonder':
             my_civ['wonder'] = { 'file': deck[index_no]['file'], 'blue': 0 }
         else:
             my_civ['hand'].append(deck[index_no])
-        civ[player] = my_civ    
+        civs[index] = my_civ    
 
         deck[index_no] = None
 
-    git.write_game(branch, {'deck': deck, 'civ': civ, 'military': git.get_military(branch)}, "add card to hand")
+    git.write_game(branch, {'deck': deck, 'civ': civs, 'military': git.get_military(branch)}, "add card to hand")
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def undo(request, game, branch, player):
@@ -105,8 +113,8 @@ def reset(request, game, branch, player):
 def play(request, game, branch, player, index_no):
     git = g(Game.objects.get(id=game).directory)
     index_no = int(index_no) - 1
-    civ = git.get_civ(branch)
-    my_civ = civ[player]
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
 
     card = my_civ['hand'][index_no]
     my_civ[card['cell']] = {}
@@ -116,35 +124,38 @@ def play(request, game, branch, player, index_no):
 
     my_civ['hand'].pop(index_no)
 
-    civ[player] = my_civ
-    git.write_civ(branch, civ, str("Play card " + card['cell']))
+    civs[index] = my_civ
+    git.write_civ(branch, civs, str("Play card " + card['cell']))
 
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def discard(request, game, branch, player, index_no):
     git = g(Game.objects.get(id=game).directory)
     index_no = int(index_no) - 1
-    civ = git.get_civ(branch)
-    card = civ[player]['hand'].pop(index_no)
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    card = civs[index]['hand'].pop(index_no)
 
-    git.write_civ(branch, civ, str("Discard card " + card['cell']))
+    git.write_civ(branch, civs, str("Discard card " + card['cell']))
 
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def discard_leader(request, game, branch, player):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    card = civ[player]['leader'] = None
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    card = civs[index]['leader'] = None
 
-    git.write_civ(branch, civ, "Discard Leader")
+    git.write_civ(branch, civs, "Discard Leader")
 
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def play_event(request, game, branch, player, index_no):
     git = g(Game.objects.get(id=game).directory)
     index_no = int(index_no) - 1
-    civ = git.get_civ(branch)
-    my_civ = civ[player]
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    my_civ = civs[index]
     military = git.get_military(branch)
 
     card = my_civ['hand'][index_no]
@@ -152,16 +163,17 @@ def play_event(request, game, branch, player, index_no):
 
     military['future'][card['deck']].append(card)
 
-    civ[player] = my_civ
-    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play event " + card['deck']))
+    civs[index] = my_civ
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civs, 'military': military}, str("Play event " + card['deck']))
 
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def play_aggression(request, game, branch, player, index_no):
     git = g(Game.objects.get(id=game).directory)
     index_no = int(index_no) - 1
-    civ = git.get_civ(branch)
-    my_civ = civ[player]
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    my_civ = civs[index]
     military = git.get_military(branch)
 
     card = my_civ['hand'][index_no]
@@ -169,16 +181,17 @@ def play_aggression(request, game, branch, player, index_no):
 
     military['aggressions'].append(card)
 
-    civ[player] = my_civ
-    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play aggression " + card['deck']))
+    civs[index] = my_civ
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civs, 'military': military}, str("Play aggression " + card['deck']))
 
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def play_pact(request, game, branch, player, index_no):
     git = g(Game.objects.get(id=game).directory)
     index_no = int(index_no) - 1
-    civ = git.get_civ(branch)
-    my_civ = civ[player]
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    my_civ = civs[index]
     military = git.get_military(branch)
 
     card = my_civ['hand'][index_no]
@@ -186,8 +199,8 @@ def play_pact(request, game, branch, player, index_no):
 
     military['pacts'].append(card)
 
-    civ[player] = my_civ
-    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Play pact " + card['deck']))
+    civs[index] = my_civ
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civs, 'military': military}, str("Play pact " + card['deck']))
 
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
@@ -215,70 +228,79 @@ def take_territory(request, game, branch, player):
     card = military['current_event']
     military['current_event'] = None
 
-    civ = git.get_civ(branch)
-    civ[player]['territories'].append(card['file'])
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index]['territories'].append(card['file'])
 
-    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, "Take territory")
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civs, 'military': military}, "Take territory")
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def count_up(request, game, branch, player, type):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    civ[player][type + '_tokens'] += 1
-    git.write_civ(branch, civ, str(type + " up"))
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index][type + '_tokens'] += 1
+    git.write_civ(branch, civs, str(type + " up"))
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def count_down(request, game, branch, player, type):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    civ[player][type + '_tokens'] -= 1
-    civ[player][type + '_tokens'] = max(civ[player][type + '_tokens'], 0)
-    git.write_civ(branch, civ, str(type + " down"))
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index][type + '_tokens'] -= 1
+    civs[index][type + '_tokens'] = max(civs[index][type + '_tokens'], 0)
+    git.write_civ(branch, civs, str(type + " down"))
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def points_up(request, game, branch, player, category):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    civ[player][category] += 1
-    git.write_civ(branch, civ, str(category + " up"))
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index][category] += 1
+    git.write_civ(branch, civs, str(category + " up"))
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def points_down(request, game, branch, player, category):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    civ[player][category] -= 1
-    civ[player][category] = max(civ[player][category], 0)
-    git.write_civ(branch, civ, str(category + " down"))
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index][category] -= 1
+    civs[index][category] = max(civs[index][category], 0)
+    git.write_civ(branch, civs, str(category + " down"))
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def yellow_up(request, game, branch, player, cell):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    civ[player][cell]['yellow'] += 1
-    git.write_civ(branch, civ, str("yellow up " + cell))
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index][cell]['yellow'] += 1
+    git.write_civ(branch, civs, str("yellow up " + cell))
     return points_down(request, game, branch, player, 'unused_workers')
 
 def yellow_down(request, game, branch, player, cell):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    civ[player][cell]['yellow'] -= 1
-    civ[player][cell]['yellow'] = max(civ[player][cell]['yellow'], 0)
-    git.write_civ(branch, civ, str("yellow down " + cell))
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index][cell]['yellow'] -= 1
+    civs[index][cell]['yellow'] = max(civs[index][cell]['yellow'], 0)
+    git.write_civ(branch, civs, str("yellow down " + cell))
     return points_up(request, game, branch, player, 'unused_workers')
 
 def blue_cell_up(request, game, branch, player, cell):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    civ[player][cell]['blue'] += 1
-    git.write_civ(branch, civ, str("blue up " + cell))
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index][cell]['blue'] += 1
+    git.write_civ(branch, civs, str("blue up " + cell))
     return count_down(request, game, branch, player, 'blue')
 
 def blue_cell_down(request, game, branch, player, cell):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    civ[player][cell]['blue'] -= 1
-    civ[player][cell]['blue'] = max(civ[player][cell]['blue'], 0)
-    git.write_civ(branch, civ, str("blue down " + cell))
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index][cell]['blue'] -= 1
+    civs[index][cell]['blue'] = max(civs[index][cell]['blue'], 0)
+    git.write_civ(branch, civs, str("blue down " + cell))
     return count_up(request, game, branch, player, 'blue')
 
 def draw_military(request, game, branch, player, deck):
@@ -286,17 +308,18 @@ def draw_military(request, game, branch, player, deck):
     military = git.get_military(branch)
     card = military[deck].pop()
     
-    civ = git.get_civ(branch)
-    civ[player]['hand'].append(card)
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
+    civs[index]['hand'].append(card)
 
-    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': military}, str("Drawing military (deck: " + deck + ")"))
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civs, 'military': military}, str("Drawing military (deck: " + deck + ")"))
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def pop_current_event(request, game, branch, player):
     git = g(Game.objects.get(id=game).directory)
     military = git.get_military(branch)
     if len(military['current']) == 0:
-        return shuffle_future_events(request, branch, player)
+        return shuffle_future_events(request, game, branch, player)
 
     card = military['current'].pop()
     military['current_event'] = card
@@ -306,13 +329,13 @@ def pop_current_event(request, game, branch, player):
 
 def finish_wonder(request, game, branch, player):
     git = g(Game.objects.get(id=game).directory)
-    civ = git.get_civ(branch)
-    my_civ = civ[player]
+    civs = git.get_civ(branch)
+    (my_civ,index) = civ_for_player(civs, player)
     wonder = my_civ['wonder']
     my_civ['wonder'] = None
     my_civ['completed_wonders'].append(wonder['file'])
-    civ[player] = my_civ
-    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civ, 'military': git.get_military(branch)}, "finish wonder")
+    civs[index] = my_civ
+    git.write_game(branch, {'deck': git.get_deck(branch), 'civ': civs, 'military': git.get_military(branch)}, "finish wonder")
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def shuffle_future_events(request, game, branch, player):
@@ -442,19 +465,19 @@ def start_game(request):
                 date_started=datetime.datetime.now())
     game.save()
 
-    player_names = []
+    players = []
     for num in range(1, ogame.current_players() + 1):
         attr = 'player_' + str(num)
         player = getattr(ogame, attr)
-        player_names.append(player.username)
+        players.append(player)
         gp = GamePlayer(user=player, game=game)
         gp.save()
 
     git = g(game.directory, {
             'num_players': ogame.current_players(),
-            'player_names': player_names
+            'players': players
             })
-    return HttpResponseRedirect("/" + str(game.id) + "/" + "master" + "/" + request.user.username + "/card_row/")
+    return HttpResponseRedirect("/" + str(game.id) + "/" + "master" + "/" + str(request.user.id) + "/card_row/")
 
 from game.models import OpenGame
 def show_game(request, game_id):

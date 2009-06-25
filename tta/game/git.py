@@ -19,7 +19,7 @@ class Git:
                      stderr = PIPE)
 
             out, err = proc.communicate()
-            self.write_game('master',{'deck':self.make_shuffled_deck(init_data['num_players']), 'civ':self.make_initial_civ(init_data['player_names']), 'military': self.make_age_a_military()})
+            self.write_game('master',{'deck':self.make_shuffled_deck(init_data['num_players']), 'civ':self.make_initial_civ(init_data['players']), 'military': self.make_age_a_military()})
 
     def make_age_a_military(self):
         age_a = self.shuffle([
@@ -475,7 +475,12 @@ class Git:
 
         return shuffled
 
-    def make_initial_civ(self, player_names):
+    def make_initial_civ(self, players):
+        def add_and_return(d, item, value):
+            copy = d.copy()
+            copy[item] = value
+            return copy
+
         civ = { 'government':  { 'file': 'Despotism.png',   'blue': 0, 'yellow': 0 },
                 'philosophy':  { 'file': 'Philosophy.png',  'blue': 0, 'yellow': 1 },
                 'religion':    { 'file': 'Religion.png',    'blue': 0, 'yellow': 0 },
@@ -494,7 +499,15 @@ class Git:
                 'strength': 1,
                 'happiness': 0,
                 'blue_tokens': 18}
-        return dict((name, civ) for name in player_names)
+
+        civs = []
+        for user in players:
+            their_civ = civ.copy()
+            their_civ['user'] = user.id
+            their_civ['name'] = user.username 
+            civs.append(their_civ)
+
+        return civs
 
     def undo(self, branch):
         proc = Popen(('git', 'update-ref', "refs/heads/" + branch, branch + '~1'),

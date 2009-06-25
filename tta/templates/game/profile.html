@@ -29,7 +29,7 @@
     </tr>
 {%  for game in current_games %}
     <tr>
-        <td><a href="/{{ game.id }}/master/{{ user.username}}/card_row">{{ game.title }}</a></td>
+        <td><a href="/{{ game.id }}/master/{{ user.id }}/card_row">{{ game.title }}</a></td>
         <td>{{ game.date_started|date:"D, M dS y" }}</td>
         <td>{{ game.date_last_move|date:"D, M dS y" }}</td>
     </tr>
