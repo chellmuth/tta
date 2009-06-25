@@ -28,6 +28,11 @@ def index(request, game, branch, player):
     military = git.get_military(branch)
     military['future_event_size'] = sum([len(military['future'][x]) for x in military['future'].keys()])
 
+    for civ in civs:
+        civ['yellow'] = dict((str(x+1),1) for x in range(min(civ['yellow_tokens'], 18)))
+        civ['blue'] = dict((str(x+1),1) for x in range(min(civ['blue_tokens'], 18)))
+        civ['blue_leftover'] = max(civ['blue_tokens'] - 18, 0)
+
     return render_to_response('game/index.html', {
             'request': request,
             'user_id': request.user.id,
@@ -36,9 +41,6 @@ def index(request, game, branch, player):
             'branch': branch,
             'civs': civs,
             'military': military,
-            'blue': dict([ (str(x+1),1) for x in range(min(my_civ['blue_tokens'], 18)) ]),
-            'blue_leftover': max(my_civ['blue_tokens'] - 18, 0),
-            'yellow': dict([ (str(x+1),1) for x in range(min(my_civ['yellow_tokens'], 18)) ]),
             'login_form': LoginForm(),
             'game': game
             })

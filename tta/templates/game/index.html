@@ -304,6 +304,7 @@ table .score-title {
 
 {% for c in civs %}
 <div id="tableau-{{c.user}}">
+HERE:{{ c.hello }}
 <table style="clear:both;">
     <tr>
 {% for card in c.hand %}
@@ -1147,13 +1148,13 @@ table .score-title {
             <td rowspan="2">
                 -6
             </td>
-{% if blue.1 %}
+{% if c.blue.1 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.3 %}
+{% if c.blue.3 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
@@ -1162,13 +1163,13 @@ table .score-title {
             <td rowspan="2">
                 -4
             </td>
-{% if blue.5 %}
+{% if c.blue.5 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.7 %}
+{% if c.blue.7 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
@@ -1177,99 +1178,99 @@ table .score-title {
             <td rowspan="2">
                 -2
             </td>
-{% if blue.9 %}
+{% if c.blue.9 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.11 %}
+{% if c.blue.11 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.13 %}
+{% if c.blue.13 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.15 %}
+{% if c.blue.15 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.17 %}
+{% if c.blue.17 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue_leftover %}
+{% if c.blue_leftover %}
             <td rowspan="2">
-                + {{ blue_leftover }}
+                + {{ c.blue_leftover }}
             </td>
         </tr>
 {% endif %}
         <tr>
             <td>
-{% if blue.1 %}
+{% if c.blue.1 %}
                 <a href="/{{ game }}/{{ branch }}/{{ c.user }}/count_down/blue">
                     &darr;
                 </a>
 {% endif %}
             </td>
-{% if blue.2 %}
+{% if c.blue.2 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.4 %}
+{% if c.blue.4 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.6 %}
+{% if c.blue.6 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.8 %}
+{% if c.blue.8 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.10 %}
+{% if c.blue.10 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.12 %}
+{% if c.blue.12 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.14 %}
+{% if c.blue.14 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.16 %}
+{% if c.blue.16 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
 {% endif %}
             &nbsp</td>
-{% if blue.18 %}
+{% if c.blue.18 %}
             <td class="blue_token_cell_full">
 {% else %}
             <td class="blue_token_cell_empty">
@@ -1350,7 +1351,7 @@ table .score-title {
             </td>
         <tr>
             <td>
-{% if not yellow.18 %}
+{% if not c.yellow.18 %}
                 <a href="/{{ game }}/{{ branch }}/{{ c.user }}/count_up/yellow">
                     &uarr;
                 </a>
@@ -1359,14 +1360,14 @@ table .score-title {
             <td rowspan="2">
                 -6
             </td>
-{% if yellow.1 %}
+{% if c.yellow.1 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 7
             </td>
-{% if yellow.3 %}
+{% if c.yellow.3 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
@@ -1376,14 +1377,14 @@ table .score-title {
             <td rowspan="2">
                 -4
             </td>
-{% if yellow.5 %}
+{% if c.yellow.5 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 5
             </td>
-{% if yellow.7 %}
+{% if c.yellow.7 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
@@ -1393,14 +1394,14 @@ table .score-title {
             <td rowspan="2">
                 -3
             </td>
-{% if yellow.9 %}
+{% if c.yellow.9 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 4
             </td>
-{% if yellow.11 %}
+{% if c.yellow.11 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
@@ -1410,14 +1411,14 @@ table .score-title {
             <td rowspan="2">
                 -2
             </td>
-{% if yellow.13 %}
+{% if c.yellow.13 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 3
             </td>
-{% if yellow.15 %}
+{% if c.yellow.15 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
@@ -1427,7 +1428,7 @@ table .score-title {
             <td rowspan="2">
                 -1
             </td>
-{% if yellow.17 %}
+{% if c.yellow.17 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
@@ -1443,69 +1444,69 @@ table .score-title {
             </td>
         <tr>
             <td>
-{% if yellow.1 %}
+{% if c.yellow.1 %}
                 <a href="/{{ game }}/{{ branch }}/{{ c.user }}/count_down/yellow">
                     &darr;
                 </a>
 {% endif %}
             </td>
-{% if yellow.2 %}
+{% if c.yellow.2 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 7
             </td>
-{% if yellow.4 %}
+{% if c.yellow.4 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 7
             </td>
-{% if yellow.6 %}
+{% if c.yellow.6 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 5
             </td>
-{% if yellow.8 %}
+{% if c.yellow.8 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 5
             </td>
-{% if yellow.10 %}
+{% if c.yellow.10 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 4
             </td>
-{% if yellow.12 %}
+{% if c.yellow.12 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 4
             </td>
-{% if yellow.14 %}
+{% if c.yellow.14 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 3
             </td>
-{% if yellow.16 %}
+{% if c.yellow.16 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
 {% endif %}
                 3
             </td>
-{% if yellow.18 %}
+{% if c.yellow.18 %}
             <td class="yellow_token_cell_full">
 {% else %}
             <td class="yellow_token_cell_empty">
@@ -1610,7 +1611,7 @@ table .score-title {
         </td>
 {% for score in civs %}
         <td class="score">
-            {{ score.culture_plus }}
+            {{ score.strength }}
         </td>
         <td class="score">
             <a href="/{{branch}}/{{score.name}}/points_up/strength/">&uarr;</a>
