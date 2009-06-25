@@ -10,18 +10,6 @@ def home(request):
             'login_form': LoginForm()
             })
 
-def stuff(request, game, branch):
-    git = g(Game.objects.get(id=game).directory)
-    card_row = git.get_deck(branch)[:13]
-    civ = git.get_civ(branch)
-    print civ
-
-    return render_to_response('game/stuff.html', {
-            'request': request,
-            'login_form': LoginForm(),
-            'civs': civ
-            })
-
 def civ_for_player(civs, player):
     for i, civ in enumerate(civs):
         if civ['user'] == int(player):
