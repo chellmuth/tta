@@ -46,13 +46,11 @@ def index(request, game, branch, player):
             'player': player,
             'card_row': [ x['file'] for x in card_row ],
             'branch': branch,
-            'civ': my_civ,
             'civs': civs,
             'military': military,
             'blue': dict([ (str(x+1),1) for x in range(min(my_civ['blue_tokens'], 18)) ]),
             'blue_leftover': max(my_civ['blue_tokens'] - 18, 0),
             'yellow': dict([ (str(x+1),1) for x in range(min(my_civ['yellow_tokens'], 18)) ]),
-            'can_view_hand': request.user.id == int(player),
             'login_form': LoginForm(),
             'game': game
             })

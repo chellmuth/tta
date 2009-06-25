@@ -39,7 +39,7 @@ $(document).ready(function(){
 
 {% if user_id %}
   window.setInterval(function () {
-    $.getJSON("/heartbeat/master/{{user_id}}/", function (data) {
+    $.getJSON("/heartbeat/{{game}}/master/{{user_id}}/", function (data) {
       $(".active-player").removeClass("active-player");
       $.each(data, function(i, item) {
         $(".player-" + item).addClass("active-player");
@@ -309,6 +309,8 @@ table .score-title {
 {% for card in c.hand %}
         <td>
             <div class="card below">
+{% ifequal c.user request.user.id %}
+
 {%   ifequal card.cell "event" %}
                 <a href="/{{ game }}/{{ branch }}/{{ c.user }}/play_event/{{ forloop.counter }}/">
 {%   else %}
@@ -326,13 +328,11 @@ table .score-title {
 {%       endifequal %}
 {%     endifequal %}
 {%   endifequal %}
-
-{% if can_view_hand %}
                     <img src="/site_media/{{card.file}}" width="*" height="90">
+                </a>
 {% else %}
                     <img src="/site_media/{{card.back}}" width="*" height="90">
-{% endif %}
-                </a>
+{% endifequal %}
             </div>
         </td>
 {% endfor %}
