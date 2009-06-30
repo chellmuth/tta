@@ -9,7 +9,7 @@ a:active { text-decoration:none; }
 #title-link:active { color:#000; }
 
 #everything { width: 1250px; float:left; }
-#header { overflow:auto; }
+#header { overflow:hidden; }
 #title-container { float:left; font-size:30px; margin-left:5px; font-family:Verdana; margin-bottom:10px; }
 
 #content { margin-left: 20px; margin-top:40px; }

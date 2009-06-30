@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+Register:
+<form action="/register/" method="POST">
+    <p>
+        Username: <input type="text" name="username" />
+    </p>
+    <p>
+        Password: <input type="text" name="password" />
+    </p>
+    <p>
+        Email: <input type="text" name="email" /> (optional, for sending you notifications when your turn starts)
+    </p>
+    <p>
+        <input type="submit" value="Register" />
+    </p>
+</form>
+{% endblock %}

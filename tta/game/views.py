@@ -389,6 +389,23 @@ def login(request):
                 'form': form,
                 })
 
+def register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        email = request.POST['email']
+        if not User.objects.filter(username__iexact=username):
+            user = User.objects.create_user(username, email, password)
+            user.save()
+            user = authenticate(username=username, password=password)
+            login_user(request, user)
+            return HttpResponseRedirect("/profile/" + str(user.id))
+        return HttpResponseRedirect("/")
+    else:
+        return render_to_response('register.html', {
+                'login_form': LoginForm()
+                })
+
 from django.contrib.auth import logout as logout_user
 def logout(request):
     logout_user(request)
@@ -400,7 +417,7 @@ from django.db.models import Q
 import urllib, hashlib
 def profile(request, user_id):
     user = User.objects.get(id=user_id)
-    email = user.email
+    email = user.email or user.username
     size = 80
 
     current_games = GamePlayer.objects.filter(user=user.id)
@@ -408,7 +425,8 @@ def profile(request, user_id):
 
     gravatar_url = "http://www.gravatar.com/avatar.php?"
     gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(email).hexdigest(),
-                                      'size':str(size)})
+                                      'size':str(size),
+                                      'd':'identicon'})
     return render_to_response('game/profile.html', {
             'request': request,
             'user': user,
@@ -483,7 +501,6 @@ def list_games(request):
             'login_form': LoginForm(),
             'games': ogames
             })
-    
 
 @login_required
 def join_game(request, game_id):

@@ -4,6 +4,7 @@
 
 <!-- <link href="/site_media/css/reset.css" type="text/css" media="all" rel="stylesheet" /> -->
 <link href="/site_media/css/main.css" type="text/css" media="all" rel="stylesheet" />
+<script type="text/javascript" src="/site_media/js/jquery.js" type="text/javascript"></script>
 {{ login_form.media }}
 
 {% block additional_head_lines %}
@@ -18,14 +19,20 @@
         <a id="title-link" href="/">Through The Ages</a>
     </div>
 {% block login %}
-    <div style="float:right; margin-top:24px;">
+    <div style="float:right; margin-top:14px;">
 {% if request.user.is_authenticated %}
         <a href="/profile/{{ request.user.id }}/{{ request.user.username }}">{{ request.user.username }}</a> | <a href="/logout/">Logout</a>
 {% else %}
-        <form id="global-login" action="/login/" method="post">
-            {{ login_form.as_p }}
-            <input style="float:right; margin-left:5px;" type="submit" value="Submit" />
-        </form>
+        <span id="login-full" style="display:none; float:right;">
+            <form id="global-login" action="/login/" method="post">
+                {{ login_form.as_p }}
+                <input style="float:left; margin-left:5px;" type="submit" value="Submit" />
+                <a style="margin-left:5px;" href="#" onclick="javascript:$('#login-full').hide(); $('#login-short').show(); return false;">[close]</a>
+            </form>
+        </span>
+        <span id="login-short" style="float:right;">
+            <a href="#" onclick="javascript:$('#login-short').hide(); $('#login-full').show(); return false;">login</a> | <a href="/register/">register</a>
+        </span>
 {% endif %}
     </div>
 {% endblock %}
