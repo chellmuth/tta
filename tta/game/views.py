@@ -21,7 +21,7 @@ def index(request, game, branch, player):
     civs = git.get_civ(branch)
     (my_civ,index) = civ_for_player(civs, player)
 
-    for index in range(len(card_row), 13):
+    for _ in range(len(card_row), 13):
         card_row.append({'file': "Blank.png"})
     card_row = [ x and x or {'file': "Blank.png"} for x in card_row ]
 
@@ -42,6 +42,7 @@ def index(request, game, branch, player):
             'civs': civs,
             'military': military,
             'login_form': LoginForm(),
+            'selected_index': index + 1,
             'game': game
             })
 
