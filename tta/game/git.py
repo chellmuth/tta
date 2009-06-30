@@ -316,7 +316,7 @@ class Git:
 
         ageI = self.shuffle(_4ageI + _3ageI + _2ageI)
 
-        __4ageII = [
+        _4ageII = [
             { 'file': 'age_2/Journalism.png',         'cell': 'journalism', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
             { 'file': 'age_2/Cavalrymen.png', 'cell': 'cavalrymen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },
             { 'file': 'age_2/Cavalrymen.png', 'cell': 'cavalrymen', 'back': 'age_2/Age_II_Civil_-_Card_Back.png' },

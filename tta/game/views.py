@@ -359,6 +359,7 @@ def login(request):
         form = LoginForm()
         return render_to_response('account/login.html', {
                 'error' : error,
+                'next': request.POST.get('next', None),
                 'form' : form,
                 })
     if request.method == 'POST':
