@@ -433,7 +433,8 @@ def profile(request, user_id):
             'gravatar_url': gravatar_url,
             'login_form': LoginForm(),
             'current_games': [ g.game for g in current_games ],
-            'upcoming_games': upcoming_games
+            'upcoming_games': upcoming_games,
+            'is_logged_in_user': int(user_id) == request.user.id,
             })
 
 from django.contrib.auth.decorators import login_required

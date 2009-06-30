@@ -4,6 +4,16 @@
     <img src="{{ gravatar_url }}" />
     {{ user.username }}
 
+{% if is_logged_in_user %}
+    <p>
+{%   if not request.user.email %}
+        Enter an email address to get an avatar.
+{%   else %}
+        Get an avatar on <a href="http://gravatar.com">gravatar</a>!
+{%   endif %}
+    </p>
+{% endif %}
+
 <div id="upcoming-games" style="margin-top:20px;">
     Upcoming Games:
 <table>
