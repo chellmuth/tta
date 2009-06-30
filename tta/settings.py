@@ -81,3 +81,4 @@ INSTALLED_APPS = (
 )
 
 REPO_ROOT = '/home/cjh/projects/tta/tta/git_repos/'
+LOGIN_URL = '/account/login/'

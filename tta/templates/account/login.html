@@ -1,22 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-Register:
-<form action="/register/" method="POST">
+{% if error %}
+<p style="color:#990000;">
+    {{ error }}
+</p>
+{% endif %}
+
+Login:
+<form action="/login/" method="POST">
     <p>
         Username: <input type="text" name="username" />
     </p>
     <p>
         Password: <input type="text" name="password" />
     </p>
-    <p>
-        Email: <input type="text" name="email" /> (optional, for sending you notifications when your turn starts)
-    </p>
 {% if next %}
     <input type="hidden" name="next" value="{{ next }}" />
 {% endif %}
     <p>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Login" />
     </p>
 </form>
+
+<p>
+    or <a href="/register/?next={{next}}">register</a>
+</p>
 {% endblock %}

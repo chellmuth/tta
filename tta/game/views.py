@@ -357,7 +357,7 @@ from django.shortcuts import render_to_response
 def login(request):
     def errorHandle(error):
         form = LoginForm()
-        return render_to_response('login.html', {
+        return render_to_response('account/login.html', {
                 'error' : error,
                 'form' : form,
                 })
@@ -371,7 +371,8 @@ def login(request):
                 if user.is_active:
                     # Redirect to a success page.
                     login_user(request, user)
-                    return HttpResponseRedirect("/profile/" + str(user.id))
+                    next = request.POST.get('next', "/profile/" + str(user.id))
+                    return HttpResponseRedirect(next)
                 else:
                     # Return a 'disabled account' error message
                     error = u'account disabled'
@@ -385,8 +386,9 @@ def login(request):
             return errorHandle(error)
     else:
         form = LoginForm() # An unbound form
-        return render_to_response('login.html', {
-                'form': form,
+        return render_to_response('account/login.html', {
+                'login_form': form,
+                'next': request.GET.get('next', None)
                 })
 
 def register(request):
@@ -399,11 +401,13 @@ def register(request):
             user.save()
             user = authenticate(username=username, password=password)
             login_user(request, user)
-            return HttpResponseRedirect("/profile/" + str(user.id))
+            next = request.POST.get('next', "/profile/" + str(user.id))
+            return HttpResponseRedirect(next)
         return HttpResponseRedirect("/")
     else:
         return render_to_response('register.html', {
-                'login_form': LoginForm()
+                'login_form': LoginForm(),
+                'next': request.GET.get('next', None)
                 })
 
 from django.contrib.auth import logout as logout_user
