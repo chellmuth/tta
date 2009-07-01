@@ -15,6 +15,12 @@ def civ_for_player(civs, player):
         if civ['user'] == int(player):
             return (civ,i)
 
+def log_class_for_player(civs, player):
+    for i, civ in enumerate(civs):
+        if civ['user'] == int(player):
+            return 'p' + str(i + 1) + '-log'
+    return 'default-log'
+
 def index(request, game, branch, player):
     git = g(Game.objects.get(id=game).directory)
     card_row = git.get_deck(branch)[:13]
@@ -76,7 +82,7 @@ def add_to_hand(request, game, branch, player, index_no):
 
         deck[index_no] = None
 
-    git.write_game(branch, {'deck': deck, 'civ': civs, 'military': git.get_military(branch)}, "add card to hand")
+    git.write_game(branch, {'deck': deck, 'civ': civs, 'military': git.get_military(branch)}, "add card to hand", log_class_for_player(civs, request.user.id))
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def undo(request, game, branch, player):

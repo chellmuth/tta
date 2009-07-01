@@ -8,6 +8,7 @@
 $(document).ready(function(){
   $("#tabs").tabs({ selected: {{selected_index}} });
   $("#right-bar").tabs();
+  $("#right-lower").tabs();
   $("#zoom").hide();
 
   $(".card").bind("mouseenter", function() {
@@ -48,6 +49,30 @@ $(document).ready(function(){
 {% endif %}
 </script>
 <style>
+.p1-log {
+ background-color: red;
+}
+
+.p2-log {
+ background-color: yellow;
+}
+
+.p3-log {
+ background-color: blue;
+}
+
+.p4-log {
+ background-color: green;
+}
+
+.default-log {
+ background-color: grey;
+}
+
+.logging {
+ font-size: .9em;
+}
+
 .ui-tabs .ui-tabs-hide {
  display: none;
 }
@@ -147,7 +172,6 @@ a:visited img{border:0}
 }
 
 table .score {
- text-align:right;
  font-size:.9em;
 }
 
@@ -1540,9 +1564,9 @@ table .score-title {
             {{ score.tech }}
         </td>
         <td class="score">
-            <a href="/{{branch}}/{{score.name}}/points_up/tech/">&uarr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_up/tech/">&uarr;</a>
 {% if score.tech %}
-            <a href="/{{branch}}/{{score.name}}/points_down/tech/">&darr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_down/tech/">&darr;</a>
 {% else %}
             &nbsp;
 {%  endif %}
@@ -1558,9 +1582,9 @@ table .score-title {
             {{ score.tech_plus }}
         </td>
         <td class="score">
-            <a href="/{{branch}}/{{score.name}}/points_up/tech_plus/">&uarr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_up/tech_plus/">&uarr;</a>
 {% if score.tech_plus %}
-            <a href="/{{branch}}/{{score.name}}/points_down/tech_plus/">&darr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_down/tech_plus/">&darr;</a>
 {% else %}
             &nbsp;
 {%  endif %}
@@ -1576,9 +1600,9 @@ table .score-title {
             {{ score.culture }}
         </td>
         <td class="score">
-            <a href="/{{branch}}/{{score.name}}/points_up/culture/">&uarr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_up/culture/">&uarr;</a>
 {% if score.culture %}
-            <a href="/{{branch}}/{{score.name}}/points_down/culture/">&darr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_down/culture/">&darr;</a>
 {% else %}
             &nbsp;
 {%  endif %}
@@ -1594,9 +1618,9 @@ table .score-title {
             {{ score.culture_plus }}
         </td>
         <td class="score">
-            <a href="/{{branch}}/{{score.name}}/points_up/culture_plus/">&uarr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_up/culture_plus/">&uarr;</a>
 {% if score.culture_plus %}
-            <a href="/{{branch}}/{{score.name}}/points_down/culture_plus/">&darr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_down/culture_plus/">&darr;</a>
 {% else %}
             &nbsp;
 {%  endif %}
@@ -1612,9 +1636,9 @@ table .score-title {
             {{ score.strength }}
         </td>
         <td class="score">
-            <a href="/{{branch}}/{{score.name}}/points_up/strength/">&uarr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_up/strength/">&uarr;</a>
 {% if score.strength %}
-            <a href="/{{branch}}/{{score.name}}/points_down/strength/">&darr;</a>
+            <a href="/{{ game }}/{{ branch }}/{{ score.user }}/points_down/strength/">&darr;</a>
 {% else %}
             &nbsp;
 {%  endif %}
@@ -1624,5 +1648,21 @@ table .score-title {
 </table>
 </div>
 </div>
+
+<div id="right-lower" style="margin-top:5px; margin-left:5px; float:left; width:305px;">
+    <ul>
+        <li><a href="#logs"><span>Logs</span></a></li>
+    </ul>
+    <div id="logs" style="width:100%;">
+        <div style="width:90%; border: 1px solid #AA7474; height:250px; overflow:auto; margin:auto;">
+{% for entry in military.log %}
+        <div class="{{ entry.class }} logging">
+            {{ entry.content }}
+        </div>
+{% endfor %}
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 

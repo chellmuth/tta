@@ -19,7 +19,7 @@ class Git:
                      stderr = PIPE)
 
             out, err = proc.communicate()
-            self.write_game('master',{'deck':self.make_shuffled_deck(init_data['num_players']), 'civ':self.make_initial_civ(init_data['players']), 'military': self.make_age_a_military()})
+            self.write_game('master',{'deck':self.make_shuffled_deck(init_data['num_players']), 'civ':self.make_initial_civ(init_data['players']), 'military': self.make_age_a_military()}, "Beginning Game")
 
     def make_age_a_military(self):
         age_a = self.shuffle([
@@ -205,15 +205,18 @@ class Git:
                 { 'file': 'age_3/Shock_Troops.png', 'cell':'tactics', 'deck': 'III', 'back': 'age_3/Age_III_Military_-_Card_Back.png' }
                 ])
 
-        return { 'future': { 'A' : [], 'I': [], 'II': [], 'III': [] },
-                 'current': age_a[:6],
-                 'current_event': None,
-                 'A':       [],
-                 'I':       age_I,
-                 'II':      age_II,
-                 'III':     age_III,
-                 'aggressions': [],
-                 'pacts': [] }
+        return {
+            'future': { 'A' : [], 'I': [], 'II': [], 'III': [] },
+            'current': age_a[:6],
+            'current_event': None,
+            'A':       [],
+            'I':       age_I,
+            'II':      age_II,
+            'III':     age_III,
+            'aggressions': [],
+            'pacts': [],
+            'log': []
+            }
 
     def make_shuffled_deck(self, num_players):
         ageA = self.shuffle([
@@ -520,7 +523,7 @@ class Git:
 
     def serialize_object(self, object):
         serialized = simplejson.dumps(object, sort_keys=True, indent=3)
-        print serialized
+#         print serialized
         return serialized
 
     def write_deck(self, branch, deck, commit_msg="WRITE DECK"):
@@ -529,7 +532,8 @@ class Git:
     def write_civ(self, branch, civ, commit_msg="WRITE CIV"):
         return self.write_game(branch, { 'deck': self.get_deck(branch), 'civ': civ, 'military': self.get_military(branch) }, commit_msg)
 
-    def write_game(self, branch, game, commit_msg="DEFAULT COMMIT"):
+    def write_game(self, branch, game, commit_msg="DEFAULT COMMIT MSG", msg_class="default-log"):
+        game['military']['log'].insert(0, {'class': msg_class, 'content': commit_msg})
         serialized = self.serialize_object(game)
         proc = Popen(('git', 'hash-object', '-w', '--stdin'),
                      env = { "GIT_DIR":self.git_dir },
@@ -538,8 +542,8 @@ class Git:
                      stderr = PIPE)
 
         out, err = proc.communicate(serialized)
-        print out.rstrip()
-        print err
+#         print out.rstrip()
+#         print err
         tree = "100644 blob " + out.rstrip() + "\t" + "deck"
 
         proc = Popen(('git', 'mktree'),
@@ -550,8 +554,8 @@ class Git:
 
         out, err = proc.communicate(tree)
         tree_hash = out.rstrip()
-        print out.rstrip()
-        print err
+#         print out.rstrip()
+#         print err
 
         proc = Popen(('git', 'ls-tree', tree_hash),
                      env = { "GIT_DIR":self.git_dir },
@@ -560,8 +564,8 @@ class Git:
                      stderr = PIPE)
 
         out, err = proc.communicate()
-        print out.rstrip()
-        print err
+#         print out.rstrip()
+#         print err
 
         proc = Popen(('git', 'commit-tree', tree_hash, '-p', branch),
                      env = { "GIT_DIR":self.git_dir },
@@ -570,8 +574,8 @@ class Git:
                      stderr = PIPE)
 
         out, err = proc.communicate(commit_msg)
-        print out.rstrip()
-        print err
+#         print out.rstrip()
+#         print err
 
         proc = Popen(('git', 'update-ref', "refs/heads/" + branch, out.rstrip()),
                      env = { "GIT_DIR":self.git_dir },
@@ -590,7 +594,7 @@ class Git:
 
         out, err = proc.communicate()
         lines = out.rstrip().split('\0')
-        print lines
+#         print lines
 
         for line in lines:
             if not line: continue
@@ -599,7 +603,7 @@ class Git:
             if not match.group(5) == 'deck': continue
 
             hash = match.group(4)
-            print hash
+#             print hash
 
 
         proc = Popen(('git', 'cat-file', 'blob',  hash),
@@ -644,5 +648,5 @@ class Git:
                      stderr = PIPE)
 
         out, err = proc.communicate()
-        print out
-        print err
+#         print out
+#         print err
