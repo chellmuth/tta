@@ -39,6 +39,7 @@ class Git:
             self.deck.pop(0)
 
         self.deck = [ x for x in self.deck if x ]
+        self.do_log("Slide card row")
 
     def _civ_for_player(self, player):
         for i, civ in enumerate(self.civs):
@@ -51,11 +52,11 @@ class Git:
             (my_civ,index) = self._civ_for_player(player)
 
             if cell == 'wonder':
-                my_civ['wonder'] = { 'file': self.deck[index_no]['file'], 'blue': 0 }
+                my_civ['wonder'] = { 'file': self.deck[index_no]['file'], 'blue': 0, 'name': self.deck[index_no]['name'] }
                 self.do_log("Start construction on " + self.deck[index_no]['name'])
             else:
-                self.do_log("Add " + self.deck[index_no]['name'] + " to hand")
                 my_civ['hand'].append(self.deck[index_no])
+                self.do_log("Add " + self.deck[index_no]['name'] + " to hand")
 
             self.civs[index] = my_civ
             self.deck[index_no] = None
@@ -66,19 +67,23 @@ class Git:
         card = my_civ['hand'][index_no]
         my_civ[card['cell']] = {}
         my_civ[card['cell']]['file'] = card['file']
+        my_civ[card['cell']]['name'] = card['name']
         my_civ[card['cell']]['blue'] = 0
         my_civ[card['cell']]['yellow'] = 0
 
         my_civ['hand'].pop(index_no)
 
         self.civs[index] = my_civ
+        self.do_log("Play " + card['name'])
 
     def discard_from_hand(self, player, index_no):
         (my_civ,index) = self._civ_for_player(player)
         self.civs[index]['hand'].pop(index_no)
+        self.do_log("Discard")
 
     def discard_leader(self, player):
         (my_civ,index) = self._civ_for_player(player)
+        self.do_log("Remove " + self.civs[index]['leader']['name'])
         self.civs[index]['leader'] = None
 
     def play_event(self, player, index_no):
@@ -90,6 +95,7 @@ class Git:
 
         self.military['future'][card['deck']].append(card)
         self.civs[index] = my_civ
+        self.do_log("Place an Age " + card['deck'] + " card in the Future Events deck")
 
     def play_aggression(self, player, index_no):
         (my_civ,index) = self._civ_for_player(player)
@@ -100,6 +106,7 @@ class Git:
 
         self.military['aggressions'].append(card)
         self.civs[index] = my_civ
+        self.do_log("Play " + card['name'] + "  aggression")
 
     def play_pact(self, player, index_no):
         (my_civ,index) = self._civ_for_player(player)
@@ -110,12 +117,15 @@ class Git:
 
         self.military['pacts'].append(card)
         self.civs[index] = my_civ
+        self.do_log("Play " + card['name'] + "  pact")
 
     def remove_aggression(self, index_no):
-        self.military['aggressions'].pop(index_no)
+        card = self.military['aggressions'].pop(index_no)
+        self.do_log("Clear " + card['name'] + " aggression")
 
     def remove_pact(self, index_no):
-        self.military['pacts'].pop(index_no)
+        card = self.military['pacts'].pop(index_no)
+        self.do_log("Clear " + card['name'] + " pact")
 
     def claim_territory(self, player):
         card = self.military['current_event']
@@ -123,35 +133,45 @@ class Git:
 
         (my_civ,index) = self._civ_for_player(player)
         self.civs[index]['territories'].append(card['file'])
+        self.do_log("Claim " + card['name'])
 
     def tokens_up(self, player, type):
         (my_civ,index) = self._civ_for_player(player)
         self.civs[index][type + '_tokens'] += 1
+        self.do_log("Increase " + type + " tokens from " + str(self.civs[index][type + '_tokens'] - 1) + " to " + str(self.civs[index][type + '_tokens'] ))
 
     def tokens_down(self, player, type):
         (my_civ,index) = self._civ_for_player(player)
         self.civs[index][type + '_tokens'] -= 1
         self.civs[index][type + '_tokens'] = max(self.civs[index][type + '_tokens'], 0)
+        self.do_log("Decrease " + type + " bank from " + str(self.civs[index][type + '_tokens'] + 1) + " to " + str(self.civs[index][type + '_tokens'] ))
 
     def points_up(self, player, category):
         (my_civ,index) = self._civ_for_player(player)
         self.civs[index][category] += 1
+        self.do_log("Increase " + category + " from " + str(self.civs[index][category] - 1) + " to " + str(self.civs[index][category]))
 
     def points_down(self, player, category):
         (my_civ,index) = self._civ_for_player(player)
         self.civs[index][category] -= 1
         self.civs[index][category] = max(self.civs[index][category], 0)
+        self.do_log("Decrease " + category + " from " + str(self.civs[index][category] + 1) + " to " + str(self.civs[index][category]))
 
     def change_card_counter(self, player, cell, color, change):
         (my_civ,index) = self._civ_for_player(player)
+        old = self.civs[index][cell][color]
         self.civs[index][cell][color] = change(self.civs[index][cell][color])
         self.civs[index][cell][color] = max(self.civs[index][cell][color], 0)
+        new = self.civs[index][cell][color]
+        print self.civs[index][cell]
+        self.do_log("Update " + self.civs[index][cell]['name'] + "'s " + color + " tokens from " + str(old) + " to " + str(new))
 
     def draw_military(self, player, deck):
         card = self.military[deck].pop()
 
         (my_civ,index) = self._civ_for_player(player)
         self.civs[index]['hand'].append(card)
+        self.do_log("Draw from Age " + deck + " military deck")
 
     def _shuffle_future_events(self):
         shuffled = self.shuffle(self.military['future']['III']) + self.shuffle(self.military['future']['II']) + self.shuffle(self.military['future']['I']) + self.shuffle(self.military['future']['A'])
@@ -160,6 +180,7 @@ class Git:
         self.military['future']['II'] = []
         self.military['future']['III'] = []
         self.military['current'] = shuffled
+        self.do_log("Shuffle Future Events deck into Current Events deck")
 
     def pop_current_event(self):
         if len(self.military['current']) == 0:
@@ -167,6 +188,7 @@ class Git:
 
         card = self.military['current'].pop()
         self.military['current_event'] = card
+        self.do_log("Current Event: " + card['name'])
 
     def finish_wonder(self, player):
         (my_civ,index) = self._civ_for_player(player)
@@ -174,6 +196,7 @@ class Git:
         my_civ['wonder'] = None
         my_civ['completed_wonders'].append(wonder['file'])
         self.civs[index] = my_civ
+        self.do_log("Complete " + wonder['name'])
 
     def _log_class_for_player(self, player):
         for i, civ in enumerate(self.civs):
@@ -647,12 +670,12 @@ class Git:
             copy[item] = value
             return copy
 
-        civ = { 'government':  { 'file': 'Despotism.png',   'blue': 0, 'yellow': 0 },
-                'philosophy':  { 'file': 'Philosophy.png',  'blue': 0, 'yellow': 1 },
-                'religion':    { 'file': 'Religion.png',    'blue': 0, 'yellow': 0 },
-                'bronze':      { 'file': 'Bronze.png',      'blue': 0, 'yellow': 2 },
-                'agriculture': { 'file': 'Agriculture.png', 'blue': 0, 'yellow': 2 },
-                'warriors':    { 'file': 'Warriors.png',    'blue': 0, 'yellow': 1 },
+        civ = { 'government':  { 'name': 'Despotism', 'file': 'Despotism.png',   'blue': 0, 'yellow': 0 },
+                'philosophy':  { 'name': 'Philosophy', 'file': 'Philosophy.png',  'blue': 0, 'yellow': 1 },
+                'religion':    { 'name': 'Religion', 'file': 'Religion.png',    'blue': 0, 'yellow': 0 },
+                'bronze':      { 'name': 'Bronze', 'file': 'Bronze.png',      'blue': 0, 'yellow': 2 },
+                'agriculture': { 'name': 'Agriculture', 'file': 'Agriculture.png', 'blue': 0, 'yellow': 2 },
+                'warriors':    { 'name': 'Warriors', 'file': 'Warriors.png',    'blue': 0, 'yellow': 1 },
                 'hand': [],
                 'completed_wonders': [],
                 'territories': [],
