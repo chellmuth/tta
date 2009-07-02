@@ -9,8 +9,10 @@ from subprocess import Popen, PIPE
 from tta.settings import REPO_ROOT
 
 class Git:
-    def __init__(self, dir, init_data={}):
+    def __init__(self, dir, committer, init_data={}):
         self.git_dir = REPO_ROOT + dir
+        self.committer = committer
+
         if not os.path.exists(self.git_dir):
             proc = Popen(('git', 'clone', "--bare", REPO_ROOT + "/root_game", self.git_dir),
                      env = { "GIT_DIR":self.git_dir },
@@ -20,6 +22,7 @@ class Git:
 
             out, err = proc.communicate()
             self.write_game('master',{'deck':self.make_shuffled_deck(init_data['num_players']), 'civ':self.make_initial_civ(init_data['players']), 'military': self.make_age_a_military()}, "Beginning Game")
+
         self.branch = 'master'
         self.deck = self.get_game()['deck']
         self.civs = self.get_game()['civ']
@@ -166,8 +169,14 @@ class Git:
         my_civ['completed_wonders'].append(wonder['file'])
         self.civs[index] = my_civ
 
+    def _log_class_for_player(self, player):
+        for i, civ in enumerate(self.civs):
+            if civ['user'] == int(player):
+                return 'p' + str(i + 1) + '-log'
+        return 'default-log'
+
     def save(self, msg):
-        self.write_game(self.branch, {'deck': self.deck, 'military': self.military, 'civ': self.civs}, msg)
+        self.write_game(self.branch, {'deck': self.deck, 'military': self.military, 'civ': self.civs}, msg, self._log_class_for_player(self.committer))
 
     def make_age_a_military(self):
         age_a = self.shuffle([

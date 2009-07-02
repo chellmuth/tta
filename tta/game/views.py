@@ -15,14 +15,8 @@ def civ_for_player(civs, player):
         if civ['user'] == int(player):
             return (civ,i)
 
-def log_class_for_player(civs, player):
-    for i, civ in enumerate(civs):
-        if civ['user'] == int(player):
-            return 'p' + str(i + 1) + '-log'
-    return 'default-log'
-
 def index(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     card_row = git.get_deck(branch)[:13]
     civs = git.get_civ(branch)
     (my_civ,index) = civ_for_player(civs, player)
@@ -53,14 +47,14 @@ def index(request, game, branch, player):
             })
 
 def slide(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     git.slide()
     git.save('Slide card row')
 
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def add_to_hand(request, game, branch, player, index_no):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     index_no = int(index_no) - 1
 
     git.add_card_to_hand(player, index_no)
@@ -68,27 +62,27 @@ def add_to_hand(request, game, branch, player, index_no):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def undo(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     git.undo(branch)
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def begin(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     git.create_branch_at_master_head(branch)
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def save(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     git.replace_master_with_branch(branch)
     return HttpResponseRedirect("/" + game + "/master/" + player + "/card_row")
 
 def reset(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     git.delete_branch(branch)
     return HttpResponseRedirect("/" + game + "/master/" + player + "/card_row")
 
 def play(request, game, branch, player, index_no):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     index_no = int(index_no) - 1
 
     git.play_card_from_hand(player, index_no)
@@ -97,7 +91,7 @@ def play(request, game, branch, player, index_no):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def discard(request, game, branch, player, index_no):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     index_no = int(index_no) - 1
 
     git.discard_from_hand(player, index_no)
@@ -106,7 +100,7 @@ def discard(request, game, branch, player, index_no):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def discard_leader(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.discard_leader(player)
     git.save('Discard Leader')
@@ -114,7 +108,7 @@ def discard_leader(request, game, branch, player):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def play_event(request, game, branch, player, index_no):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     index_no = int(index_no) - 1
 
     git.play_event(player, index_no)
@@ -123,7 +117,7 @@ def play_event(request, game, branch, player, index_no):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def play_aggression(request, game, branch, player, index_no):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     index_no = int(index_no) - 1
 
     git.play_aggression(player, index_no)
@@ -132,7 +126,7 @@ def play_aggression(request, game, branch, player, index_no):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def play_pact(request, game, branch, player, index_no):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     index_no = int(index_no) - 1
 
     git.play_pact(player, index_no)
@@ -141,7 +135,7 @@ def play_pact(request, game, branch, player, index_no):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def remove_aggression(request, game, branch, player, index_no):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     index_no = int(index_no)
 
     git.remove_aggression(index_no)
@@ -150,7 +144,7 @@ def remove_aggression(request, game, branch, player, index_no):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def remove_pact(request, game, branch, player, index_no):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
     index_no = int(index_no)
 
     git.remove_pact(index_no)
@@ -159,7 +153,7 @@ def remove_pact(request, game, branch, player, index_no):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def take_territory(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.claim_territory(player)
     git.save('Claim territory')
@@ -167,7 +161,7 @@ def take_territory(request, game, branch, player):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def count_up(request, game, branch, player, type):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.tokens_up(player, type)
     git.save(type + ' up')
@@ -175,7 +169,7 @@ def count_up(request, game, branch, player, type):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def count_down(request, game, branch, player, type):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.tokens_down(player, type)
     git.save(type + ' down')
@@ -183,7 +177,7 @@ def count_down(request, game, branch, player, type):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def points_up(request, game, branch, player, category):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.points_up(player, category)
     git.save(category + ' up')
@@ -191,7 +185,7 @@ def points_up(request, game, branch, player, category):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def points_down(request, game, branch, player, category):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.points_down(player, category)
     git.save(category + ' down')
@@ -199,7 +193,7 @@ def points_down(request, game, branch, player, category):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def yellow_up(request, game, branch, player, cell):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.change_card_counter(player, cell, 'yellow', lambda x: x + 1)
     git.save('yellow up ' + cell)
@@ -207,7 +201,7 @@ def yellow_up(request, game, branch, player, cell):
     return points_down(request, game, branch, player, 'unused_workers')
 
 def yellow_down(request, game, branch, player, cell):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.change_card_counter(player, cell, 'yellow', lambda x: x - 1)
     git.save('yellow down ' + cell)
@@ -215,7 +209,7 @@ def yellow_down(request, game, branch, player, cell):
     return points_up(request, game, branch, player, 'unused_workers')
 
 def blue_cell_up(request, game, branch, player, cell):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.change_card_counter(player, cell, 'blue', lambda x: x + 1)
     git.save('blue up ' + cell)
@@ -223,7 +217,7 @@ def blue_cell_up(request, game, branch, player, cell):
     return count_down(request, game, branch, player, 'blue')
 
 def blue_cell_down(request, game, branch, player, cell):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.change_card_counter(player, cell, 'blue', lambda x: x - 1)
     git.save('blue down ' + cell)
@@ -231,7 +225,7 @@ def blue_cell_down(request, game, branch, player, cell):
     return count_up(request, game, branch, player, 'blue')
 
 def draw_military(request, game, branch, player, deck):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.draw_military(player, deck)
     git.save('Drawing military (deck: ' + deck + ')')
@@ -239,7 +233,7 @@ def draw_military(request, game, branch, player, deck):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def pop_current_event(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.pop_current_event()
     git.save('Current Event!')
@@ -247,7 +241,7 @@ def pop_current_event(request, game, branch, player):
     return HttpResponseRedirect("/" + game + "/" + branch + "/" + player + "/card_row")
 
 def finish_wonder(request, game, branch, player):
-    git = g(Game.objects.get(id=game).directory)
+    git = g(Game.objects.get(id=game).directory, request.user.id)
 
     git.finish_wonder(player)
     git.save('Finish wonder')
@@ -399,7 +393,7 @@ def start_game(request):
         gp = GamePlayer(user=player, game=game)
         gp.save()
 
-    git = g(game.directory, {
+    git = g(game.directory, request.user.id, {
             'num_players': ogame.current_players(),
             'players': players
             })
