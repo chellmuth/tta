@@ -20,6 +20,154 @@ class Git:
 
             out, err = proc.communicate()
             self.write_game('master',{'deck':self.make_shuffled_deck(init_data['num_players']), 'civ':self.make_initial_civ(init_data['players']), 'military': self.make_age_a_military()}, "Beginning Game")
+        self.branch = 'master'
+        self.deck = self.get_game()['deck']
+        self.civs = self.get_game()['civ']
+        self.military = self.get_game()['military']
+
+    def slide(self):
+        first = self.deck[0]
+        if first:
+            self.deck.pop(0)
+
+        self.deck = [ x for x in self.deck if x ]
+
+    def _civ_for_player(self, player):
+        for i, civ in enumerate(self.civs):
+            if civ['user'] == int(player):
+                return (civ,i)
+
+    def add_card_to_hand(self, player, index_no):
+        if self.deck[index_no]:
+            cell = self.deck[index_no]['cell']
+            print cell
+            (my_civ,index) = self._civ_for_player(player)
+
+            if cell == 'wonder':
+                my_civ['wonder'] = { 'file': self.deck[index_no]['file'], 'blue': 0 }
+            else:
+                my_civ['hand'].append(self.deck[index_no])
+            self.civs[index] = my_civ
+
+        self.deck[index_no] = None
+
+    def play_card_from_hand(self, player, index_no):
+        (my_civ,index) = self._civ_for_player(player)
+
+        card = my_civ['hand'][index_no]
+        my_civ[card['cell']] = {}
+        my_civ[card['cell']]['file'] = card['file']
+        my_civ[card['cell']]['blue'] = 0
+        my_civ[card['cell']]['yellow'] = 0
+
+        my_civ['hand'].pop(index_no)
+
+        self.civs[index] = my_civ
+
+    def discard_from_hand(self, player, index_no):
+        (my_civ,index) = self._civ_for_player(player)
+        self.civs[index]['hand'].pop(index_no)
+
+    def discard_leader(self, player):
+        (my_civ,index) = self._civ_for_player(player)
+        self.civs[index]['leader'] = None
+
+    def play_event(self, player, index_no):
+        (my_civ,index) = self._civ_for_player(player)
+        my_civ = self.civs[index]
+
+        card = my_civ['hand'][index_no]
+        my_civ['hand'].pop(index_no)
+
+        self.military['future'][card['deck']].append(card)
+        self.civs[index] = my_civ
+
+    def play_aggression(self, player, index_no):
+        (my_civ,index) = self._civ_for_player(player)
+        my_civ = self.civs[index]
+
+        card = my_civ['hand'][index_no]
+        my_civ['hand'].pop(index_no)
+
+        self.military['aggressions'].append(card)
+        self.civs[index] = my_civ
+
+    def play_pact(self, player, index_no):
+        (my_civ,index) = self._civ_for_player(player)
+        my_civ = self.civs[index]
+
+        card = my_civ['hand'][index_no]
+        my_civ['hand'].pop(index_no)
+
+        self.military['pacts'].append(card)
+        self.civs[index] = my_civ
+
+    def remove_aggression(self, index_no):
+        self.military['aggressions'].pop(index_no)
+
+    def remove_pact(self, index_no):
+        self.military['pacts'].pop(index_no)
+
+    def claim_territory(self, player):
+        card = self.military['current_event']
+        self.military['current_event'] = None
+
+        (my_civ,index) = self._civ_for_player(player)
+        self.civs[index]['territories'].append(card['file'])
+
+    def tokens_up(self, player, type):
+        (my_civ,index) = self._civ_for_player(player)
+        self.civs[index][type + '_tokens'] += 1
+
+    def tokens_down(self, player, type):
+        (my_civ,index) = self._civ_for_player(player)
+        self.civs[index][type + '_tokens'] -= 1
+        self.civs[index][type + '_tokens'] = max(self.civs[index][type + '_tokens'], 0)
+
+    def points_up(self, player, category):
+        (my_civ,index) = self._civ_for_player(player)
+        self.civs[index][category] += 1
+
+    def points_down(self, player, category):
+        (my_civ,index) = self._civ_for_player(player)
+        self.civs[index][category] -= 1
+        self.civs[index][category] = max(self.civs[index][category], 0)
+
+    def change_card_counter(self, player, cell, color, change):
+        (my_civ,index) = self._civ_for_player(player)
+        self.civs[index][cell][color] = change(self.civs[index][cell][color])
+        self.civs[index][cell][color] = max(self.civs[index][cell][color], 0)
+
+    def draw_military(self, player, deck):
+        card = self.military[deck].pop()
+
+        (my_civ,index) = self._civ_for_player(player)
+        self.civs[index]['hand'].append(card)
+
+    def _shuffle_future_events(self):
+        shuffled = self.shuffle(self.military['future']['III']) + self.shuffle(self.military['future']['II']) + self.shuffle(self.military['future']['I']) + self.shuffle(self.military['future']['A'])
+        self.military['future']['A'] = []
+        self.military['future']['I'] = []
+        self.military['future']['II'] = []
+        self.military['future']['III'] = []
+        self.military['current'] = shuffled
+
+    def pop_current_event(self):
+        if len(self.military['current']) == 0:
+            return self._shuffle_future_events()
+
+        card = self.military['current'].pop()
+        self.military['current_event'] = card
+
+    def finish_wonder(self, player):
+        (my_civ,index) = self._civ_for_player(player)
+        wonder = my_civ['wonder']
+        my_civ['wonder'] = None
+        my_civ['completed_wonders'].append(wonder['file'])
+        self.civs[index] = my_civ
+
+    def save(self, msg):
+        self.write_game(self.branch, {'deck': self.deck, 'military': self.military, 'civ': self.civs}, msg)
 
     def make_age_a_military(self):
         age_a = self.shuffle([
@@ -507,7 +655,7 @@ class Git:
         for user in players:
             their_civ = civ.copy()
             their_civ['user'] = user.id
-            their_civ['name'] = user.username 
+            their_civ['name'] = user.username
             civs.append(their_civ)
 
         return civs
@@ -526,11 +674,11 @@ class Git:
 #         print serialized
         return serialized
 
-    def write_deck(self, branch, deck, commit_msg="WRITE DECK"):
-        return self.write_game(branch, { 'deck': deck, 'civ': self.get_civ(branch), 'military': self.get_military(branch) }, commit_msg)
+    def write_deck(self, branch, deck, commit_msg="WRITE DECK", msg_class="default-log"):
+        return self.write_game(branch, { 'deck': deck, 'civ': self.get_civ(branch), 'military': self.get_military(branch) }, commit_msg, msg_class)
 
-    def write_civ(self, branch, civ, commit_msg="WRITE CIV"):
-        return self.write_game(branch, { 'deck': self.get_deck(branch), 'civ': civ, 'military': self.get_military(branch) }, commit_msg)
+    def write_civ(self, branch, civ, commit_msg="WRITE CIV", msg_class="default-log"):
+        return self.write_game(branch, { 'deck': self.get_deck(branch), 'civ': civ, 'military': self.get_military(branch) }, commit_msg, msg_class)
 
     def write_game(self, branch, game, commit_msg="DEFAULT COMMIT MSG", msg_class="default-log"):
         game['military']['log'].insert(0, {'class': msg_class, 'content': commit_msg})
@@ -583,8 +731,8 @@ class Git:
                      stdout = PIPE,
                      stderr = PIPE)
 
-    def get_game(self, branch):
-        proc = Popen(('git', 'ls-tree', '-z', branch),
+    def get_game(self):
+        proc = Popen(('git', 'ls-tree', '-z', self.branch),
                      env = { "GIT_DIR":self.git_dir },
                      stdin = PIPE,
                      stdout = PIPE,
@@ -617,13 +765,13 @@ class Git:
         return game
 
     def get_deck(self, branch):
-        return self.get_game(branch)['deck']
+        return self.get_game()['deck']
 
     def get_civ(self, branch):
-        return self.get_game(branch)['civ']
+        return self.get_game()['civ']
 
     def get_military(self, branch):
-        return self.get_game(branch)['military']
+        return self.get_game()['military']
 
     def create_branch_at_master_head(self, branch):
         proc = Popen(('git', 'branch', branch, 'master'),
