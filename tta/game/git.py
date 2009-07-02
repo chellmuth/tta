@@ -683,12 +683,6 @@ class Git:
 #         print serialized
         return serialized
 
-    def write_deck(self, branch, deck, commit_msg="WRITE DECK", msg_class="default-log"):
-        return self.write_game(branch, { 'deck': deck, 'civ': self.get_civ(branch), 'military': self.get_military(branch) }, commit_msg, msg_class)
-
-    def write_civ(self, branch, civ, commit_msg="WRITE CIV", msg_class="default-log"):
-        return self.write_game(branch, { 'deck': self.get_deck(branch), 'civ': civ, 'military': self.get_military(branch) }, commit_msg, msg_class)
-
     def write_game(self, branch, game, commit_msg="DEFAULT COMMIT MSG", msg_class="default-log"):
         game['military']['log'].insert(0, {'class': msg_class, 'content': commit_msg})
         serialized = self.serialize_object(game)
@@ -773,15 +767,6 @@ class Git:
         game = simplejson.loads(contents)
         return game
 
-    def get_deck(self, branch):
-        return self.get_game()['deck']
-
-    def get_civ(self, branch):
-        return self.get_game()['civ']
-
-    def get_military(self, branch):
-        return self.get_game()['military']
-
     def create_branch_at_master_head(self, branch):
         proc = Popen(('git', 'branch', branch, 'master'),
                      env = { "GIT_DIR":self.git_dir },
@@ -790,7 +775,6 @@ class Git:
                      stderr = PIPE)
 
         out, err = proc.communicate()
-
 
     def replace_master_with_branch(self, branch):
         self.write_game('master', self.get_game(branch), str("replacing master with " + branch))

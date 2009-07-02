@@ -17,15 +17,15 @@ def civ_for_player(civs, player):
 
 def index(request, game, branch, player):
     git = g(Game.objects.get(id=game).directory, request.user.id)
-    card_row = git.get_deck(branch)[:13]
-    civs = git.get_civ(branch)
-    (my_civ,index) = civ_for_player(civs, player)
+    card_row = git.deck[:13]
+    civs = git.civs
+    (my_civ,index) = civ_for_player(civs, request.user.id)
 
     for _ in range(len(card_row), 13):
         card_row.append({'file': "Blank.png"})
     card_row = [ x and x or {'file': "Blank.png"} for x in card_row ]
 
-    military = git.get_military(branch)
+    military = git.military
     military['future_event_size'] = sum([len(military['future'][x]) for x in military['future'].keys()])
 
     for civ in civs:
