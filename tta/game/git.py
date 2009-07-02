@@ -59,7 +59,6 @@ class Git:
                 my_civ['hand'].append(self.deck[index_no])
                 self.do_log("Add " + self.deck[index_no]['name'] + " to hand")
 
-            self.civs[index] = my_civ
             self.deck[index_no] = None
 
     def play_card_from_hand(self, player, index_no):
@@ -74,18 +73,17 @@ class Git:
 
         my_civ['hand'].pop(index_no)
 
-        self.civs[index] = my_civ
         self.do_log("Play " + card['name'])
 
     def discard_from_hand(self, player, index_no):
         (my_civ,index) = self._civ_for_player(player)
-        self.civs[index]['hand'].pop(index_no)
+        my_civ['hand'].pop(index_no)
         self.do_log("Discard")
 
     def discard_leader(self, player):
         (my_civ,index) = self._civ_for_player(player)
         self.do_log("Remove " + self.civs[index]['leader']['name'])
-        self.civs[index]['leader'] = None
+        my_civ['leader'] = None
 
     def play_event(self, player, index_no):
         (my_civ,index) = self._civ_for_player(player)
@@ -95,29 +93,24 @@ class Git:
         my_civ['hand'].pop(index_no)
 
         self.military['future'][card['deck']].append(card)
-        self.civs[index] = my_civ
         self.do_log("Place an Age " + card['deck'] + " card in the Future Events deck")
 
     def play_aggression(self, player, index_no):
         (my_civ,index) = self._civ_for_player(player)
-        my_civ = self.civs[index]
 
         card = my_civ['hand'][index_no]
         my_civ['hand'].pop(index_no)
 
         self.military['aggressions'].append(card)
-        self.civs[index] = my_civ
         self.do_log("Play " + card['name'] + "  aggression")
 
     def play_pact(self, player, index_no):
         (my_civ,index) = self._civ_for_player(player)
-        my_civ = self.civs[index]
 
         card = my_civ['hand'][index_no]
         my_civ['hand'].pop(index_no)
 
         self.military['pacts'].append(card)
-        self.civs[index] = my_civ
         self.do_log("Play " + card['name'] + "  pact")
 
     def remove_aggression(self, index_no):
@@ -133,45 +126,52 @@ class Git:
         self.military['current_event'] = None
 
         (my_civ,index) = self._civ_for_player(player)
-        self.civs[index]['territories'].append(card['file'])
+        my_civ['territories'].append(card['file'])
         self.do_log("Claim " + card['name'])
 
     def tokens_up(self, player, type):
         (my_civ,index) = self._civ_for_player(player)
-        self.civs[index][type + '_tokens'] += 1
-        self.do_log("Increase " + type + " tokens from " + str(self.civs[index][type + '_tokens'] - 1) + " to " + str(self.civs[index][type + '_tokens'] ))
+        old = my_civ[type + '_tokens']
+        my_civ[type + '_tokens'] += 1
+        new = my_civ[type + '_tokens']
+        self.do_log("Increase " + type + " tokens from " + str(old) + " to " + str(new))
 
     def tokens_down(self, player, type):
         (my_civ,index) = self._civ_for_player(player)
-        self.civs[index][type + '_tokens'] -= 1
-        self.civs[index][type + '_tokens'] = max(self.civs[index][type + '_tokens'], 0)
-        self.do_log("Decrease " + type + " bank from " + str(self.civs[index][type + '_tokens'] + 1) + " to " + str(self.civs[index][type + '_tokens'] ))
+        old = my_civ[type + '_tokens']
+        my_civ[type + '_tokens'] -= 1
+        my_civ[type + '_tokens'] = max(my_civ[type + '_tokens'], 0)
+        new = my_civ[type + '_tokens']
+        self.do_log("Decrease " + type + " bank from " + str(old) + " to " + str(new))
 
     def points_up(self, player, category):
         (my_civ,index) = self._civ_for_player(player)
-        self.civs[index][category] += 1
-        self.do_log("Increase " + category + " from " + str(self.civs[index][category] - 1) + " to " + str(self.civs[index][category]))
+        old = my_civ[category]
+        my_civ[category] += 1
+        new = my_civ[category]
+        self.do_log("Increase " + category + " from " + str(old) + " to " + str(new))
 
     def points_down(self, player, category):
         (my_civ,index) = self._civ_for_player(player)
-        self.civs[index][category] -= 1
-        self.civs[index][category] = max(self.civs[index][category], 0)
-        self.do_log("Decrease " + category + " from " + str(self.civs[index][category] + 1) + " to " + str(self.civs[index][category]))
+        old = my_civ[category]
+        my_civ[category] -= 1
+        my_civ[category] = max(my_civ[category], 0)
+        new = my_civ[category]
+        self.do_log("Decrease " + category + " from " + str(old) + " to " + str(new))
 
     def change_card_counter(self, player, cell, color, change):
         (my_civ,index) = self._civ_for_player(player)
-        old = self.civs[index][cell][color]
-        self.civs[index][cell][color] = change(self.civs[index][cell][color])
-        self.civs[index][cell][color] = max(self.civs[index][cell][color], 0)
-        new = self.civs[index][cell][color]
-        print self.civs[index][cell]
+        old = my_civ[cell][color]
+        my_civ[cell][color] = change(my_civ[cell][color])
+        my_civ[cell][color] = max(my_civ[cell][color], 0)
+        new = my_civ[cell][color]
         self.do_log("Update " + self.civs[index][cell]['name'] + "'s " + color + " tokens from " + str(old) + " to " + str(new))
 
     def draw_military(self, player, deck):
         card = self.military[deck].pop()
 
         (my_civ,index) = self._civ_for_player(player)
-        self.civs[index]['hand'].append(card)
+        my_civ['hand'].append(card)
         self.do_log("Draw from Age " + deck + " military deck")
 
     def _shuffle_future_events(self):
@@ -196,7 +196,6 @@ class Git:
         wonder = my_civ['wonder']
         my_civ['wonder'] = None
         my_civ['completed_wonders'].append(wonder['file'])
-        self.civs[index] = my_civ
         self.do_log("Complete " + wonder['name'])
 
     def _log_class_for_player(self, player):
