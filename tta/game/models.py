@@ -36,6 +36,11 @@ class Heartbeat (models.Model):
     user = models.ForeignKey(User, primary_key=True)
     last_login = models.DateTimeField(default=datetime.datetime.now)
 
+class Notification (models.Model):
+    user = models.ForeignKey(User, primary_key=True)
+    game = models.ForeignKey(Game)
+    notification = models.CharField(max_length=60)
+
 class TTAPasswordInput(forms.PasswordInput):
     class Media:
         css = { 'all': ('/site_media/css/form.css',) }

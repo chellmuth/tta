@@ -337,17 +337,26 @@ def finish_wonder(request, game_id, branch, player):
 
 from tta.game.models import Heartbeat
 from django.utils import simplejson
+from game.models import GamePlayer, Notification
 import datetime
 
-def heartbeat(request, game, branch, user_id):
+def heartbeat(request, game_id, branch, user_id):
+    game = Game.objects.get(id=game_id)
+
     beat = Heartbeat(user_id=user_id)
     beat.save()
 
     json = {}
     json['active-users'] = [ x.user.username for x in Heartbeat.objects.filter(last_login__gt=datetime.datetime.now() - datetime.timedelta(0,60)) ]
-    #json['notifications'] = [ "HELLO WORLD" ]
+
+    users = [ gp.user for gp in GamePlayer.objects.filter(game=game) if gp.user.id != int(user_id) ]
+    for user in users:
+        Notification(user=user, game=game, notification="HELLO THERE").save()
+
+    json['notifications'] = [ n.notification for n in Notification.objects.filter(game=game, user=int(user_id)) ]
 
     json = simplejson.dumps(json)
+    print json
     return HttpResponse(json, mimetype='application/json')
 
 from django.contrib.auth import authenticate, login as login_user
@@ -415,7 +424,6 @@ def logout(request):
     return HttpResponseRedirect("/")
 
 from django.contrib.auth.models import User
-from game.models import GamePlayer
 from django.db.models import Q
 import urllib, hashlib
 def profile(request, user_id):
