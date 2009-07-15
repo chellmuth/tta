@@ -41,8 +41,17 @@ $(document).ready(function(){
   window.setInterval(function () {
     $.getJSON("/heartbeat/{{game}}/master/{{user_id}}/", function (data) {
       $(".active-player").removeClass("active-player");
-      $.each(data, function(i, item) {
+      $.each(data['active-users'], function(i, item) {
         $(".player-" + item).addClass("active-player");
+      });
+
+      var windowHeight = $(window).height();
+      var messagesHeight = $('#messages').height();
+      $.each(data['notifications'], function(i, item) {
+        $('#messages').prepend('<div class="magic" style="border: 2px solid #33BB22; float:left; display:none;">' + item + '</div>')
+        .css({'top': windowHeight - messagesHeight + 'px'})
+        .children(':first')
+        .show('slow');
       });
     });
   }, 10000);
@@ -1653,6 +1662,10 @@ table .score-title {
 {% endfor %}
         </div>
     </div>
+</div>
+
+<div id="messages" style="overflow:auto; position:fixed; left:20px;">
+&nbsp;
 </div>
 
 {% endblock %}

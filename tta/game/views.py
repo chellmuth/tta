@@ -342,9 +342,12 @@ import datetime
 def heartbeat(request, game, branch, user_id):
     beat = Heartbeat(user_id=user_id)
     beat.save()
-    active_users = [ x.user.username for x in Heartbeat.objects.filter(last_login__gt=datetime.datetime.now() - datetime.timedelta(0,60)) ]
 
-    json = simplejson.dumps(active_users)
+    json = {}
+    json['active-users'] = [ x.user.username for x in Heartbeat.objects.filter(last_login__gt=datetime.datetime.now() - datetime.timedelta(0,60)) ]
+    #json['notifications'] = [ "HELLO WORLD" ]
+
+    json = simplejson.dumps(json)
     return HttpResponse(json, mimetype='application/json')
 
 from django.contrib.auth import authenticate, login as login_user
