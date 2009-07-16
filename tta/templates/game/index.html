@@ -46,18 +46,32 @@ $(document).ready(function(){
       });
 
       var windowHeight = $(window).height();
-      var messagesHeight = $('#messages').height();
       $.each(data['notifications'], function(i, item) {
-        $('#messages').prepend('<div class="magic" style="border: 2px solid #33BB22; float:left; display:none;">' + item + '</div>')
-        .css({'top': windowHeight - messagesHeight + 'px'})
-        .children(':first')
-        .show('slow');
-      });
+        $('#messages').prepend('<div class="magic" style="float:left; padding:10px;">' + '<h2 style="float:left; margin:10px 10px 10px 0;">' + item['user'] +'</h2><a class="close" style="margin: 10px; float:right;" href="#">[X]</a><div style="clear:both;">' + item['notification'] + ' (<a class="refresh" href="/{{game}}/{{branch}}/{{player}}/card_row/">refresh</a>)</div></div>');
+         var messagesHeight = $('#messages').height();
+         $('#messages .magic').each(function(i, item) {
+             $(item).css('marginTop', messagesHeight - $(this).height()  - 20 - 2 + 'px');
+         });
+         $('#messages :first').css({'display': 'none'});
+         $('#messages')
+             .css({'top': windowHeight - messagesHeight + 'px'})
+             .children(':first')
+             .show('slow')
+             .children('.close')
+             .click(function () { $(this).parent().hide('medium'); });
+         $('#messages .magic:gt(6)').hide('slow').remove();
+       });
     });
   }, 10000);
 {% endif %}
 </script>
 <style>
+.magic {
+ background-color: #FFFFFF;
+ border: 1px solid #333333;
+ width: 150px;
+}
+
 .p1-log {
  background-color: #FC7765;
 }
@@ -1664,9 +1678,7 @@ table .score-title {
     </div>
 </div>
 
-<div id="messages" style="overflow:auto; position:fixed; left:20px;">
-&nbsp;
-</div>
+<div id="messages" style="position:fixed; left:20px;"></div>
 
 {% endblock %}
 

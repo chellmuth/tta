@@ -37,7 +37,8 @@ class Heartbeat (models.Model):
     last_login = models.DateTimeField(default=datetime.datetime.now)
 
 class Notification (models.Model):
-    user = models.ForeignKey(User, primary_key=True)
+    to_user = models.ForeignKey(User)
+    from_username = models.CharField(max_length=60)
     game = models.ForeignKey(Game)
     notification = models.CharField(max_length=60)
 

@@ -17,6 +17,8 @@ def civ_for_player(civs, player):
 
 def index(request, game, branch, player):
     git = g(Game.objects.get(id=game).directory, request.user.id)
+    Notification.objects.filter(game=game, to_user=int(player)).delete()
+
     card_row = git.deck[:13]
     civs = git.civs
     (my_civ,index) = civ_for_player(civs, request.user.id)
@@ -52,6 +54,10 @@ def slide(request, game_id, branch, player):
 
     git.slide()
     git.save('Slide card row')
+
+    users = [ gp.user for gp in GamePlayer.objects.filter(game=game) if gp.user.id != int(player) ]
+    for user in users:
+        Notification(to_user=user, from_username=User.objects.get(id=player).username, game=game, notification="Slide!").save()
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -348,12 +354,10 @@ def heartbeat(request, game_id, branch, user_id):
 
     json = {}
     json['active-users'] = [ x.user.username for x in Heartbeat.objects.filter(last_login__gt=datetime.datetime.now() - datetime.timedelta(0,60)) ]
+    notifications = Notification.objects.filter(game=game, to_user=int(user_id))
+    json['notifications'] = [ {'notification': n.notification, 'user': n.from_username } for n in notifications ]
 
-    users = [ gp.user for gp in GamePlayer.objects.filter(game=game) if gp.user.id != int(user_id) ]
-    for user in users:
-        Notification(user=user, game=game, notification="HELLO THERE").save()
-
-    json['notifications'] = [ n.notification for n in Notification.objects.filter(game=game, user=int(user_id)) ]
+    notifications.delete()
 
     json = simplejson.dumps(json)
     print json
