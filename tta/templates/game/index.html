@@ -35,7 +35,6 @@ $(document).ready(function(){
   $(".card").bind("mouseleave", function() {
     $("#zoom").hide();
   });
-});
 
 {% if user_id %}
   window.setInterval(function () {
@@ -63,6 +62,14 @@ $(document).ready(function(){
        });
     });
   }, 10000);
+
+  $(window).resize(function () {
+      var windowHeight = $(window).height();
+      var messagesHeight = $('#messages').height();
+      $('#messages').css({'top': windowHeight - messagesHeight + 'px'});
+  });
+});
+
 {% endif %}
 </script>
 <style>
