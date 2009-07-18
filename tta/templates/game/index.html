@@ -58,7 +58,7 @@ $(document).ready(function(){
              .children(':first')
              .show('slow')
              .children('.close')
-             .click(function () { $(this).parent().hide('medium'); });
+             .click(function () { $(this).parent().hide('medium').remove(); });
          $('#messages .magic:gt(6)').hide('slow').remove();
        });
     });

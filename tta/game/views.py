@@ -15,6 +15,13 @@ def civ_for_player(civs, player):
         if civ['user'] == int(player):
             return (civ,i)
 
+def _notify_others(git, game_id, player_id, message=None):
+    users = [ gp.user for gp in GamePlayer.objects.filter(game=game_id) if gp.user.id != int(player_id) ]
+    if not message:
+        message = ','.join(git.log)
+    for user in users:
+        Notification(to_user=user, from_username=User.objects.get(id=player_id).username, game_id=game_id, notification=message).save()
+
 def index(request, game, branch, player):
     git = g(Game.objects.get(id=game).directory, request.user.id)
     Notification.objects.filter(game=game, to_user=int(player)).delete()
@@ -55,9 +62,7 @@ def slide(request, game_id, branch, player):
     git.slide()
     git.save('Slide card row')
 
-    users = [ gp.user for gp in GamePlayer.objects.filter(game=game) if gp.user.id != int(player) ]
-    for user in users:
-        Notification(to_user=user, from_username=User.objects.get(id=player).username, game=game, notification="Slide!").save()
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -72,14 +77,20 @@ def add_to_hand(request, game_id, branch, player, index_no):
     git.add_card_to_hand(player, index_no)
     git.save('Add card to hand')
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
     return HttpResponseRedirect("/" + game_id + "/" + branch + "/" + player + "/card_row")
 
 def undo(request, game_id, branch, player):
-    git = g(Game.objects.get(id=game_id).directory, request.user.id)
+    game = Game.objects.get(id=game_id)
+    git = g(game.directory, request.user.id)
     git.undo(branch)
+
+    _notify_others(git, game_id, player, "oops, undo!")
+
     return HttpResponseRedirect("/" + game_id + "/" + branch + "/" + player + "/card_row")
 
 def begin(request, game, branch, player):
@@ -105,6 +116,11 @@ def play(request, game_id, branch, player, index_no):
     git.play_card_from_hand(player, index_no)
     git.save('Play card')
 
+    _notify_others(git, game_id, player)
+
+    game.date_last_move = datetime.datetime.now()
+    game.save()
+
     return HttpResponseRedirect("/" + game_id + "/" + branch + "/" + player + "/card_row")
 
 def discard(request, game_id, branch, player, index_no):
@@ -114,6 +130,8 @@ def discard(request, game_id, branch, player, index_no):
 
     git.discard_from_hand(player, index_no)
     git.save('Discard')
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -126,6 +144,8 @@ def discard_leader(request, game_id, branch, player):
 
     git.discard_leader(player)
     git.save('Discard Leader')
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -140,6 +160,8 @@ def play_event(request, game_id, branch, player, index_no):
     git.play_event(player, index_no)
     git.save("Play event")
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
@@ -152,6 +174,8 @@ def play_aggression(request, game_id, branch, player, index_no):
 
     git.play_aggression(player, index_no)
     git.save('Play aggression')
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -166,6 +190,8 @@ def play_pact(request, game_id, branch, player, index_no):
     git.play_pact(player, index_no)
     git.save('Play pact')
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
@@ -178,6 +204,8 @@ def remove_aggression(request, game_id, branch, player, index_no):
 
     git.remove_aggression(index_no)
     git.save('Remove aggression')
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -192,6 +220,8 @@ def remove_pact(request, game_id, branch, player, index_no):
     git.remove_pact(index_no)
     git.save('Remove pact')
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
@@ -203,6 +233,8 @@ def take_territory(request, game_id, branch, player):
 
     git.claim_territory(player)
     git.save('Claim territory')
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -216,6 +248,8 @@ def count_up(request, game_id, branch, player, type):
     git.tokens_up(player, type)
     git.save(type + ' up')
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
@@ -227,6 +261,8 @@ def count_down(request, game_id, branch, player, type):
 
     git.tokens_down(player, type)
     git.save(type + ' down')
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -240,6 +276,8 @@ def points_up(request, game_id, branch, player, category):
     git.points_up(player, category)
     git.save(category + ' up')
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
@@ -251,6 +289,8 @@ def points_down(request, game_id, branch, player, category):
 
     git.points_down(player, category)
     git.save(category + ' down')
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -264,6 +304,8 @@ def yellow_up(request, game_id, branch, player, cell):
     git.change_card_counter(player, cell, 'yellow', lambda x: x + 1)
     git.save('yellow up ' + cell)
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
@@ -275,6 +317,8 @@ def yellow_down(request, game_id, branch, player, cell):
 
     git.change_card_counter(player, cell, 'yellow', lambda x: x - 1)
     git.save('yellow down ' + cell)
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -288,6 +332,8 @@ def blue_cell_up(request, game_id, branch, player, cell):
     git.change_card_counter(player, cell, 'blue', lambda x: x + 1)
     git.save('blue up ' + cell)
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
@@ -299,6 +345,8 @@ def blue_cell_down(request, game_id, branch, player, cell):
 
     git.change_card_counter(player, cell, 'blue', lambda x: x - 1)
     git.save('blue down ' + cell)
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
@@ -312,6 +360,8 @@ def draw_military(request, game_id, branch, player, deck):
     git.draw_military(player, deck)
     git.save('Drawing military (deck: ' + deck + ')')
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
@@ -324,6 +374,8 @@ def pop_current_event(request, game_id, branch, player):
     git.pop_current_event()
     git.save('Current Event!')
 
+    _notify_others(git, game_id, player)
+
     game.date_last_move = datetime.datetime.now()
     game.save()
 
@@ -335,6 +387,8 @@ def finish_wonder(request, game_id, branch, player):
 
     git.finish_wonder(player)
     git.save('Finish wonder')
+
+    _notify_others(git, game_id, player)
 
     game.date_last_move = datetime.datetime.now()
     game.save()
