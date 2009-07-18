@@ -44,22 +44,9 @@ $(document).ready(function(){
         $(".player-" + item).addClass("active-player");
       });
 
-      var windowHeight = $(window).height();
-      $.each(data['notifications'], function(i, item) {
-        $('#messages').prepend('<div class="magic" style="float:left; padding:10px;">' + '<h2 style="float:left; margin:10px 10px 10px 0;">' + item['user'] +'</h2><a class="close" style="margin: 10px; float:right;" href="#">[X]</a><div style="clear:both;">' + item['notification'] + ' (<a class="refresh" href="/{{game}}/{{branch}}/{{player}}/card_row/">refresh</a>)</div></div>');
-         var messagesHeight = $('#messages').height();
-         $('#messages .magic').each(function(i, item) {
-             $(item).css('marginTop', messagesHeight - $(this).height()  - 20 - 2 + 'px');
-         });
-         $('#messages :first').css({'display': 'none'});
-         $('#messages')
-             .css({'top': windowHeight - messagesHeight + 'px'})
-             .children(':first')
-             .show('slow')
-             .children('.close')
-             .click(function () { $(this).parent().hide('medium').remove(); });
-         $('#messages .magic:gt(6)').hide('slow').remove();
-       });
+      if(data['notifications'].length) {
+          updateNotifications(data['notifications']);
+      }
     });
   }, 10000);
 
@@ -69,6 +56,49 @@ $(document).ready(function(){
       $('#messages').css({'top': windowHeight - messagesHeight + 'px'});
   });
 });
+
+function updateNotifications(notifications) {
+    if (!notifications.length) {
+        return;
+    }
+    notification = notifications.shift()
+    var windowHeight = $(window).height();
+    $('#messages').prepend(_get_notification_div(notification['notification'], notification['user']));
+    var messagesHeight = $('#messages').height();
+    $('#messages .magic').each(function(i, item) {
+        $(item).css('marginTop', messagesHeight - $(this).height()  - 20 - 2 + 'px');
+    });
+    $('#messages :first').css({'display': 'none'});
+    $('#messages')
+        .css({'top': windowHeight - messagesHeight + 'px'})
+        .children(':first')
+        // don't animate next until after this one finishes
+        // otherwise if a tall is still animating while we calculate margin for a new small
+        // things can get wacky!
+        .show('slow', function () { updateNotifications(notifications); })
+        .children('.close')
+        .click(function () { $(this).parent().hide('medium').remove(); });
+    $('#messages .magic:gt(6)').hide('slow').remove();
+}
+
+function _get_notification_div(notification, user) {
+    var html = '';
+
+    html+= '<div class="magic" style="float:left; padding:10px;">';
+    html+=     '<h2 style="float:left; margin:10px 10px 10px 0;">';
+    html+=         user;
+    html+=     '</h2>';
+    html+=     '<a class="close" style="margin: 10px; float:right;" href="#">';
+    html+=         '[X]';
+    html+=     '</a>';
+    html+=     '<div style="clear:both;">';
+    html+=         notification;
+    html+=         '(<a class="refresh" href="/{{game}}/{{branch}}/{{player}}/card_row/">refresh</a>)';
+    html+=     '</div>';
+    html+= '</div>';
+
+    return html;
+}
 
 {% endif %}
 </script>
@@ -210,7 +240,6 @@ table .score-title {
 }
 
 </style>
-</head>
 {% endblock %}
 
 {% block content %}
@@ -1685,7 +1714,7 @@ table .score-title {
     </div>
 </div>
 
-<div id="messages" style="position:fixed; left:20px;"></div>
+<div id="messages" style="position:fixed; left:20px; width:100%;"></div>
 
 {% endblock %}
 
